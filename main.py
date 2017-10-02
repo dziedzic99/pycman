@@ -4,27 +4,93 @@ from levelprocesser import readlevel
 
 player = None
 
+# ----- This 2D array holds info on location lists accessible (common edge) from tile represented by address -----
+thegraph = [[[] for i in range(64)] for j in range(64)]
 
-def walltypecheck(level, location):
+
+def walltypecheck(location):
     r = t = l = b = 0
     if location[0] != 0:
         if level[location[0]-1][location[1]] == resources.constants.leveldef["wall"]:
             l = 1
-    if location[0] != 64:
+    if location[0] != 63:
         if level[location[0]+1][location[1]] == resources.constants.leveldef["wall"]:
             r = 1
     if location[1] != 0:
         if level[location[0]][location[1]-1] == resources.constants.leveldef["wall"]:
             t = 1
-    if location[1] != 64:
+    if location[1] != 63:
         if level[location[0]][location[1]+1] == resources.constants.leveldef["wall"]:
             b = 1
     return str(r) + str(t) + str(l) + str(b)
 
+# ----- Graphing stuff (for pathfinding) -----
+def graphbuilder():
+    global level
+    for i in range(64):
+        for j in range(64):
+            if level[j][i] != resources.constants.leveldef["wall"]:
+                location = [i,j]
+                if location[0] != 0:
+                    if level[location[0] - 1][location[1]] != resources.constants.leveldef["wall"]:
+                        thegraph[location[0]][location[1]] += [[location[0] - 1, location[1]]]
+                if location[0] != 63:
+                    if level[location[0] + 1][location[1]] != resources.constants.leveldef["wall"]:
+                        thegraph[location[0]][location[1]] += [[location[0] + 1, location[1]]]
+                if location[1] != 0:
+                    if level[location[0]][location[1] - 1] != resources.constants.leveldef["wall"]:
+                        thegraph[location[0]][location[1]] += [[location[0], location[1] - 1]]
+                if location[1] != 63:
+                    if level[location[0]][location[1] + 1] != resources.constants.leveldef["wall"]:
+                        thegraph[location[0]][location[1]] += [[location[0], location[1] + 1]]
 
-def loadlevel(level):
+
+def find_nearest_not_wall(point):
+    if point[0] > 63:
+        point[0] = 63
+    if point[0] < 0:
+        point[0] = 0
+    if point[1] > 63:
+        point[1] = 63
+    if point[1] < 0:
+        point[1] = 0
+    radius = 1
+    if level[point[0]][point[1]] != resources.constants.leveldef['wall']:
+        return point
+    while True:
+        for i in range(point[0]-radius, point[0]+radius):
+            for j in range(point[1]-radius, point[1]+radius):
+                try:
+                    if level[i][j] != resources.constants.leveldef['wall']:
+                        return [i, j]
+                except IndexError:
+                    pass
+        radius += 1
+
+
+def find_next_move(start, end):
+    visited = []
+    queue = []
+    end = find_nearest_not_wall(end)
+    # as start is guaranteed not to be wall, both ends are now places a Movable may move to
+    neighbours = thegraph[start[0]][start[1]]
+    queue.append(end)
+    visited.append(end)
+    for point in queue:
+        if point in neighbours:
+            return point
+        for node in thegraph[point[0]][point[1]]:
+            if node not in visited:
+                visited.append(node)
+                queue.append(node)
+
+# ----- ----- -----
+
+
+def loadlevel(file):
+    global level
     # level-loading procedure with input of standard 64x64 bitmap level file
-    level = readlevel(level)
+    level = readlevel(file)
     global player
     for col in range(0, 64):
         for row in range(0, 64):
@@ -33,24 +99,27 @@ def loadlevel(level):
                 eatable = Eatable(0, (col, row))
                 eatables_list.add(eatable)
             elif box == resources.constants.leveldef["wall"]:
-                wall = Wall((col, row), walltypecheck(level, (col, row)))
+                wall = Wall((col, row), walltypecheck((col, row)))
                 walls_list.add(wall)
             elif box == resources.constants.leveldef["player"]:
                 player = Player((col, row))
                 movables_list.add(player)
 
-pygame.init()
-pygame.display.set_caption("P@cM@n by Jan Dziedzic 13MF2")
 eatables_list = pygame.sprite.Group()
 walls_list = pygame.sprite.Group()
 movables_list = pygame.sprite.Group()
-screen = pygame.display.set_mode(resources.constants.windowSize)
-level = "0.bmp"
-loadlevel(level)
-level = readlevel(level)
+
+file = "0.bmp"
+level = None
+loadlevel(file)
+graphbuilder()
 
 
 def maingame():
+    pygame.init()
+    pygame.display.set_caption("PycMan by Jan Dziedzic (13MF2)")
+
+    screen = pygame.display.set_mode(resources.constants.windowSize)
     # game starter
     gameOn = True
     clock = pygame.time.Clock()
@@ -65,7 +134,7 @@ def maingame():
         # ----- input handling pt 1 -----
         keys = pygame.key.get_pressed()  # checking pressed keys
         # ----- wall collision check -----
-        surroundings = walltypecheck(level, player.location)
+        surroundings = walltypecheck(player.location)
         # ----- handling some frames/move -----
         timeSegment = resources.constants.timeSegmentSize
         while timeSegment:
@@ -105,4 +174,4 @@ def maingame():
                 # TODO point counter
 
 
-maingame()
+# maingame()
