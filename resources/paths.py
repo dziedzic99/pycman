@@ -18,5 +18,14 @@ image = {
     "w1101": graphics + "w1101.gif",
     "w1110": graphics + "w1110.gif",
     "w1111": graphics + "w1111.gif",
-    "player": graphics + "player.png"
+    "player": graphics + "player.png",
+    "red_ghost": graphics + "redghost.png"
     }
+levelorder = [
+    "level1.bmp",
+    "level2.bmp",
+    "level3.bmp",
+    "level4.bmp",
+    "level5.bmp",
+    "level6.bmp"
+]

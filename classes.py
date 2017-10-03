@@ -14,7 +14,7 @@ class GameObject(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, size)
         self.image = pygame.transform.rotate(self.image, rotation)
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = self.location[0] * 10, self.location[1] * 10
+        self.rect.x, self.rect.y = self.location[0] * resources.constants.boxSegmentSize, self.location[1] * resources.constants.boxSegmentSize
 
 
 class Eatable(GameObject):
@@ -40,17 +40,17 @@ class Movable(GameObject):
         super().setimage(image, size, rotation)
 
     def move(self, direction, part=resources.constants.timeSegmentSize-1):
-        if direction == 'up':
+        if direction == 'up' or direction == (0, 1):
             self.speed = (0, -1)
-        elif direction == 'down':
+        elif direction == 'down'or direction == (0, -1):
             self.speed = (0, 1)
-        elif direction == 'left':
+        elif direction == 'left' or direction == (-1, 0):
             self.speed = (-1, 0)
-        elif direction == 'right':
+        elif direction == 'right' or direction == (1, 0):
             self.speed = (1, 0)
         part2 = (part+1) / resources.constants.timeSegmentSize
-        self.rect.x, self.rect.y = (self.location[0] + self.speed[0] * resources.constants.speedFactor * part2) * 10,\
-                                   (self.location[1] + self.speed[1] * resources.constants.speedFactor * part2) * 10
+        self.rect.x, self.rect.y = (self.location[0] + self.speed[0] * resources.constants.speedFactor * part2) * resources.constants.boxSegmentSize,\
+                                   (self.location[1] + self.speed[1] * resources.constants.speedFactor * part2) * resources.constants.boxSegmentSize
         if part == resources.constants.timeSegmentSize - 1:
             self.location = self.location[0] + self.speed[0] * resources.constants.speedFactor,\
                             self.location[1] + self.speed[1] * resources.constants.speedFactor
@@ -76,6 +76,18 @@ class Player(Movable):
 
 
 class Ghost(Movable):
-    def __init__(self, location):
+    def __init__(self, location, color):
         super().__init__(location)
+        self.color = color
+        self.nexttile = None
+        self.setimage('red_ghost')
+        self.previouslocation = self.location
+
+    def move(self, direction, part=resources.constants.timeSegmentSize-1):
+        if part == resources.constants.timeSegmentSize-1:
+            self.previouslocation = self.location
+        super().move(direction, part)
+
+
+
 

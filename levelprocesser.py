@@ -3,12 +3,12 @@ import resources
 
 
 def readlevel(file):
-    # level-loading procedure with input of standard 64x64 bitmap level file
-    level = [[resources.constants.leveldef['nothing'] for i in range(64)] for j in range(64)]
+    # level-loading procedure with input of gamesize^2 bitmap level file
+    level = [[resources.constants.leveldef['nothing'] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
     im = Image.open(resources.paths.levels + file)
     im.load()
-    for col in range(0, 64):
-        for row in range(0, 64):
+    for col in range(0, resources.constants.gamesize):
+        for row in range(0, resources.constants.gamesize):
             pixel = im.getpixel((col, row))
             if pixel == resources.constants.editordef["coin"]:
                 level[col][row] = resources.constants.leveldef['coin']
@@ -16,4 +16,6 @@ def readlevel(file):
                 level[col][row] = resources.constants.leveldef['wall']
             elif pixel == resources.constants.editordef["player"]:
                 level[col][row] = resources.constants.leveldef['player']
+            elif pixel == resources.constants.editordef["red_ghost"]:
+                level[col][row] = resources.constants.leveldef['red_ghost']
     return level
