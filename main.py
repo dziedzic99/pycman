@@ -1,12 +1,14 @@
 from classes import *
 import resources
 from levelprocesser import readlevel
-from datetime import datetime
 player = None
 coins_total = 0
 coins_eaten = 0
 level = None
 level_number = 0
+
+pygame.init()
+myfont = pygame.font.SysFont("monospace", resources.constants.fontsize)
 
 # ----- This 2D array holds info on location lists accessible (common edge) from tile represented by address -----
 thegraph = [[[] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
@@ -76,28 +78,24 @@ def find_nearest_not_wall(point):
 
 
 def find_next_move(start, end, forbidden):
-    beginning = datetime.now()
     visited = []
     queue = []
     end = find_nearest_not_wall(end)
     # as start is guaranteed not to be wall, both ends are now places a Movable may move to
-    neighbours = thegraph[start[0]][start[1]]
-    print(forbidden)
-    print(neighbours)
+    neighbours = thegraph[start[0]][start[1]].copy()
     try:
-        if len(neighbours) > 1:
-            neighbours.remove([forbidden[0], forbidden[1]])
+        neighbours.remove([forbidden[0], forbidden[1]])
     except Exception:
         pass
     queue.append([end[0], end[1]])
     visited.append(end)
     for point in queue:
+        if point not in visited:
+            visited.append(point)
         if point in neighbours:
-            print(datetime.now()-beginning)
             return point
         for node in thegraph[point[0]][point[1]]:
-            if node not in visited:
-                visited.append(node)
+            if node not in visited and node != [forbidden[0], forbidden[1]]:
                 queue.append(node)
 
 
@@ -119,11 +117,19 @@ def loadlevel(file):
                 wall = Wall((col, row), walltypecheck((col, row)))
                 walls_list.add(wall)
             elif box == resources.constants.leveldef["player"]:
-                print("player init")
                 player = Player((col, row))
                 players_list.add(player)
             elif box == resources.constants.leveldef["red_ghost"]:
                 redghost = Ghost((col, row), 'red')
+                ghosts_list.add(redghost)
+            elif box == resources.constants.leveldef["blue_ghost"]:
+                redghost = Ghost((col, row), 'blue')
+                ghosts_list.add(redghost)
+            elif box == resources.constants.leveldef["green_ghost"]:
+                redghost = Ghost((col, row), 'green')
+                ghosts_list.add(redghost)
+            elif box == resources.constants.leveldef["pink_ghost"]:
+                redghost = Ghost((col, row), 'pink')
                 ghosts_list.add(redghost)
 
 eatables_list = pygame.sprite.Group()
@@ -140,18 +146,16 @@ def prepare_level(levelfile):
     ghosts_list = pygame.sprite.Group()
     loadlevel(levelfile)
     graphbuilder()
-    # print(thegraph[3][21])
 
 
-def maingame():
+def playlevel(levelno):
     global coins_eaten, coins_total
-    prepare_level("level1.bmp")
-    pygame.init()
+    prepare_level(resources.paths.levelorder[levelno])
     pygame.display.set_caption("PycMan by Jan Dziedzic (13MF2)")
 
     screen = pygame.display.set_mode(resources.constants.windowSize)
     # game starter
-    gameOn = True
+    game_on = True
     clock = pygame.time.Clock()
 
     eatables_list.update()
@@ -159,17 +163,16 @@ def maingame():
     players_list.update()
     ghosts_list.update()
     # ----- Main game loop -----
-    while gameOn:
+    while game_on:
         # ----- Level - finish handling -----
         if coins_eaten == coins_total:
             # TODO: do stuff
             print("lol, you got it")
 
-
         # ----- Handling user input ------
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                gameOn = False
+                game_on = False
                 break
 
         # ----- input handling pt 1 -----
@@ -180,10 +183,9 @@ def maingame():
         # ----- wall collision check -----
         surroundings = walltypecheck(player.location)
         # ----- handling some frames/move -----
-        timeSegment = resources.constants.timeSegmentSize
-
-        while timeSegment:
-            part = resources.constants.timeSegmentSize - timeSegment
+        player_time_segment = resources.constants.playerTimeSegmentSize
+        while player_time_segment:
+            part = resources.constants.playerTimeSegmentSize - player_time_segment
 
             # ----- input handling pt 2 -----
             if keys[pygame.K_LEFT] and surroundings[2] == '0':
@@ -211,11 +213,18 @@ def maingame():
             walls_list.draw(screen)
             players_list.draw(screen)
             ghosts_list.draw(screen)
+
+            # ----- Counter info -----
+            label = myfont.render("Coins eaten " + str(coins_eaten)+" / "+str(coins_total) +
+                                  "     Lifes remaining " + "TODO: LIFES" +
+                                  "     Level " + str(levelno+1), 1, (255, 255, 0))
+            screen.blit(label, (resources.constants.boxSegmentSize/2, resources.constants.gamesize*resources.constants.boxSegmentSize))
+
             # ----- Refresh Screen -----
             pygame.display.flip()
 
             # ----- FPS handling -----
-            timeSegment -= 1
+            player_time_segment -= 1
             clock.tick(resources.constants.fps)
 
         # ----- eating handling -----
@@ -225,4 +234,5 @@ def maingame():
                 coins_eaten += 1
 
 
-maingame()
+
+playlevel(0)
