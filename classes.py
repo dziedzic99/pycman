@@ -7,6 +7,7 @@ class GameObject(pygame.sprite.Sprite):
         super().__init__()
         self.image = None
         self.location = location
+        self.initiallocation = location
         self.rect = None
 
     def setimage(self, image, size=resources.constants.boxSize, rotation=0):
@@ -39,7 +40,7 @@ class Movable(GameObject):
     def setimage(self, image, size=resources.constants.movableSize, rotation=0):
         super().setimage(image, size, rotation)
 
-    def move(self, direction, part=resources.constants.playerTimeSegmentSize - 1):
+    def move(self, direction, segmentsize, part=resources.constants.playerTimeSegmentSize - 1):
         if direction == 'up' or direction == (0, 1):
             self.speed = (0, -1)
         elif direction == 'down'or direction == (0, -1):
@@ -48,12 +49,15 @@ class Movable(GameObject):
             self.speed = (-1, 0)
         elif direction == 'right' or direction == (1, 0):
             self.speed = (1, 0)
-        part2 = (part+1) / resources.constants.playerTimeSegmentSize
+        part2 = (part+1) / segmentsize
         self.rect.x, self.rect.y = (self.location[0] + self.speed[0] * resources.constants.speedFactor * part2) * resources.constants.boxSegmentSize,\
                                    (self.location[1] + self.speed[1] * resources.constants.speedFactor * part2) * resources.constants.boxSegmentSize
-        if part == resources.constants.playerTimeSegmentSize - 1:
+        if part == segmentsize - 1:
             self.location = self.location[0] + self.speed[0] * resources.constants.speedFactor,\
                             self.location[1] + self.speed[1] * resources.constants.speedFactor
+
+    def reset(self):
+        self.__init__(self.initiallocation)
 
 
 class Player(Movable):
@@ -61,7 +65,7 @@ class Player(Movable):
         super().__init__(location)
         self.setimage('player', resources.constants.playerSize)
 
-    def move(self, direction, part=resources.constants.playerTimeSegmentSize - 1):
+    def move(self, direction, part=resources.constants.playerTimeSegmentSize - 1, partsize=resources.constants.ghostTimeSegmentSize):
         rotation = 0
         if self.speed == (1, 0):
             rotation = 0
@@ -72,7 +76,7 @@ class Player(Movable):
         elif self.speed == (0, 1):
             rotation = 270
         super().setimage('player', resources.constants.playerSize, rotation)
-        super().move(direction, part)
+        super().move(direction, segmentsize=resources.constants.playerTimeSegmentSize, part=part)
 
 
 class Ghost(Movable):
@@ -83,11 +87,12 @@ class Ghost(Movable):
         self.setimage(color+'_ghost')
         self.previouslocation = self.location
 
-    def move(self, direction, part=resources.constants.playerTimeSegmentSize - 1):
+    def move(self, direction, part=resources.constants.ghostTimeSegmentSize - 1, partsize=resources.constants.ghostTimeSegmentSize):
         self.previouslocation = self.location
-        super().move(direction, part)
+        super().move(direction, partsize, part)
 
-
+    def reset(self):
+        self.__init__(self.initiallocation, self.color)
 
 
 

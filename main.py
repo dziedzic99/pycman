@@ -1,14 +1,17 @@
 from classes import *
 import resources
 from levelprocesser import readlevel
+from time import sleep
 player = None
 coins_total = 0
 coins_eaten = 0
 level = None
-level_number = 0
-
+levelno = 0
+lifes = 3
 pygame.init()
 myfont = pygame.font.SysFont("monospace", resources.constants.fontsize)
+pygame.display.set_caption("PycMan by Jan Dziedzic (13MF2)")
+screen = pygame.display.set_mode(resources.constants.windowSize)
 
 # ----- This 2D array holds info on location lists accessible (common edge) from tile represented by address -----
 thegraph = [[[] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
@@ -109,11 +112,11 @@ def loadlevel(file):
     for col in range(0, resources.constants.gamesize):
         for row in range(0, resources.constants.gamesize):
             box = level[col][row]
-            if box == resources.constants.leveldef["coin"]:
+            if box != resources.constants.leveldef["wall"] and box != resources.constants.leveldef['nothing']:
                 eatable = Eatable(0, (col, row))
                 eatables_list.add(eatable)
                 coins_total += 1
-            elif box == resources.constants.leveldef["wall"]:
+            if box == resources.constants.leveldef["wall"]:
                 wall = Wall((col, row), walltypecheck((col, row)))
                 walls_list.add(wall)
             elif box == resources.constants.leveldef["player"]:
@@ -148,12 +151,51 @@ def prepare_level(levelfile):
     graphbuilder()
 
 
-def playlevel(levelno):
-    global coins_eaten, coins_total
-    prepare_level(resources.paths.levelorder[levelno])
-    pygame.display.set_caption("PycMan by Jan Dziedzic (13MF2)")
+def show_tutorial():
+    screen.fill(resources.colors.background)
+    for i in range(len(resources.constants.tutorialStringList)):
+        label = myfont.render(resources.constants.tutorialStringList[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize*i))
+    pygame.display.flip()
+    sleep(10)
 
-    screen = pygame.display.set_mode(resources.constants.windowSize)
+
+def show_congrats():
+    screen.fill(resources.colors.background)
+    for i in range(len(resources.constants.congratsStringList)):
+        label = myfont.render(resources.constants.congratsStringList[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize*i))
+    pygame.display.flip()
+    sleep(5)
+
+def show_real_congrats():
+    screen.fill(resources.colors.background)
+    for i in range(len(resources.constants.realCongratsStringList)):
+        label = myfont.render(resources.constants.realCongratsStringList[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize*i))
+    pygame.display.flip()
+    sleep(5)
+
+def show_permanent_death():
+    screen.fill(resources.colors.background)
+    for i in range(len(resources.constants.theEndStringList)):
+        label = myfont.render(resources.constants.theEndStringList[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize*i))
+    pygame.display.flip()
+    sleep(5)
+
+
+def reset():
+    for ghost in ghosts_list.sprites():
+        ghost.reset()
+    player.reset()
+
+
+
+def playlevel(levelno):
+    global coins_eaten, coins_total, lifes
+    prepare_level(resources.paths.levelorder[levelno])
+
     # game starter
     game_on = True
     clock = pygame.time.Clock()
@@ -163,69 +205,96 @@ def playlevel(levelno):
     players_list.update()
     ghosts_list.update()
     # ----- Main game loop -----
+    player_time_segment = resources.constants.playerTimeSegmentSize
+    ghost_time_segment = resources.constants.ghostTimeSegmentSize
     while game_on:
-        # ----- Level - finish handling -----
+        # ----- Level - winning handling -----
         if coins_eaten == coins_total:
-            # TODO: do stuff
-            print("lol, you got it")
+            levelno += 1
+            break
 
-        # ----- Handling user input ------
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                game_on = False
-                break
-
-        # ----- input handling pt 1 -----
-        keys = pygame.key.get_pressed()  # checking pressed keys
+        if player_time_segment == resources.constants.playerTimeSegmentSize:
+            # ----- Handling user input pt1 ------
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_on = False
+                    break
+            # ----- checking pressed keys -----
+            keys = pygame.key.get_pressed()
+            # ----- wall collision check -----
+            surroundings = walltypecheck(player.location)
         # ----- ghost movement handling pt 1 -----
-        for ghost in ghosts_list.sprites():
-            ghost.nexttile = find_next_move(ghost.location, player.location, ghost.previouslocation)
-        # ----- wall collision check -----
-        surroundings = walltypecheck(player.location)
-        # ----- handling some frames/move -----
-        player_time_segment = resources.constants.playerTimeSegmentSize
-        while player_time_segment:
-            part = resources.constants.playerTimeSegmentSize - player_time_segment
-
-            # ----- input handling pt 2 -----
-            if keys[pygame.K_LEFT] and surroundings[2] == '0':
-                player.move('left', part)
-            elif keys[pygame.K_RIGHT] and surroundings[0] == '0':
-                player.move('right', part)
-            elif keys[pygame.K_UP] and surroundings[1] == '0':
-                player.move('up', part)
-            elif keys[pygame.K_DOWN] and surroundings[3] == '0':
-                player.move('down', part)
-
-            # ----- ghost movement handling pt 2 -----
+        if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
             for ghost in ghosts_list.sprites():
-                ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), part)
+                if ghost.color == 'red':
+                    ghost.nexttile = find_next_move(ghost.location, player.location, ghost.previouslocation)
+                elif ghost.color == 'blue':
+                    ghost.nexttile = find_next_move(ghost.location,
+                                                    [player.location[0] + resources.constants.scatterSize,
+                                                     player.location[1] + resources.constants.scatterSize],
+                                                    ghost.previouslocation)
+                elif ghost.color == 'green':
+                    ghost.nexttile = find_next_move(ghost.location,
+                                                    [player.location[0] - resources.constants.scatterSize,
+                                                     player.location[1] - resources.constants.scatterSize],
+                                                    ghost.previouslocation)
 
-            # ----- Updating sprites position -----
-            eatables_list.update()
-            walls_list.update()
-            players_list.update()
-            ghosts_list.update()
-            # ----- Fill screen with background -----
-            screen.fill(resources.colors.background)
-            # ----- ...and sprites -----
-            eatables_list.draw(screen)
-            walls_list.draw(screen)
-            players_list.draw(screen)
-            ghosts_list.draw(screen)
+        # ----- handling some frames/move -----
+        player_part = resources.constants.playerTimeSegmentSize - player_time_segment
+        ghost_part = resources.constants.ghostTimeSegmentSize - ghost_time_segment
 
-            # ----- Counter info -----
-            label = myfont.render("Coins eaten " + str(coins_eaten)+" / "+str(coins_total) +
-                                  "     Lifes remaining " + "TODO: LIFES" +
-                                  "     Level " + str(levelno+1), 1, (255, 255, 0))
-            screen.blit(label, (resources.constants.boxSegmentSize/2, resources.constants.gamesize*resources.constants.boxSegmentSize))
+        # ----- input handling pt 2 / player movement handling -----
+        if keys[pygame.K_LEFT] and surroundings[2] == '0':
+            player.move('left', player_part)
+        elif keys[pygame.K_RIGHT] and surroundings[0] == '0':
+            player.move('right', player_part)
+        elif keys[pygame.K_UP] and surroundings[1] == '0':
+            player.move('up', player_part)
+        elif keys[pygame.K_DOWN] and surroundings[3] == '0':
+            player.move('down', player_part)
 
-            # ----- Refresh Screen -----
-            pygame.display.flip()
+        # ----- ghost movement handling pt 2 -----
+        for ghost in ghosts_list.sprites():
+            try:
+                ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
+            except Exception:
+                pass
+        # ----- player dying handling -----
+        for ghost in ghosts_list.sprites():
+            if ghost.location == player.location:
+                lifes -= 1
+                reset()
+                player_time_segment = resources.constants.playerTimeSegmentSize
+                ghost_time_segment = resources.constants.ghostTimeSegmentSize
+        if lifes <= 0:
+            break
 
-            # ----- FPS handling -----
-            player_time_segment -= 1
-            clock.tick(resources.constants.fps)
+        # ----- Updating sprites position -----
+        eatables_list.update()
+        walls_list.update()
+        players_list.update()
+        ghosts_list.update()
+        # ----- Fill screen with background -----
+        screen.fill(resources.colors.background)
+        # ----- ...and sprites -----
+        eatables_list.draw(screen)
+        walls_list.draw(screen)
+        players_list.draw(screen)
+        ghosts_list.draw(screen)
+
+        # ----- Counter info -----
+        label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total) +
+                              "     Lifes remaining " + str(lifes) +
+                              "     Level " + str(levelno+1), 1, (255, 255, 0))
+        screen.blit(label, (resources.constants.boxSegmentSize/2, resources.constants.gamesize*resources.constants.boxSegmentSize))
+
+        # ----- Refresh Screen -----
+        pygame.display.flip()
+
+        # ----- FPS handling -----
+        player_time_segment -= 1
+        ghost_time_segment -= 1
+        clock.tick(resources.constants.fps)
 
         # ----- eating handling -----
         for eatable in eatables_list.sprites():
@@ -233,6 +302,21 @@ def playlevel(levelno):
                 eatable.kill()
                 coins_eaten += 1
 
+        # ----- initializing new time period -----
+        if not player_time_segment:
+            player_time_segment = resources.constants.playerTimeSegmentSize
+        if not ghost_time_segment:
+            ghost_time_segment = resources.constants.ghostTimeSegmentSize
 
 
-playlevel(0)
+
+def main():
+    show_tutorial()
+    while lifes > 0 and levelno <= resources.constants.totallevels:
+        playlevel(levelno)
+    if lifes > 0:
+        show_real_congrats()
+    else:
+        show_permanent_death()
+
+main()

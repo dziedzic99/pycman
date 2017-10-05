@@ -1,14 +1,17 @@
-eatableSize = [5, 5]
+eatableSize = [20, 20]
 movableSize = [20, 20]
 playerSize = [20, 20]
 speedFactor = 1
 windowSize = [640, 660]
 playerTimeSegmentSize = 10
+ghostTimeSegmentSize = 12
 boxSegmentSize = 20
 boxSize = [boxSegmentSize, boxSegmentSize]
 fps = 60
 fontsize = 15
 gamesize = 32
+scatterSize = 2
+totallevels = 5
 
 leveldef = {
     'nothing': 0,
@@ -29,5 +32,31 @@ editordef = {
     'red_ghost': (200, 100, 100),
     'green_ghost': (0, 255, 0),
     'blue_ghost': (0, 0, 255),
-    'pink_ghost': (249, 11, 86)
+    'pink_ghost': (255, 200, 200)
 }
+
+tutorialStringList = ["Hi, my name is Jan Dziedzic and this is my...",
+    "minimal effort solution to the A-Levels CP",
+    "project. It's called PycMan - see what I did there?",
+    "Anyway - use arrow keys to move, eat all coins to",
+    "progress and don't get eaten by a ghost. The rest is ",
+    "kinda intuitive. I know it's a ripoff but the mechanic's",
+    "quite different and one may actually find it fun to play.",
+    "Enjoy!"]
+
+congratsStringList = ["Wee, you completed another easy level.",
+                      "Feeling proud, don't be, please. There are more",
+                      "ahead. Actually it's only gonna get harder",
+                      "and harder, until you eventually fail"]
+
+realCongratsStringList = ["Ok, that was unexpected, you actually managed",
+                          "to complete the game, write an email to:",
+                          "jandziedzic99@gmail.com and tell me that",
+                          "I can't even make a seriously hard game"]
+
+theEndStringList = ["Oh, you run out of lifes? What a shame",
+                    "Don't worry though - no one actually",
+                    "expected you to perform better.",
+                    "Try again or better not, it's a boring",
+                    "game. Either way... Cheers",
+                    "Jan"]
