@@ -25,6 +25,7 @@ image = {
     "pink_ghost": graphics + "pinkghost.png"
     }
 levelorder = [
+    "level0.bmp",
     "level1.bmp",
     "level2.bmp",
     "level3.bmp",

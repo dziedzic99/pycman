@@ -7,7 +7,7 @@ coins_total = 0
 coins_eaten = 0
 level = None
 levelno = 0
-lifes = 3
+lives = 30
 pygame.init()
 myfont = pygame.font.SysFont("monospace", resources.constants.fontsize)
 pygame.display.set_caption("PycMan by Jan Dziedzic (13MF2)")
@@ -38,7 +38,8 @@ def walltypecheck(location):
 
 
 def graphbuilder():
-    global level
+    global level, thegraph
+    thegraph = [[[] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
     for i in range(resources.constants.gamesize):
         for j in range(resources.constants.gamesize):
             if level[i][j] != resources.constants.leveldef["wall"]:
@@ -106,8 +107,9 @@ def find_next_move(start, end, forbidden):
 
 
 def loadlevel(file):
+    print(file)
     global level, coins_total, player
-    # level-loading procedure with input of standard 64x64 bitmap level file
+    # level-loading procedure with input of standard 32x32 bitmap level file
     level = readlevel(file)
     for col in range(0, resources.constants.gamesize):
         for row in range(0, resources.constants.gamesize):
@@ -191,9 +193,9 @@ def reset():
     player.reset()
 
 
-
-def playlevel(levelno):
-    global coins_eaten, coins_total, lifes
+def playlevel():
+    global coins_eaten, coins_total, lives, levelno
+    coins_total = coins_eaten = 0
     prepare_level(resources.paths.levelorder[levelno])
 
     # game starter
@@ -211,14 +213,14 @@ def playlevel(levelno):
         # ----- Level - winning handling -----
         if coins_eaten == coins_total:
             levelno += 1
-            break
-
+            game_on = False
+            exit(0)
         if player_time_segment == resources.constants.playerTimeSegmentSize:
             # ----- Handling user input pt1 ------
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_on = False
-                    break
+
             # ----- checking pressed keys -----
             keys = pygame.key.get_pressed()
             # ----- wall collision check -----
@@ -262,11 +264,11 @@ def playlevel(levelno):
         # ----- player dying handling -----
         for ghost in ghosts_list.sprites():
             if ghost.location == player.location:
-                lifes -= 1
+                lives -= 1
                 reset()
-                player_time_segment = resources.constants.playerTimeSegmentSize
-                ghost_time_segment = resources.constants.ghostTimeSegmentSize
-        if lifes <= 0:
+                player_time_segment = resources.constants.playerTimeSegmentSize+1
+                ghost_time_segment = resources.constants.ghostTimeSegmentSize+1
+        if lives <= 0:
             break
 
         # ----- Updating sprites position -----
@@ -284,7 +286,7 @@ def playlevel(levelno):
 
         # ----- Counter info -----
         label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total) +
-                              "     Lifes remaining " + str(lifes) +
+                              "     Lives remaining " + str(lives) +
                               "     Level " + str(levelno+1), 1, (255, 255, 0))
         screen.blit(label, (resources.constants.boxSegmentSize/2, resources.constants.gamesize*resources.constants.boxSegmentSize))
 
@@ -309,12 +311,12 @@ def playlevel(levelno):
             ghost_time_segment = resources.constants.ghostTimeSegmentSize
 
 
-
 def main():
     show_tutorial()
-    while lifes > 0 and levelno <= resources.constants.totallevels:
-        playlevel(levelno)
-    if lifes > 0:
+    while lives > 0 and levelno <= resources.constants.totallevels:
+        print(levelno)
+        playlevel()
+    if lives > 0:
         show_real_congrats()
     else:
         show_permanent_death()
