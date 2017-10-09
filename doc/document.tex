@@ -102,6 +102,7 @@
 				\item GIMP - GNU Image Manipulation Program
 				\item \LaTeX
 				\item TeXstudio
+				\item LibreOffice Draw
 			\end{itemize}
 			
 			The greatest advantage that convinced me to actually use Python for my game was its portability. As an interpretable programming language, the code of the game remains universal throughout different operating systems and processor architectures. My decision was also influenced by my previous experience with this language and my desire to actually get better around it. It's also free, meaning that everyone can take benefit of my game, without having to buy a license from a third party.
@@ -278,12 +279,38 @@
 						\item
 							700MHz processor
 					\end{enumerate}
-					The game has been tested on described specification machine and has been found to meet fluency criteria. No testing on slower machines has been performed as these are not usually available on the market anymore.
+					The game has been tested on described specification machine and has been found to meet fluency criteria. No testing on slower machines has been performed as these are not usually available on the market anymore. Each of the requirements listed is critical to either launch or play the game.
 			\end{enumerate}
 			
 	\chapter{Design}
 		\newpage
 		As the game uses Pygame module it obviously derives some solutions natively implemented in it. All display solutions are actually handled using the module. Use of Tkinker was researched for pop-up messages but adding another module that doesn't bring any outstanding functionality above capabilities of Pygame has been ruled as an unnecessary waste of memory.
+		
+		Having the fact that my main tool will be the pygame module I have divided game design process into following subproblems.
+		\begin{itemize}
+			\item
+				Preparing window environment for the game
+			\item
+				Preparing board and tiling system
+			\item
+				Creating player and ghost sprites
+			\item
+				Handling player input
+			\item
+				Adding Eatables and walls
+			\item
+				Preparing level storage-loading system
+			\item
+				Wall collision handling
+			\item
+				Eating routines
+			\item
+				Ghost movement system
+			\item
+				Advancing through levels
+			\item
+				Pop-up messaging
+		\end{itemize}
 		\section{Main window layout}
 			Main game window consists of a board where the actual game takes place.
 			Below the board there is a set of informative counters kept in characteristic PacMan colours of gold-yellow on dark/royal-blue background.
@@ -555,6 +582,10 @@ elif level[column][row] = heart
 				See Figure \ref{gimplevel} for a screenshot of a design process.
 			\dsubsection{User-defined levels}
 				As levels can be created using a very basic bitmap editing software, user might actually add their own levels. And use them instead of the built-in ones.
+				
+				Self-adding levels instruction is available in Appendix X.
+				TODO:reference to right appendix
+				TODO:instruction
 			\dsubsection{Progressing to the next level}
 				When player eats all coins, they advance to the next level. At this stage a message screen (described later) appears and all level - loading procedures are called. Also counters of coins eaten and total are reset at this point.
 				
@@ -599,6 +630,7 @@ elif keys[pygame.K_DOWN] and surroundings[3] == '0':
 				\begin{img}
 					\includegraphics[width=180pt]{images/movement-diagram}\\
 					\caption{Diagram showing how tasks are executed either once per time segment or once per part}
+					\label{player-TS}
 				\end{img}
 			\dsubsection{Ghost movement}
 				Ghost movement is a far more complex algorithm than player's movement though it uses same concept of time segments.
@@ -819,6 +851,10 @@ def move(direction,
 					\item
 						If the actual movement came to an end and a Movable is in a center of a next tile location is updated (lines 17-20)
 				\end{enumerate}
+			\begin{img}
+				\includegraphics[width=180pt]{images/ghost-time-segment}\\
+				\caption{Diagram showing how tasks are executed either once per time segment or once per part (for a ghost) \newline See Figure \ref{player-TS} for the same for player.}
+			\end{img}
 			\dsubsection{Eating}
 				Eating of both coins and hearts (Eatables) was easy to implement in terms of detection, but I had to look up how to destroy eaten sprites in the pygame documentation. I found that Sprites may be killed, which seemed to be an optimal solution to that problem. Therefore every player's time segment the following routine is called.
 				\begin{lstlisting} [language=python]
@@ -864,8 +900,16 @@ for Movable in Movables:
 				\end{lstlisting}
 		\section{Types of message screens}
 			\label{typesofscreens}
+			Messages present throughout the game are displayed in a way that prevents any game event, from occurring unless the message is dismissed by pressing space.
+			
+			It's done through occupying the main thread with checking for spacebar being pressed.
+			\begin{img}
+				\includegraphics[width=100pt]{images/message-dismiss}\\
+				\caption{Diagram showing how game is halted until message is dismissed using spacebar}
+			\end{img}
 			\dsubsection{Tutorial}
-				TODO: Photo of the screen
+				TODO: Photo of the screen These will be actually completed when I will have time to input actual strings, whilst more critical game parts may be developed earlier.\\
+				I remind that I have started only a month ago.
 			\dsubsection{Loss of life}
 				TODO: Photo of the screen
 			\dsubsection{Completing the level}
@@ -879,7 +923,37 @@ for Movable in Movables:
 			\dsubsection{zero-testing}
 				This stage was introduced while testing single functions and procedures implemented through the game during the development process. It consisted of mostly running code as-is while writing it using PyCharm. Sometimes I haven't even use debugger in favor of print function to enlist values of variables. This phase commenced until all modules of the game were actually prepared, despite being containing minor bugs that didn't immediately throw an error. At the end of this stage, the game was playable. 
 			\dsubsection{$\alpha$-testing}
-				This was the stage of extensively playing the game to see whether all functions appear to be working correctly. Note the use of word 'appear' - code wasn't actually read at this stage in look for bugs, only user experience was assessed. I have tried different approaches at playing, to make the game algorithms experience different user input. From staying perfectly still to going straight for a ghost, I have played the game.
+				This was the stage of extensively playing the game to see whether all functions appear to be working correctly. Note the use of word 'appear' - code wasn't actually read at this stage in look for bugs, only user experience was assessed. I have tried different approaches at playing, to make the game algorithms experience different user input. From staying perfectly still to going straight for a ghost, I have played the game checking the following:
+				\begin{enumerate}
+					\item
+						Getting killed by the ghost approaching from different angles.
+					\item
+						Eating Eatables from different angles.
+					\item
+						Trying to pass through numerous walls.
+					\item
+						Moving the player in different directions repeatedly to check if ghosts get confused and the gameplay remains fluent.
+					\item
+						Manual counting of coins eaten to see if it matches the counter value.
+					\item
+						Checking whether all graphics render well, by creating each wall type and each possible sprite.
+					\item
+						Providing program with unexpected input of unassigned keys, mouse clicks and even connecting a gamepad.
+				\end{enumerate}
+			\dsubsection{$\beta$-testing}
+				This was a stage of testing, during which all major bugs were resolved and the assessment was focused on user experience. Following procedures were performed:
+				\begin{enumerate}
+					\item
+						Smoothness of animations was checked on different computers, running different OSs.
+					\item
+						Graphics quality was assessed by an independent body, namely my sister.
+					\item
+						Actual playing was performed and all levels were played. Each level was actually completed, but never in a single sitting, proving that game indeed can be completed, though it is considerably hard.
+					\item
+						Different players were used to test the gameplay.
+					\item
+						Quality of input controls was assessed.
+				\end{enumerate}
 	\chapter{References}
 		\begin{enumerate}
 			\item
