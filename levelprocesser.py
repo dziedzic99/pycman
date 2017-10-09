@@ -22,6 +22,4 @@ def readlevel(file):
                 level[col][row] = resources.constants.leveldef['green_ghost']
             elif pixel == resources.constants.editordef["blue_ghost"]:
                 level[col][row] = resources.constants.leveldef['blue_ghost']
-            elif pixel == resources.constants.editordef["pink_ghost"]:
-                level[col][row] = resources.constants.leveldef['pink_ghost']
     return level

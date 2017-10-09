@@ -2,39 +2,47 @@
 \contentsline {section}{\numberline {1.1}Project Definition}{5}
 \contentsline {section}{\numberline {1.2}Stakeholders}{6}
 \contentsline {section}{\numberline {1.3}Software Challenges}{6}
-\contentsline {section}{\numberline {1.4}The Interview}{7}
-\contentsline {section}{\numberline {1.5}Requirement specification (success criteria)}{8}
-\contentsline {chapter}{\numberline {2}Design}{10}
-\contentsline {section}{\numberline {2.1}Main window layout}{11}
-\contentsline {subsection}{\numberline {2.1.1}Board}{11}
-\contentsline {subsection}{\numberline {2.1.2}Counters}{11}
-\contentsline {section}{\numberline {2.2}Grid layout}{13}
-\contentsline {section}{\numberline {2.3}Types of tiles}{15}
-\contentsline {subsection}{\numberline {2.3.1}Walls}{15}
-\contentsline {subsection}{\numberline {2.3.2}Player}{15}
-\contentsline {subsection}{\numberline {2.3.3}Ghosts}{15}
-\contentsline {subsection}{\numberline {2.3.4}Eatables}{15}
-\contentsline {subsubsection}{Coins}{15}
-\contentsline {subsubsection}{Hearts}{15}
-\contentsline {subsection}{\numberline {2.3.5}Empty tiles}{15}
-\contentsline {section}{\numberline {2.4}Levels}{15}
-\contentsline {subsection}{\numberline {2.4.1}Permanent storing}{15}
-\contentsline {subsection}{\numberline {2.4.2}Interpreting}{15}
-\contentsline {subsection}{\numberline {2.4.3}Storing while in game}{15}
-\contentsline {subsection}{\numberline {2.4.4}Designing the levels}{15}
-\contentsline {subsection}{\numberline {2.4.5}User-defined levels}{15}
-\contentsline {subsection}{\numberline {2.4.6}Progressing to the next level}{15}
-\contentsline {section}{\numberline {2.5}Gameplay scheme}{15}
-\contentsline {subsection}{\numberline {2.5.1}Player movement}{15}
-\contentsline {subsection}{\numberline {2.5.2}Ghost movement}{15}
-\contentsline {subsection}{\numberline {2.5.3}Eating}{15}
-\contentsline {subsection}{\numberline {2.5.4}Getting killed}{15}
-\contentsline {subsection}{\numberline {2.5.5}Respawning after a loss of life}{15}
-\contentsline {section}{\numberline {2.6}Types of message screens}{15}
-\contentsline {subsection}{\numberline {2.6.1}Tutorial}{15}
-\contentsline {subsection}{\numberline {2.6.2}Loss of life}{15}
-\contentsline {subsection}{\numberline {2.6.3}Completing the level}{15}
-\contentsline {subsection}{\numberline {2.6.4}Loosing the game}{15}
-\contentsline {subsection}{\numberline {2.6.5}Completing the entire game}{15}
-\contentsline {section}{\numberline {2.7}Testing}{15}
-\contentsline {chapter}{\numberline {3}References}{16}
+\contentsline {section}{\numberline {1.4}The Interview}{8}
+\contentsline {section}{\numberline {1.5}Requirement specification (success criteria)}{9}
+\contentsline {chapter}{\numberline {2}Design}{12}
+\contentsline {section}{\numberline {2.1}Main window layout}{13}
+\contentsline {subsection}{\numberline {2.1.1}'Board'}{14}
+\contentsline {subsection}{\numberline {2.1.2}'Counters'}{14}
+\contentsline {section}{\numberline {2.2}Grid layout}{15}
+\contentsline {section}{\numberline {2.3}Types of tiles}{17}
+\contentsline {subsection}{\numberline {2.3.1}'Walls'}{17}
+\contentsline {subsection}{\numberline {2.3.2}'Player'}{21}
+\contentsline {subsection}{\numberline {2.3.3}'Ghosts'}{21}
+\contentsline {subsection}{\numberline {2.3.4}'Eatables'}{22}
+\contentsline {subsubsection}{Coins}{22}
+\contentsline {subsubsection}{Hearts}{23}
+\contentsline {subsection}{\numberline {2.3.5}'Empty tiles'}{23}
+\contentsline {section}{\numberline {2.4}Levels}{23}
+\contentsline {subsection}{\numberline {2.4.1}'Permanent storing'}{23}
+\contentsline {subsection}{\numberline {2.4.2}'Storing while in game'}{24}
+\contentsline {subsection}{\numberline {2.4.3}'Interpreting'}{26}
+\contentsline {subsection}{\numberline {2.4.4}'Designing the levels'}{27}
+\contentsline {subsection}{\numberline {2.4.5}'User-defined levels'}{27}
+\contentsline {subsection}{\numberline {2.4.6}'Progressing to the next level'}{27}
+\contentsline {section}{\numberline {2.5}Gameplay scheme}{28}
+\contentsline {subsection}{\numberline {2.5.1}'Introduction to the concept of time segments'}{28}
+\contentsline {subsection}{\numberline {2.5.2}'Player movement'}{28}
+\contentsline {subsection}{\numberline {2.5.3}'Ghost movement'}{30}
+\contentsline {subsubsection}{The graph}{30}
+\contentsline {subsubsection}{Pathfinding}{31}
+\contentsline {subsubsection}{Difference between ghosts}{33}
+\contentsline {subsubsection}{Calling pathfinding algorithm}{35}
+\contentsline {subsubsection}{Ghosts speed}{36}
+\contentsline {subsection}{\numberline {2.5.4}'Handling movement animation'}{36}
+\contentsline {subsection}{\numberline {2.5.5}'Eating'}{37}
+\contentsline {subsection}{\numberline {2.5.6}'Getting killed'}{38}
+\contentsline {subsection}{\numberline {2.5.7}'Respawning after a loss of life'}{38}
+\contentsline {section}{\numberline {2.6}Types of message screens}{38}
+\contentsline {subsection}{\numberline {2.6.1}'Tutorial'}{38}
+\contentsline {subsection}{\numberline {2.6.2}'Loss of life'}{39}
+\contentsline {subsection}{\numberline {2.6.3}'Completing the level'}{39}
+\contentsline {subsection}{\numberline {2.6.4}'Loosing the game'}{39}
+\contentsline {subsection}{\numberline {2.6.5}'Completing the entire game'}{39}
+\contentsline {section}{\numberline {2.7}Testing}{39}
+\contentsline {subsection}{\numberline {2.7.1}'$\alpha \text {-testing}$'}{39}
+\contentsline {chapter}{\numberline {3}References}{40}

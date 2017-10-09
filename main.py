@@ -107,7 +107,6 @@ def find_next_move(start, end, forbidden):
 
 
 def loadlevel(file):
-    print(file)
     global level, coins_total, player
     # level-loading procedure with input of standard 32x32 bitmap level file
     level = readlevel(file)
@@ -133,9 +132,7 @@ def loadlevel(file):
             elif box == resources.constants.leveldef["green_ghost"]:
                 redghost = Ghost((col, row), 'green')
                 ghosts_list.add(redghost)
-            elif box == resources.constants.leveldef["pink_ghost"]:
-                redghost = Ghost((col, row), 'pink')
-                ghosts_list.add(redghost)
+
 
 eatables_list = pygame.sprite.Group()
 walls_list = pygame.sprite.Group()

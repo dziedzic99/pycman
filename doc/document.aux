@@ -2,53 +2,101 @@
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Project Definition and Analysis}{4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Project Definition}{5}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Original Pac-Man screen. Source is Reference 1\hbox {}.}}{5}}
 \newlabel{oryg_pacman}{{1.1}{5}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Project Definition}{5}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Stakeholders}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.3}Software Challenges}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}The Interview}{7}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.5}Requirement specification (success criteria)}{8}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Design}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}The Interview}{8}}
+\newlabel{interview}{{1.4}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Requirement specification (success criteria)}{9}}
+\newlabel{smarterghosts}{{2a}{10}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Design}{12}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Main window layout}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Board}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Counters}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Example board. Walls, empty tiles, the player, coins and a red ghost are visible}}{12}}
-\newlabel{example_board}{{2.1}{12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Example set of counters with part of the board included for position reference.}}{12}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Grid layout}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Example of a board with a grid applied (note that the grid was added just for demonstrative purposes and in not a part of the game.)}}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Types of tiles}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Walls}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Player}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Ghosts}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Eatables}{15}}
-\@writefile{toc}{\contentsline {subsubsection}{Coins}{15}}
-\@writefile{toc}{\contentsline {subsubsection}{Hearts}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}Empty tiles}{15}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Levels}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Permanent storing}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Interpreting}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}Storing while in game}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.4}Designing the levels}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.5}User-defined levels}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.6}Progressing to the next level}{15}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}Gameplay scheme}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}Player movement}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}Ghost movement}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.3}Eating}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.4}Getting killed}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.5}Respawning after a loss of life}{15}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.6}Types of message screens}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.1}Tutorial}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.2}Loss of life}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.3}Completing the level}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.4}Loosing the game}{15}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.5}Completing the entire game}{15}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.7}Testing}{15}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}References}{16}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Main window layout}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Game window rendered in Ubuntu Gnome graphical environment.}}{13}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}'Board'}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Example board. Walls, empty tiles, the player, coins and a red ghost are visible}}{14}}
+\newlabel{example_board}{{2.2}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}'Counters'}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Example set of counters with part of the board included for position reference.}}{15}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Grid layout}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Original Pac-Man with grid layout depicted. Source: Reference 1\hbox {}}}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Example of a board with a grid applied (note that the grid was added just for demonstrative purposes and in not a part of the game.)}}{17}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Types of tiles}{17}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}'Walls'}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Wall 0001}}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Wall 0010}}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Wall 0011}}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces Wall 0100}}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.10}{\ignorespaces Wall 0101}}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.11}{\ignorespaces Wall 0110}}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.12}{\ignorespaces Wall 0111}}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.13}{\ignorespaces Wall 1001}}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.14}{\ignorespaces Wall 1010}}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.15}{\ignorespaces Wall 1011}}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.16}{\ignorespaces Wall 1100}}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.17}{\ignorespaces Wall 1101}}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.18}{\ignorespaces Wall 1110}}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.19}{\ignorespaces Wall 1111}}{20}}
+\newlabel{walltypecheck}{{2.3.1}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}'Player'}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.20}{\ignorespaces Player sprite}}{21}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}'Ghosts'}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.21}{\ignorespaces Red ghost sprite}}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.22}{\ignorespaces Green ghost sprite}}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.23}{\ignorespaces Blue ghost sprite}}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}'Eatables'}{22}}
+\@writefile{toc}{\contentsline {subsubsection}{Coins}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.24}{\ignorespaces Coin graphics}}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{Hearts}{23}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}'Empty tiles'}{23}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Levels}{23}}
+\newlabel{Levels}{{2.4}{23}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}'Permanent storing'}{23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.25}{\ignorespaces An exemplar of a level being edited in the GIMP software}}{24}}
+\newlabel{gimplevel}{{2.25}{24}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}'Storing while in game'}{24}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}'Interpreting'}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.26}{\ignorespaces First tests of interpretation of level files. Note that coins are formed into letters LU, RU, LB, RB as in words Left, Right, Upper, Bottom to load the tiles in the right orientation. Old 64x64 grid is used.}}{26}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.4}'Designing the levels'}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.5}'User-defined levels'}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.6}'Progressing to the next level'}{27}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Gameplay scheme}{28}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}'Introduction to the concept of time segments'}{28}}
+\newlabel{timesegments}{{2.5.1}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.27}{\ignorespaces Scheme depicting relation between a time segment and parts}}{28}}
+\newlabel{segment-part-relation}{{2.27}{28}}
+\newlabel{part_definition}{{2.5.1}{28}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}'Player movement'}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.28}{\ignorespaces Diagram showing how tasks are executed either once per time segment or once per part}}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.3}'Ghost movement'}{30}}
+\@writefile{toc}{\contentsline {subsubsection}{The graph}{30}}
+\@writefile{toc}{\contentsline {subsubsection}{Pathfinding}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.29}{\ignorespaces Diagram showing order of nodes visits starting from node 1 using DFS algorithm Source: wikipedia.org}}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.30}{\ignorespaces Diagram showing order of nodes visits starting from node 1 using BFS algorithm Source: wikipedia.org}}{32}}
+\@writefile{toc}{\contentsline {subsubsection}{Difference between ghosts}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.31}{\ignorespaces Popular meme. Source: pinterest.com}}{34}}
+\newlabel{trap}{{2.31}{34}}
+\@writefile{toc}{\contentsline {subsubsection}{Calling pathfinding algorithm}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{Ghosts speed}{36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.4}'Handling movement animation'}{36}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.5}'Eating'}{37}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.6}'Getting killed'}{38}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.7}'Respawning after a loss of life'}{38}}
+\newlabel{respawning}{{2.5.7}{38}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Types of message screens}{38}}
+\newlabel{typesofscreens}{{2.6}{38}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.1}'Tutorial'}{38}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.2}'Loss of life'}{39}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.3}'Completing the level'}{39}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.4}'Loosing the game'}{39}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.5}'Completing the entire game'}{39}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}Testing}{39}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.1}'$\alpha \text  {-testing}$'}{39}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}References}{40}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{stronaopacmanie}{{1}{16}}
+\newlabel{stronaopacmanie}{{1}{40}}
+\newlabel{pygamedocs}{{2}{40}}

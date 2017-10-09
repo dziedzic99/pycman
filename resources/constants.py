@@ -21,7 +21,6 @@ leveldef = {
     'red_ghost': 4,
     'green_ghost': 5,
     'blue_ghost': 6,
-    'pink_ghost': 7
 }
 
 editordef = {
@@ -31,8 +30,7 @@ editordef = {
     'player': (255, 0, 0),
     'red_ghost': (200, 100, 100),
     'green_ghost': (0, 255, 0),
-    'blue_ghost': (0, 0, 255),
-    'pink_ghost': (255, 200, 200)
+    'blue_ghost': (0, 0, 255)
 }
 
 tutorialStringList = ["Hi, my name is Jan Dziedzic and this is my...",
