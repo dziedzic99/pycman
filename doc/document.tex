@@ -15,7 +15,7 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 \renewcommand{\chaptername}{Part}}
-\newcommand{\dsubsection}[1]{\FloatBarrier \subsection{'#1'}}
+\newcommand{\dsubsection}[1]{\FloatBarrier \subsection{#1}}
 \newenvironment{img}{
 	\begin{center}
 		\begin{figure}[H]
@@ -92,6 +92,8 @@
 			Proposed end user group is really wide. As the game itself can be launched on virtually any device due to Python versatility, it may be used on a spectrum of devices with different controllers, from mobile phones and smart watches through PCs reaching as far as game console emulators mimicking the most authentic PacMan game experience. Such portability should satisfy most users.
 			
 			The game should grab attention of children - with small challenges that don't require complex thinking and rather promote manual skills and reflex; those who seek quick brainteaser whilst attempting to play with more focus on tactics of ghost avoidance and finally, old gamers who played original PacMan but now they might want to try more modern version with a different approach to critical game mechanisms.
+			
+			A good example of a stakeholder is my friend, Wojciech Wojtkowski, with whom I have conducted an interview to determine the requirements, see Section \ref{interview} for reference.
 		\section{Software Challenges}
 			All software used to develop the game but is not necessarily required to run it:
 			\begin{itemize}
@@ -123,16 +125,19 @@
 			
 			GIMP was used to produce graphics resources of the game as well as levels - described later. I found it to be a great deal of overkill for such basic tasks but I am very familiar with it's interface and tools which were of great help especially during the design of semi-transparent ghost graphics.
 			
+			Libre Office Draw is a free office suite component meant to be used for developing multimedia presentations. I have used it for its great tool for developing flowcharts used in this document. See Figure \ref{segment-part-relation} for example of such graphics.
+			
 			\LaTeX and Texstudio were used to develop this document. As I identify as a pro-open-source-software person I wanted to use \LaTeX instead of word processors with a far advanced UI, like Microsoft Word. A practical reason behind this - \LaTeX provides an absolutely full flexibility. And even when it doesn't have a function I might want to use - I can always write such myself.
 			
 			All development was done on an Ubuntu-running computer, therefore	
 			I must proudly admit that during the entire design process no non-free software was used. All software was either opensource, freeware or free for education.
+			\label{freeware}
 			
 		\section{The Interview}
 			\label{interview}
 			To assess interest and gain insight of the potential market for the game, I have interviewed my fellow schoolmate - Wojciech Wojtkowski on his opinion of my approach to redesigning PacMan.
 			
-			-Hello Wojciech, may I interest you with my IT project - the PycMan, next generation of the classic PacMan with smarter ghosts and different mechanics?
+			-Hello Wojciech, may I interest you with my Computer Science project - the PycMan, next generation of the classic PacMan with smarter ghosts and different mechanics?
 			
 			-Sure mate, go ahead!
 			
@@ -195,41 +200,59 @@
 				\begin{enumerate}
 					\item
 						Game graphics should be of similar color and shape to the originals.
+						\label{req-orig-colors}
 					\item
 						Player sprite is an iconic yellow ball with 'mouth'.
+						\label{req-player-shape}
 					\item
 						Player sprite should rotate with 'mouth' towards the direction of movement. 
+						\label{req-player-rotation}
 					\item
 						Neither ghosts nor player are to pass through wall or be able to exit board borders.
+						\label{req-walls-not-passable}
 					\item
 						Ghosts chase the player who loses a life upon contact with a ghost.
+						\label{req-ghost-movement}
 					\item
 						Upon losing a life ghosts and the player return to their initial locations.
+						\label{req-reset}
 					\item
 						Each ghost behaves in a different way based on its color.
+						\label{req-ghost-differences}
 					\item
 						Ghosts do not reverse their direction of movement.
+						\label{req-ghost-not-reversing}
 					\item
 						Player progresses through a level with eating 'coins' left throughout some/all accessible places on the map.
+						\label{req-level-progress}
 					\item
 						Upon eating a coin, it disappears and is not to be rendered again.
+						\label{req-coins-disappearing}
 					\item
 						Eating a coin increases point counter.
+						\label{req-point++}
 					\item
 						Heart shaped Eatables are left in some places in some of the levels.
+						\label{req-hearts}
 					\item
 						Eating a heart grants the player extra one life.
+						\label{req-lifes++}
 					\item
 						Upon completing the level (eating all 'coins') new level is loaded.
+						\label{req-level-up}
 					\item
 						When player has less than one life the game finishes and the player loses.
+						\label{req-game-over}
 					\item
 						When player completes all the levels, the game finishes and the player wins.
+						\label{req-win}
 					\item
 						Text messages appear whenever a significant change in gameplay is to take place.
 						E.g. Start of the game, level change, player's death, completing entire game.
+						\label{req-messages}
 					\item
 						The game must be possible to win.
+						\label{req-winnable}
 				\end{enumerate}
 				\item
 					The game must be different from the original in these ways:
@@ -313,7 +336,7 @@
 		\end{itemize}
 		\section{Main window layout}
 			Main game window consists of a board where the actual game takes place.
-			Below the board there is a set of informative counters kept in characteristic PacMan colours of gold-yellow on dark/royal-blue background.
+			Below the board there is a set of informative counters kept in characteristic PacMan colours of gold-yellow on dark/royal-blue background as per requirement \ref{req-orig-colors}.
 			\begin{img}
 				\includegraphics[width=350pt]{images/window-in-ubuntu}\\
 				\caption{Game window rendered in Ubuntu Gnome graphical environment.}
@@ -435,6 +458,7 @@
 				\begin{lstlisting} [language=Python]
 def walltypecheck(location):
 	r = t = l = b = 0
+	# note that letters correspond to Right Top Left Bottom
 	if location[0] != 0:
 		if level[location[0]-1][location[1]] == wall:
 			l = 1
@@ -452,7 +476,7 @@ def walltypecheck(location):
 				For reference of how level data is stored see section \ref{Levels}.
 				This algorithm returns type of wall that would fit in the spot location provided as an argument while calling the function. Output format is a string corresponding with wall names described above.
 			\dsubsection{Player}
-				Player is represented by an iconic PacMan figure of my own design (to avoid direct copying of work of others). The tile rotates depending on the direction of player's movement so that the 'mouth' is always facing forward. Color has been slightly darkened as I find this design a little bit nicer than the original.  
+				Player is represented by an iconic PacMan figure of my own design (to avoid direct copying of work of others). The tile rotates depending on the direction of player's movement so that the 'mouth' is always facing forward as per requirement \ref{req-player-rotation}. Color has been slightly darkened as I find this design a little bit nicer than the original while still complying with requirement \ref{req-player-shape}. 
 				\begin{img}
 					\includegraphics{images/player}\\
 				\caption{Player sprite}
@@ -462,6 +486,7 @@ def walltypecheck(location):
 				 \begin{img}
 				 	\includegraphics{images/redghost}\\
 				 	\caption{Red ghost sprite}
+				 	\label{ghostimage}
 				 \end{img}
 				  \begin{img}
 				 	\includegraphics{images/greenghost}\\
@@ -617,13 +642,13 @@ surroundings = walltypecheck(player.location)
 				
 				Then check is performed whether player's move is legit (wall does not obstruct it).
 				\begin{lstlisting}[language=Python]
-if keys[pygame.K_LEFT] and surroundings[2] == '0':
+if left key pressed and tile to the left is not a wall:
 	player.move('left', player_part)
-elif keys[pygame.K_RIGHT] and surroundings[0] == '0':
+elif right key pressed and tile to the right is not a wall:
 	player.move('right', player_part)
-elif keys[pygame.K_UP] and surroundings[1] == '0':
+elif up key pressed and tile above is not a wall:
 	player.move('up', player_part)
-elif keys[pygame.K_DOWN] and surroundings[3] == '0':
+elif down key pressed and tile below is not a wall:
 	player.move('down', player_part)
 				\end{lstlisting}
 				Please note usage of the player\_part variable. It is the value of frames that have passed since last player segment begun (as described in Section \ref{timesegments}). It's useful to determine whether a new time segment is to be started and for player's moving routine to know at which part of tile it should position player's sprite inducing a fluency of movement.
@@ -644,7 +669,7 @@ elif keys[pygame.K_DOWN] and surroundings[3] == '0':
 					Object is named 'thegraph' throughout the program (as it is the only graph implementation in it). Note that it is a global object.
 					
 					It's obviously individual for each level and is built every time a level is loaded. Through the following routine:
-					\begin{lstlisting}
+					\begin{lstlisting}[language=Python]
 def graphbuilder():
 	global level, thegraph
 	thegraph = [[[] for i in range(32)] for j in range(32)]
@@ -670,6 +695,7 @@ def graphbuilder():
 					\begin{img}
 						\includegraphics[width=350pt]{images/dfs-diagram}\\
 						\caption{Diagram showing order of nodes visits starting from node 1 using DFS algorithm Source: wikipedia.org}
+						\label{DFSalg}
 					\end{img}
 					It was a rather simple recursion.
 					\begin{lstlisting} [language=Python]
@@ -789,6 +815,7 @@ def find_next_move(start, end, forbidden):
     queue.append(node)
 					\end{lstlisting}
 					Note line 4. where final point is substituted with a one closest to it being actually accessible.
+					
 				\subsubsection{Calling pathfinding algorithm}
 					Now, every ghosts' time segment (note that all ghosts share a single time segment), a new destination tile is calculated for each ghost and pathfinding is called to determine which tile should the ghost move to throughout the time segment.
 					\begin{lstlisting} [language=Python]
@@ -907,6 +934,10 @@ for Movable in Movables:
 				\includegraphics[width=100pt]{images/message-dismiss}\\
 				\caption{Diagram showing how game is halted until message is dismissed using spacebar}
 			\end{img}
+			\begin{img}
+				\includegraphics[width=250pt]{images/message-example-joke}\\
+				\caption{Exemplar of the message screen appearing in a window rendered in Ubuntu Gnome graphical environment}
+			\end{img}
 			\dsubsection{Tutorial}
 				TODO: Photo of the screen These will be actually completed when I will have time to input actual strings, whilst more critical game parts may be developed earlier.\\
 				I remind that I have started only a month ago.
@@ -950,10 +981,79 @@ for Movable in Movables:
 					\item
 						Actual playing was performed and all levels were played. Each level was actually completed, but never in a single sitting, proving that game indeed can be completed, though it is considerably hard.
 					\item
-						Different players were used to test the gameplay.
+						Different players were used to test the game play.
 					\item
 						Quality of input controls was assessed.
 				\end{enumerate}
+	\chapter{Implementation}
+		In this section the detailed description of how the game files were created is provided.
+		\section{Programming tools}
+			Whole development of the game, as mentioned in Section \ref{freeware}, was done using a Ubuntu running computer and legally obtained tools I didn't have to pay for, namely opensource, freeware or free for education software.
+			\dsubsection{PyCharm}
+				I used, in my opinion, a brilliant Python IDE called PyCharm. Developed by a company JetBrains and obtained under Free for Education license for the entirety of the project development. The program has a lot of useful functions, which made my work easier and admittedly contributed to me learning how to code more efficiently.
+				\begin{img}
+					\includegraphics[width=350pt]{images/pycharm}\\
+					\caption{Pycharm window rendered in Ubuntu Gnome environment with Pycman project loaded.}
+				\end{img}
+			\dsubsection{GIMP}
+				GIMP software was used to develop graphical resources for the game as well as for this document. It's an open source community-developed tool for graphics manipulation, which sometimes is referred as the free alternative to the Adobe Photoshop, with advanced functions and ability to edit images with Alpha channel, resulting in capacity to make ghost images semitransparent. See Figure \ref{ghostimage} for reference.
+			\dsubsection{Git}
+				Git is a popular tool for VCS (Version Control System). My previous experience with programming and mostly teamwork made me use it as an obvious choice for keeping my project files. I used free Github for Education account and github.com servers for storing my files. Admittedly it was really useful when I had to revert some advanced changes or look up how something worked earlier, as it worked better. Basically speaking - it made mistakes less painful.
+			\dsubsection{TeXstudio}
+				TeXstudio was used to write this document. \LaTeX with its excellent reference system as well as professional look was the most appropriate tool in my opinion.
+				\begin{img}
+					\includegraphics[width=350pt]{images/texstudio}\\
+					\caption{TeXstudio window rendered in Ubuntu Gnome environment with this document loaded.}
+				\end{img}
+			\dsubsection{Other tools}
+				Minor other programs were used for writing this documentation, mostly for obtaining screenshots and producing flowcharts.
+		\section{Interpreter and its modules}
+			\dsubsection{Virtual Environment}
+				To keep my computer clean and my main /usr/bin Python interpreter free of heavy, not often used modules as Pygame I have decided to create a separate interpreter instance using Virtualenv tool.
+			\dsubsection{Modules}
+				Modules used by the game are as follows:
+				\begin{itemize}
+					\item Pygame - for graphics rendering and input control. Origin of the Sprite class.
+					\item Pillow A.K.A. PIL - for loading level files
+					\item time - origin of the function sleep for delaying certain actions.
+				\end{itemize}
+		\section{Project structure}
+			I have decided to make the project structure as professionally organized as possible. Therefore I have divided program into resource files and Python files, keeping the first separate in a different folder. Documentation and its resources - graphics are also stored separately.
+			\begin{img}
+				\includegraphics[width=120pt]{images/directory_structure}\\
+				\caption{Abbreviated directory structure layout}
+			\end{img}
+			Reason for additional Python files will be provided within this Chapter.
+		\section{Classes}
+			\begin{img}
+				\includegraphics[width=400pt]{images/class_diagram}\\
+				\caption{Project class diagram}
+			\end{img}
+			\dsubsection{GameObject}
+				As whole game is written around pygame environment I have decided to utilize Pygame Sprite class for all objects (excluding text) rendering on the screen. To facilitate some concepts I assumed in the Design stage I had to add a GameObject class.\\
+				\begin{lstlisting} [language=Python]
+class GameObject(pygame.sprite.Sprite):
+	def __init__(self, location):
+		super().__init__()
+		self.image = None
+		self.location = location
+		self.initiallocation = location
+		self.rect = None
+
+	def setimage(self, image, size=resources.constants.boxSize, rotation=0):
+		self.image = pygame.image.load(resources.paths.image[image])
+		self.image = pygame.transform.scale(self.image, size)
+		self.image = pygame.transform.rotate(self.image, rotation)
+		self.rect = self.image.get_rect()
+		self.rect.x, self.rect.y = self.location[0] * resources.constants.boxSegmentSize, self.location[1] * resources.constants.boxSegmentSize
+				\end{lstlisting}
+				
+		\section{Constants}
+		\section{Level processing}
+		\section{Resources}
+		\section{Designing resources}
+		\section{Core program code}
+	\chapter{Code appendix}
 	\chapter{References}
 		\begin{enumerate}
 			\item
