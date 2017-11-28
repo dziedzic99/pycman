@@ -42,8 +42,11 @@ def graphbuilder():
     thegraph = [[[] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
     for i in range(resources.constants.gamesize):
         for j in range(resources.constants.gamesize):
+            # iterating through all tiles in the grid
             if level[i][j] != resources.constants.leveldef["wall"]:
+                # taking advantage of the fact that Movables can move on all tiles that are not initially marked as walls
                 location = [i, j]
+                # and now, iterating through all possible neighbours of the processed tile (with checking if it isn't by any chance a border tile)
                 if location[0] != 0:
                     if level[location[0] - 1][location[1]] != resources.constants.leveldef["wall"]:
                         thegraph[location[0]][location[1]] += [[location[0] - 1, location[1]]]
@@ -83,24 +86,35 @@ def find_nearest_not_wall(point):
 
 def find_next_move(start, end, forbidden):
     visited = []
+    # storing visited nodes
     queue = []
+    # storing nodes to visit
     end = find_nearest_not_wall(end)
     # as start is guaranteed not to be wall, both ends are now places a Movable may move to
     neighbours = thegraph[start[0]][start[1]].copy()
+    # preventing corrupting thegraph when excluding forbidden tile
     try:
+        # try as forbidden tile may be any tile after reset
+        # particularly it may not be in neighbors
         neighbours.remove([forbidden[0], forbidden[1]])
+        # removing forbidden tile from neighbors
     except Exception:
         pass
     queue.append([end[0], end[1]])
+    # start search from the end (target tile)
     visited.append(end)
+    # mark end as a visited node
     for point in queue:
         if point not in visited:
             visited.append(point)
+            # mark current point as visited
         if point in neighbours:
             return point
+            # if solution is find return next tile for the ghost
         for node in thegraph[point[0]][point[1]]:
             if node not in visited and node != [forbidden[0], forbidden[1]]:
                 queue.append(node)
+                # add all unvisited neighbors of current node to the queue
 
 
 # ----- ----- -----
@@ -114,7 +128,7 @@ def loadlevel(file):
         for row in range(0, resources.constants.gamesize):
             box = level[col][row]
             if box != resources.constants.leveldef["wall"] and box != resources.constants.leveldef['nothing']:
-                eatable = Eatable(0, (col, row))
+                eatable = Eatable('coin', (col, row))
                 eatables_list.add(eatable)
                 coins_total += 1
             if box == resources.constants.leveldef["wall"]:
@@ -150,13 +164,17 @@ def prepare_level(levelfile):
     graphbuilder()
 
 
-def show_tutorial():
+def show_message(messageboard):
     screen.fill(resources.colors.background)
-    for i in range(len(resources.constants.tutorialStringList)):
-        label = myfont.render(resources.constants.tutorialStringList[i], 1, (255, 255, 0))
-        screen.blit(label, (0, resources.constants.fontsize*i))
+    for i in range(len(messageboard)):
+        label = myfont.render(messageboard[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize * i))
     pygame.display.flip()
-    sleep(10)
+    sleep(5)
+
+
+def show_tutorial():
+    show_message(resources.constants.tutorialStringList)
 
 
 def show_congrats():
@@ -166,6 +184,7 @@ def show_congrats():
         screen.blit(label, (0, resources.constants.fontsize*i))
     pygame.display.flip()
     sleep(5)
+
 
 def show_real_congrats():
     screen.fill(resources.colors.background)
@@ -191,39 +210,44 @@ def reset():
 
 
 def playlevel():
-    global coins_eaten, coins_total, lives, levelno
+    global coins_eaten, coins_total, lives, levelno, screen
+    # marking variables as global
     coins_total = coins_eaten = 0
+    # resetting coin counters
     prepare_level(resources.paths.levelorder[levelno])
-
-    # game starter
+    # level loading
     game_on = True
+    # game starter
     clock = pygame.time.Clock()
-
+    # clock init
     eatables_list.update()
     walls_list.update()
     players_list.update()
     ghosts_list.update()
-    # ----- Main game loop -----
+    # updating Sprite Groups
     player_time_segment = resources.constants.playerTimeSegmentSize
     ghost_time_segment = resources.constants.ghostTimeSegmentSize
+    # forcing pathfinding to update
+    # ----- Main game loop -----
     while game_on:
         # ----- Level - winning handling -----
         if coins_eaten == coins_total:
             levelno += 1
             game_on = False
-            exit(0)
+            # ----- stop the level if all coins are eaten -----
         if player_time_segment == resources.constants.playerTimeSegmentSize:
             # ----- Handling user input pt1 ------
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_on = False
-
+                    exit(0)
             # ----- checking pressed keys -----
             keys = pygame.key.get_pressed()
             # ----- wall collision check -----
             surroundings = walltypecheck(player.location)
         # ----- ghost movement handling pt 1 -----
         if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
+            # if it's time to update paths update them
             for ghost in ghosts_list.sprites():
                 if ghost.color == 'red':
                     ghost.nexttile = find_next_move(ghost.location, player.location, ghost.previouslocation)
@@ -257,15 +281,20 @@ def playlevel():
             try:
                 ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
             except Exception:
+                # if for some unforseen reason it's impossible to move the ghost just leave it there
                 pass
         # ----- player dying handling -----
         for ghost in ghosts_list.sprites():
             if ghost.location == player.location:
+                # decrease lives counter
                 lives -= 1
                 reset()
+                # reset the board
                 player_time_segment = resources.constants.playerTimeSegmentSize+1
                 ghost_time_segment = resources.constants.ghostTimeSegmentSize+1
+                # force game to update ghost paths after respawning
         if lives <= 0:
+            # if the player is dead for good
             break
 
         # ----- Updating sprites position -----
@@ -285,7 +314,7 @@ def playlevel():
         label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total) +
                               "     Lives remaining " + str(lives) +
                               "     Level " + str(levelno+1), 1, (255, 255, 0))
-        screen.blit(label, (resources.constants.boxSegmentSize/2, resources.constants.gamesize*resources.constants.boxSegmentSize))
+        screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))
 
         # ----- Refresh Screen -----
         pygame.display.flip()
@@ -300,8 +329,9 @@ def playlevel():
             if eatable.location == player.location:
                 eatable.kill()
                 coins_eaten += 1
+                # increasing eaten points counter
 
-        # ----- initializing new time period -----
+        # ----- initializing new time periods -----
         if not player_time_segment:
             player_time_segment = resources.constants.playerTimeSegmentSize
         if not ghost_time_segment:
@@ -309,13 +339,14 @@ def playlevel():
 
 
 def main():
-    show_tutorial()
+    show_message(resources.constants.tutorialStringList)
     while lives > 0 and levelno <= resources.constants.totallevels:
         print(levelno)
         playlevel()
+        show_message(resources.constants.congratsStringList)
     if lives > 0:
-        show_real_congrats()
+        show_message(resources.constants.realCongratsStringList)
     else:
-        show_permanent_death()
+        show_message(resources.constants.theEndStringList)
 
 main()

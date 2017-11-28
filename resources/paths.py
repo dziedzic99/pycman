@@ -1,6 +1,7 @@
 resources = "./resources/"
 graphics = resources + "graphics/"
 levels = resources + "levels/"
+
 image = {
     "coin": graphics + "coin.png",
     "w0001": graphics + "w0001.gif",
@@ -21,9 +22,9 @@ image = {
     "player": graphics + "player.png",
     "red_ghost": graphics + "redghost.png",
     "blue_ghost": graphics + "blueghost.png",
-    "green_ghost": graphics + "greenghost.png",
-    "pink_ghost": graphics + "pinkghost.png"
-    }
+    "green_ghost": graphics + "greenghost.png"
+}
+
 levelorder = [
     "level0.bmp",
     "level1.bmp",

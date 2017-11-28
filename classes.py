@@ -10,19 +10,22 @@ class GameObject(pygame.sprite.Sprite):
         self.initiallocation = location
         self.rect = None
 
-    def setimage(self, image, size=resources.constants.boxSize, rotation=0):
+    def setimage(self, image, size=resources.constants.tileSize, rotation=0):
         self.image = pygame.image.load(resources.paths.image[image])
         self.image = pygame.transform.scale(self.image, size)
         self.image = pygame.transform.rotate(self.image, rotation)
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = self.location[0] * resources.constants.boxSegmentSize, self.location[1] * resources.constants.boxSegmentSize
+        self.rect.x, self.rect.y = self.location[0] * resources.constants.tileWidth, self.location[1] * resources.constants.tileWidth
 
 
 class Eatable(GameObject):
     def __init__(self, type, location):
         super().__init__(location)
         self.type = type
-        self.setimage("coin", resources.constants.eatableSize)
+        if type == "coin":
+            self.setimage("coin", resources.constants.eatableSize)
+        elif type == "heart":
+            self.setimage("heart", resources.constants.eatableSize)
 
 
 class Wall(GameObject):
@@ -50,8 +53,8 @@ class Movable(GameObject):
         elif direction == 'right' or direction == (1, 0):
             self.speed = (1, 0)
         part2 = (part+1) / segmentsize
-        self.rect.x, self.rect.y = (self.location[0] + self.speed[0] * resources.constants.speedFactor * part2) * resources.constants.boxSegmentSize,\
-                                   (self.location[1] + self.speed[1] * resources.constants.speedFactor * part2) * resources.constants.boxSegmentSize
+        self.rect.x, self.rect.y = (self.location[0] + self.speed[0] * resources.constants.speedFactor * part2) * resources.constants.tileWidth,\
+                                   (self.location[1] + self.speed[1] * resources.constants.speedFactor * part2) * resources.constants.tileWidth
         if part == segmentsize - 1:
             self.location = self.location[0] + self.speed[0] * resources.constants.speedFactor,\
                             self.location[1] + self.speed[1] * resources.constants.speedFactor

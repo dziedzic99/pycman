@@ -5,8 +5,8 @@ speedFactor = 1
 windowSize = [640, 660]
 playerTimeSegmentSize = 10
 ghostTimeSegmentSize = 12
-boxSegmentSize = 20
-boxSize = [boxSegmentSize, boxSegmentSize]
+tileWidth = 20
+tileSize = [tileWidth, tileWidth]
 fps = 60
 fontsize = 15
 gamesize = 32
@@ -33,14 +33,14 @@ editordef = {
     'blue_ghost': (0, 0, 255)
 }
 
-tutorialStringList = ["Hi, my name is Jan Dziedzic and this is my...",
-    "minimal effort solution to the A-Levels CP",
-    "project. It's called PycMan - see what I did there?",
-    "Anyway - use arrow keys to move, eat all coins to",
-    "progress and don't get eaten by a ghost. The rest is ",
-    "kinda intuitive. I know it's a ripoff but the mechanic's",
-    "quite different and one may actually find it fun to play.",
-    "Enjoy!"]
+tutorialStringList = ["This is an example of a text message",
+                      "And this is line 2",
+                      "I can actually write something random here",
+                      "Let's give it a shot:",
+                      "Did you hear about the guy who invented the knock knock joke?",
+                      "",
+                      "He won the nobell prize!"]
+
 
 congratsStringList = ["Wee, you completed another easy level.",
                       "Feeling proud, don't be, please. There are more",
