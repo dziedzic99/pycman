@@ -6,7 +6,7 @@ player = None
 coins_total = 0
 coins_eaten = 0
 level = None
-levelno = 0
+levelno = 3
 lives = 30
 pygame.init()
 myfont = pygame.font.SysFont("monospace", resources.constants.fontsize)
@@ -311,7 +311,7 @@ def playlevel():
         ghosts_list.draw(screen)
 
         # ----- Counter info -----
-        label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total) +
+        label = myfont.render("Coins eaten " + str(coins_eaten) + " / " + str(coins_total) +
                               "     Lives remaining " + str(lives) +
                               "     Level " + str(levelno+1), 1, (255, 255, 0))
         screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))

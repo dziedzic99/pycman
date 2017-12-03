@@ -30,7 +30,7 @@
 \contentsline {subsection}{\numberline {2.5.3}Ghost movement}{32}
 \contentsline {subsubsection}{The graph}{32}
 \contentsline {subsubsection}{Pathfinding}{33}
-\contentsline {subsubsection}{Difference between ghosts}{35}
+\contentsline {subsubsection}{Differences between ghosts}{35}
 \contentsline {subsubsection}{Calling pathfinding algorithm}{37}
 \contentsline {subsubsection}{Ghosts speed}{38}
 \contentsline {subsection}{\numberline {2.5.4}Handling movement animation}{38}
@@ -40,51 +40,69 @@
 \contentsline {section}{\numberline {2.6}Types of message screens}{41}
 \contentsline {subsection}{\numberline {2.6.1}Tutorial}{43}
 \contentsline {subsection}{\numberline {2.6.2}Loss of life}{43}
-\contentsline {subsection}{\numberline {2.6.3}Completing the level}{43}
+\contentsline {subsection}{\numberline {2.6.3}Completing a level}{43}
 \contentsline {subsection}{\numberline {2.6.4}Loosing the game}{43}
-\contentsline {subsection}{\numberline {2.6.5}Completing the entire game}{43}
-\contentsline {section}{\numberline {2.7}Testing}{43}
-\contentsline {subsection}{\numberline {2.7.1}zero-testing}{43}
-\contentsline {subsection}{\numberline {2.7.2}$\alpha $-testing}{43}
-\contentsline {subsection}{\numberline {2.7.3}$\beta $-testing}{44}
-\contentsline {chapter}{\numberline {3}Implementation}{45}
-\contentsline {section}{\numberline {3.1}Programming tools}{45}
-\contentsline {subsection}{\numberline {3.1.1}PyCharm}{45}
-\contentsline {subsection}{\numberline {3.1.2}GIMP}{46}
-\contentsline {subsection}{\numberline {3.1.3}Git}{46}
-\contentsline {subsection}{\numberline {3.1.4}TeXstudio}{46}
-\contentsline {subsection}{\numberline {3.1.5}Other tools}{47}
-\contentsline {section}{\numberline {3.2}Interpreter and its modules}{47}
-\contentsline {subsection}{\numberline {3.2.1}Virtual Environment}{47}
-\contentsline {subsection}{\numberline {3.2.2}Modules}{47}
-\contentsline {section}{\numberline {3.3}Project structure}{48}
-\contentsline {section}{\numberline {3.4}Classes}{49}
-\contentsline {subsection}{\numberline {3.4.1}GameObject}{50}
-\contentsline {subsection}{\numberline {3.4.2}Eatable}{50}
-\contentsline {subsection}{\numberline {3.4.3}Wall}{51}
-\contentsline {subsection}{\numberline {3.4.4}Movable}{51}
-\contentsline {subsection}{\numberline {3.4.5}Player}{52}
-\contentsline {subsection}{\numberline {3.4.6}Ghost}{53}
-\contentsline {section}{\numberline {3.5}Resources}{54}
-\contentsline {subsection}{\numberline {3.5.1}Constants}{54}
-\contentsline {section}{\numberline {3.6}Level processing}{56}
-\contentsline {subsection}{\numberline {3.6.1}Reading bitmap files}{56}
-\contentsline {subsection}{\numberline {3.6.2}Checking wall type}{57}
-\contentsline {subsection}{\numberline {3.6.3}Adding Sprites according to tile types}{58}
-\contentsline {subsection}{\numberline {3.6.4}Sprite Groups}{59}
-\contentsline {section}{\numberline {3.7}Ghost pathfinding algorithm}{59}
-\contentsline {subsection}{\numberline {3.7.1}Graph structure}{59}
-\contentsline {subsection}{\numberline {3.7.2}Graph building}{59}
-\contentsline {subsection}{\numberline {3.7.3}Choosing a target tile for each ghost}{60}
-\contentsline {subsection}{\numberline {3.7.4}Actual pathfinding}{61}
-\contentsline {section}{\numberline {3.8}Designing resources}{64}
-\contentsline {section}{\numberline {3.9}Core program code}{64}
-\contentsline {subsection}{\numberline {3.9.1}Playing a single level}{64}
-\contentsline {subsection}{\numberline {3.9.2}Function switching levels}{67}
-\contentsline {subsection}{\numberline {3.9.3}Displaying messages}{68}
-\contentsline {chapter}{\numberline {4}Code appendix}{69}
-\contentsline {section}{\numberline {4.1}main.py}{69}
-\contentsline {section}{\numberline {4.2}classes.py}{76}
-\contentsline {section}{\numberline {4.3}levelprocessor.py}{79}
-\contentsline {section}{\numberline {4.4}paths.py}{79}
-\contentsline {chapter}{\numberline {5}References}{81}
+\contentsline {subsection}{\numberline {2.6.5}Completing the entire game}{44}
+\contentsline {section}{\numberline {2.7}Testing}{44}
+\contentsline {subsection}{\numberline {2.7.1}zero-testing}{44}
+\contentsline {subsection}{\numberline {2.7.2}$\alpha $-testing}{44}
+\contentsline {subsection}{\numberline {2.7.3}$\beta $-testing}{45}
+\contentsline {chapter}{\numberline {3}Implementation}{46}
+\contentsline {section}{\numberline {3.1}Programming tools}{46}
+\contentsline {subsection}{\numberline {3.1.1}PyCharm}{46}
+\contentsline {subsection}{\numberline {3.1.2}GIMP}{47}
+\contentsline {subsection}{\numberline {3.1.3}Git}{47}
+\contentsline {subsection}{\numberline {3.1.4}TeXstudio}{48}
+\contentsline {subsection}{\numberline {3.1.5}Other tools}{49}
+\contentsline {section}{\numberline {3.2}Interpreter and its modules}{49}
+\contentsline {subsection}{\numberline {3.2.1}Virtual Environment}{49}
+\contentsline {subsection}{\numberline {3.2.2}Modules}{49}
+\contentsline {section}{\numberline {3.3}Project structure}{49}
+\contentsline {section}{\numberline {3.4}Classes}{51}
+\contentsline {subsection}{\numberline {3.4.1}GameObject}{52}
+\contentsline {subsection}{\numberline {3.4.2}Eatable}{52}
+\contentsline {subsection}{\numberline {3.4.3}Wall}{53}
+\contentsline {subsection}{\numberline {3.4.4}Movable}{53}
+\contentsline {subsection}{\numberline {3.4.5}Player}{54}
+\contentsline {subsection}{\numberline {3.4.6}Ghost}{55}
+\contentsline {section}{\numberline {3.5}Resources}{56}
+\contentsline {subsection}{\numberline {3.5.1}Constants}{56}
+\contentsline {subsection}{\numberline {3.5.2}Paths}{58}
+\contentsline {section}{\numberline {3.6}Level processing}{59}
+\contentsline {subsection}{\numberline {3.6.1}Reading bitmap files}{59}
+\contentsline {subsection}{\numberline {3.6.2}Checking wall type}{60}
+\contentsline {subsection}{\numberline {3.6.3}Adding Sprites according to tile types}{61}
+\contentsline {subsection}{\numberline {3.6.4}Sprite Groups}{62}
+\contentsline {section}{\numberline {3.7}Ghost pathfinding algorithm}{62}
+\contentsline {subsection}{\numberline {3.7.1}Graph structure}{62}
+\contentsline {subsection}{\numberline {3.7.2}Graph building}{62}
+\contentsline {subsection}{\numberline {3.7.3}Choosing a target tile for each ghost}{63}
+\contentsline {subsection}{\numberline {3.7.4}Actual pathfinding}{64}
+\contentsline {section}{\numberline {3.8}Designing resources}{68}
+\contentsline {subsection}{\numberline {3.8.1}Walls}{68}
+\contentsline {subsection}{\numberline {3.8.2}Ghosts}{69}
+\contentsline {subsection}{\numberline {3.8.3}Player}{69}
+\contentsline {section}{\numberline {3.9}Core program code}{69}
+\contentsline {subsection}{\numberline {3.9.1}Playing a single level}{69}
+\contentsline {subsubsection}{Main loop}{70}
+\contentsline {subsubsection}{Handling completing the level}{70}
+\contentsline {subsubsection}{Handling user input part 1}{70}
+\contentsline {subsubsection}{Handling ghost movement part 1}{70}
+\contentsline {subsubsection}{Updating 'part' counters}{71}
+\contentsline {subsubsection}{Handling input part 2}{71}
+\contentsline {subsubsection}{Handling ghost movement part 2}{71}
+\contentsline {subsubsection}{Handling player dying}{71}
+\contentsline {subsubsection}{Drawing}{72}
+\contentsline {subsubsection}{Processing and rendering counters}{72}
+\contentsline {subsubsection}{Refreshing screen}{72}
+\contentsline {subsubsection}{Handling eating Eatables}{73}
+\contentsline {subsubsection}{Initializing new Time Periods}{73}
+\contentsline {subsection}{\numberline {3.9.2}Function switching levels}{73}
+\contentsline {subsection}{\numberline {3.9.3}Displaying messages}{74}
+\contentsline {chapter}{\numberline {4}Code appendix}{75}
+\contentsline {section}{\numberline {4.1}main.py}{75}
+\contentsline {section}{\numberline {4.2}classes.py}{82}
+\contentsline {section}{\numberline {4.3}levelprocessor.py}{85}
+\contentsline {section}{\numberline {4.4}paths.py}{85}
+\contentsline {chapter}{\numberline {5}Levels appendix}{87}
+\contentsline {chapter}{\numberline {6}References}{88}

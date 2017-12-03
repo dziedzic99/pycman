@@ -211,8 +211,11 @@
 						Neither ghosts nor player are to pass through wall or be able to exit board borders.
 						\label{req-walls-not-passable}
 					\item
-						Ghosts chase the player who loses a life upon contact with a ghost.
+						Ghosts chase the player.
 						\label{req-ghost-movement}
+					\item
+						Player loses a life upon contact with a ghost.
+						\label{req-life-loss}
 					\item
 						Upon losing a life ghosts and the player return to their initial locations.
 						\label{req-reset}
@@ -259,7 +262,7 @@
 					\begin{enumerate}
 						\item
 							Majority of players must find the PycMan ghosts 'smarter' than the originals.
-							\label{smarterghosts}
+							\label{req-smarter-ghosts}
 						\item
 							There is no 'ghost house' where ghosts start from. All sprites move from the beginning and ghost chase the player immediately.
 						\item
@@ -622,7 +625,7 @@ elif level[column][row] = heart
 				TODO:reference to right appendix
 				TODO:instruction
 			\dsubsection{Progressing to the next level}
-				When player eats all coins, they advance to the next level. At this stage a message screen (described later) appears and all level - loading procedures are called. Also counters of coins eaten and total are reset at this point.
+				When player eats all coins, they advance to the next level, fulfilling Requirement \ref{req-level-progress} and eventually \ref{req-level-up}. At this stage a message screen (described later) appears and all level - loading procedures are called. Also counters of coins eaten and total are reset at this point.
 				
 				If the level completed was the last level, a congratulations screen is displayed and the game eventually quits.
 				
@@ -671,9 +674,9 @@ elif down key pressed and tile below is not a wall:
 				\label{ghost-movement}
 				Ghost movement is a far more complex algorithm than player's movement though it uses same concept of time segments.
 				
-				As mentioned in Success Criteria \ref{smarterghosts}, I wanted the ghosts to be more intelligent than the originals. I have read (Reference \ref{stronaopacmanie}) that the original algorithm is really primitive. It checks from which of surrounding tiles ghost will be straight-line closest to the player and moves there.
+				As mentioned in Requirement \ref{req-smarter-ghosts}, I wanted the ghosts to be more intelligent than the originals. I have read (Reference \ref{stronaopacmanie}) that the original algorithm is really primitive. It checks from which of surrounding tiles ghost will be straight-line closest to the player and moves there.
 				\subsubsection{The graph}
-					First idea of mine was to make the ghost actually pick the shortest path to the player. That would have to involve implementation of a graph and a pathfinding algorithm.
+					First idea of mine was to make the ghost actually pick the shortest path to the player. This would both fulfill Requirements \ref{req-ghost-movement} and \ref{req-smarter-ghosts} That would have to involve implementation of a graph and a pathfinding algorithm.
 					
 					As I already had my level-keeping structure in place I have decided to use a similar one to store my graph. It is represented as a list of lists of lists of location tuples. It looks confusing so...\\
 					A list (index i) of lists (index j) is used so that all nodes accessible from node of location (i, j) can be stored. Then that next list stores tuples (x, y) of locations accessible from that node.
@@ -701,6 +704,7 @@ def graphbuilder():
 					if level[location[0]][location[1] + 1] != wall:
 						thegraph[location[0]][location[1]] += [[location[0], location[1] + 1]]
 					\end{lstlisting}
+					Notably, this algorithm neither adds wall as neighbors of other tiles, nor produces neighbors for wall tiles. This successfully prevents ghosts from moving onto wall tiles, therefore fulfilling Requirement \ref{req-walls-not-passable}. 
 				\subsubsection{Pathfinding}
 					This part I found actually the hardest. All my previous experience with graphs and pathfinding was actually from old times when my favorite language was C++. Apparently when I switched to Python, my rusty knowledge on the topic had to be refreshed. My first approach (a stupid one) was to use DFS search to check all possible paths and decide which one to use.
 					\begin{img}
@@ -727,7 +731,7 @@ def findpath(start, end, path):
 						\caption{Diagram showing order of nodes visits starting from node 1 using BFS algorithm Source: wikipedia.org}
 					\end{img}
 					
-					I also dropped recursion as advised by online forums... Maybe recursion is a way in C++ but in Python it apparently is really slow. Also my own testing of recursive approach sometimes lead to stack overflows, which disqualified this method completely.
+					I also dropped recursion as advised by online forums... Maybe recursion is a way in C++ but in Python it apparently is really slow. Also my own testing of recursive approach sometimes led to stack overflows, which disqualified this method completely.
 					
 					A queue of nodes to visit was implemented and new algorithm came to life. It was fast but its output of a complete path to player was actually an overkill - why would I need it if it will become obsolete in the next time segment when player location changes?
 					
@@ -770,7 +774,7 @@ def find_next_move(start, end, forbidden):
         if node not in visited and node != [forbidden[0], forbidden[1]]:
     queue.append(node)
 					\end{lstlisting}
-				\subsubsection{Difference between ghosts}
+				\subsubsection{Differences between ghosts}
 					\label{hunting}
 					As I have generated some levels and started testing, I found out that if two ghost share location, they effectively become one as their optimal paths will be the same and they will always move the same way. That of course wasn't the effect I wanted, I had to figure out how to make the ghosts behave different. But how to make ghosts both smart and not going straight for the player? Internet for the win, meme pages came with help.
 					\begin{img}
@@ -778,7 +782,7 @@ def find_next_move(start, end, forbidden):
 						\caption{Popular meme. Source: pinterest.com}
 						\label{trap}
 					\end{img}
-					Now enlightened by a piece of digital artwork originating from Star Wars (see Figure \ref{trap}), I decided that my ghosts have to behave like they were to surround the player. How to achieve such effect? I turned to the original PacMan solution - not moving to the exact tile the player occupies. A decision was made to leave the red ghost originally smart while blue and green ghosts were to move to tiles shifted by (-2, -2) and (2, 2) vectors from the player. The result was amazing, ghosts seemed to move separately while away from the player, when they approach it, I had a sense that this is not what I programmed, \textbf{They hunt in a pack!} I had an authentic experience of ghosts setting a trap, green and blue were blocking my exit routes, when red went straight for me.
+					Now enlightened by a piece of digital artwork originating from Star Wars (see Figure \ref{trap}), I decided that my ghosts have to behave like they were to surround the player. How to achieve such effect? I turned to the original PacMan solution - not moving to the exact tile the player occupies. A decision was made to leave the red ghost originally smart while blue and green ghosts were to move to tiles shifted by (-2, -2) and (2, 2) vectors from the player. The result was amazing, ghosts seemed to move separately while away from the player, when they approach it, I had a sense that this is not what I programmed, \textbf{They hunt in a pack!} I had an authentic experience of ghosts setting a trap, green and blue were blocking my exit routes, when red went straight for me. I put a big green tick mark by the Requirement \ref{req-ghost-differences}.
 					
 					But it sometimes crashed, I wondered what was the case and then I found out that the ghosts were actually trying to go to a tile, which is either a wall (inaccessible) or outside the board (object level was referenced with an invalid index, either negative or exceeding it's length). I had to write a piece of algorithm to look for a nearest tile that is actually not wall.
 					
@@ -906,9 +910,9 @@ for eatable in eatables:
 		eatable.kill()
 				\end{lstlisting}
 				For every eatable is checked for occupying the same tile as player.\\
-				Then if it is a heart, player gains a life,\\
-				if it was a coin, coins eaten counter increases.\\
-				Eatable sprite is killed.
+				Then if it is a heart, player gains a life, as per Requirement \ref{req-lifes++}.\\
+				if it was a coin, coins eaten counter increases, as per Requirement \ref{req-point++}.\\
+				Eatable sprite is killed. This fulfills Requirement \ref{req-coins-disappearing}.
 			\dsubsection{Getting killed}
 				Killing a player is fairly similar to eating... It's just checking for collision with a Ghost instead of an Eatable. It's also called every player's time segment \textbf{or} every ghosts' time segment.
 				Following routine is then called:
@@ -924,8 +928,8 @@ for ghost in ghosts:
 		Continue game
 				\end{lstlisting}
 				For every ghost a collision with player is checked, if such is detected, process of dying begins.\\
-				Life is subtracted from lives counter.\\
-				If player has no more lives the game ends.\\
+				Life is subtracted from lives counter. (As per Requirement \ref{req-life-loss})\\
+				If player has no more lives the game ends. (Requirement \ref{req-game-over})\\
 				If there are more lives, all movables return to their original position (described in Section \ref{respawning})
 				and part counters are reset.\\
 				Game waits 5 seconds to let the user cope with the loss, and continues.
@@ -937,6 +941,7 @@ for Movable in Movables:
     Movable.location = Movable.initiallocation
     Movable.speed = (0, 0)
 				\end{lstlisting}
+				This process is often referred to as reseting within this document as well as in the corresponding code. This function fulfills the Requirement \ref{req-reset}.
 		\section{Types of message screens}
 			\label{typesofscreens}
 			Messages present throughout the game are displayed in a way that prevents any game event, from occurring unless the message is dismissed by pressing space.
@@ -952,11 +957,14 @@ for Movable in Movables:
 			\end{img}
 			\dsubsection{Tutorial}
 				TODO: Photo of the screen These will be actually completed when I will have time to input actual strings, whilst more critical game parts may be developed earlier.\\
-				I remind that I have started only a month ago.
+				I remind that I had to make 13 months worth of coursework from 3 subjects in 3 months.
 			\dsubsection{Loss of life}
 				TODO: Photo of the screen
-			\dsubsection{Completing the level}
-				TODO: Photo of the screen
+			\dsubsection{Completing a level}
+				\begin{img}
+						\includegraphics[width=300pt]{images/level-complete.png}\\
+						\caption{Message displayed after completing a level. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
 			\dsubsection{Loosing the game}
 				TODO: Photo of the screen
 			\dsubsection{Completing the entire game}
@@ -1011,6 +1019,10 @@ for Movable in Movables:
 				GIMP software was used to develop graphical resources for the game as well as for this document. It's an open source community-developed tool for graphics manipulation, which sometimes is referred as the free alternative to the Adobe Photoshop, with advanced functions and ability to edit images with Alpha channel, resulting in capacity to make ghost images semitransparent. See Figure \ref{ghostimage} for reference.
 			\dsubsection{Git}
 				Git is a popular tool for VCS (Version Control System). My previous experience with programming and mostly teamwork made me use it as an obvious choice for keeping my project files. I used free Github for Education account and github.com servers for storing my files. Admittedly it was really useful when I had to revert some advanced changes or look up how something worked earlier, as it worked better. Basically speaking - it made mistakes less painful.
+				\begin{img}
+					\includegraphics[width=300pt]{images/github.png}\\
+					\caption{Screenshot of the lists of some of the project commits in the GitHub web interface.}
+				\end{img}
 			\dsubsection{TeXstudio}
 				TeXstudio was used to write this document. \LaTeX with its excellent reference system as well as professional look was the most appropriate tool in my opinion.
 				\begin{img}
@@ -1174,7 +1186,9 @@ class Ghost(Movable):
 			\label{resources}
 			\dsubsection{Constants}
 				\label{constants}
-				By now reader of this documentation should notice that Section \ref{classes} is full of 'resources.constants.NAME' statements. When writing the game I have discovered that I input many hardcoded values in both class definitions and the core program code, all of these were values that could change, worse, I have changed them multiple times, throughout development. When I had to change the size of board - namely substituting 64 with 32 in a few dozens of lines I figured that I need to write all of those constants in a single place. I added new file to the project - constants.py.\\
+				By now reader of this documentation should notice that Section \ref{classes} is full of 'resources.constants.NAME' statements. When writing the game I have discovered that I input many hardcoded values in both class definitions and the core program code, all of these were values that could change, worse, I have changed them multiple times, throughout development. When I had to change the size of board - namely substituting 64 with 32 in a few dozens of lines I figured that I need to write all of those constants in a single place.
+				
+				I added new file to the project - constants.py.\\
 				Here is its abbreviated content:
 				\begin{lstlisting} [language = Python]
 eatableSize = [20, 20]
@@ -1213,7 +1227,7 @@ editordef = {
 }
 				\end{lstlisting}
 				It consists of numerical constants used throughout the game. This basically serves as settings - if I realize that player's Sprite appears to small to comfortably navigate it, I can change its size in a single place without worrying that somewhere in the code I left one value unchanged and, for example player will be able to move through walls. Names of these constants are very descriptive so that core code's readability doesn't suffer from using this method. I even think that it's more readable with constants used rather than hardcoded values.
-				
+
 				To use constants within any part of the code following import statement must be used.
 				\begin{lstlisting} [language = Python]
 import resources
@@ -1257,6 +1271,33 @@ resources.constants.fps
 					\item
 						leveldef - dictionary that defines what type of tile is represented by a particular integer (see Section \ref{level-ingame-storing} for reference on how level files are processed) in core game program.
 				\end{itemize}
+				Past code example:
+				\begin{lstlisting} [language = Python]
+level = [[resources.constants.leveldef['nothing'] for i in range(64)] for j in range(64)]
+				\end{lstlisting}
+				New code example:
+				\begin{lstlisting} [language = Python]
+level = [[resources.constants.leveldef['nothing'] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
+				\end{lstlisting}
+				Notably the code is longer, but the convenience and reliability of this solution justifies having to type extra characters.
+			\dsubsection{Paths}
+				As number of resources grew and grew I figured out that hardcoding file paths was as bad as values. Upon developing walls graphics I have noted that including a path to them in every bit of code would be long, inefficient and prone to errors, even typos.
+				I have decided to aggregate all of my path strings into one file, 'paths.py'. Nested under directory 'resources' this file contains path strings to every single resource used through the game.
+				Here is an abbreviated version presented:
+				\begin{lstlisting}[language=Python]
+resources = "./resources/"
+graphics = resources + "graphics/"
+levels = resources + "levels/"
+
+image = {
+	"coin": graphics + "coin.png",
+	"w0001": graphics + "w0001.gif",
+	"w0010": graphics + "w0010.gif",
+	"w0011": graphics + "w0011.gif",
+	"w0100": graphics + "w0100.gif"
+}
+				\end{lstlisting}
+				Presented example shows a part of the 'image' dictionary which resolves filenames to complete paths.
 		\section{Level processing}
 			\dsubsection{Reading bitmap files}
 				As mentioned in Section \ref{level-permanent-storing} - levels are stored as bitmaps. To decode these to format that is easily processed (see Section \ref{level-ingame-storing}) the following file has been written.
@@ -1414,7 +1455,7 @@ def find_nearest_not_wall(point):
 		radius += 1
 				\end{lstlisting}
 				With a slightly deceiving name - find\_nearest\_not\_wall - not only finds the coordinates of the nearest tile that isn't marked as a wall but it finds the nearest tile that isn't marked as a wall \textbf{that actually exists}.
-				Within lines 2-9 the location is being confined within the boundaries of the board - then condition in line 10 checks whether the tile in question is a wall - if it isn't - that solves the problem. Else - the actual search begins. With growing radius neighboring tiles are checked for not being a wall. As this algorithm may eventually lead to checking type of a tile outside the board, a try/catch routine is used. By filtering cases of IndexError, nonexistent tiles aren't checked. I found this solution cleaner that limiting the borders of search, checking whether radius doesn't extend beyond the board, after all it's only 3 very clean lines. The function eventually returns a nearest existing point not being a wall.
+				Within lines 2-9 the location is being confined to the boundaries of the board - then condition in line 10 checks whether the tile in question is a wall - if it isn't - that solves the problem. Else - the actual search begins. With growing radius neighboring tiles are checked for not being a wall. As this algorithm may eventually lead to checking type of a tile outside the board, a try/catch routine is used. By filtering cases of IndexError, nonexistent tiles aren't checked. I found this solution cleaner that limiting the borders of search, checking whether radius doesn't extend beyond the board, after all it's only 3 very clean lines. The function eventually returns a nearest existing point not being a wall.
 			\dsubsection{Actual pathfinding}
 				After giving it a thought, the ghosts don't really require a complete path to operate. They just need to know where next to move. One single tile location or even a direction. I also figured that running searches from each tile of ghost's neighbors is inefficient. Out of pure reason... What seems faster? Finding one needle in a haystack three times or finding one of three needles in a haystack once? I would go for the second one. Here are two diagrams illustrating the concept:
 				\begin{img}
@@ -1426,7 +1467,26 @@ def find_nearest_not_wall(point):
 					\caption{Efficient method of running one search.}
 				\end{img}
 				To keep things simple, my algorithm for pathfinding accepts three arguments: start (ghost position), end(target tile position) and forbidden (tile the ghost moved from - ghost reversing prevention as per requirement \ref{req-ghost-not-reversing}).
-				The code for the main pathfinding function is as follows:
+				The initial version of the code had the following form.
+				\begin{lstlisting}[language=Python]
+
+def find_next_move(start, end):
+	visited = []
+	queue = []
+	end = find_nearest_not_wall(end)
+	# as start is guaranteed not to be wall, both ends are now places a Movable may move to
+	neighbours = thegraph[start[0]][start[1]]
+	queue.append(end)
+	visited.append(end)
+	for point in queue:
+		if point in neighbours:
+			return point
+		for node in thegraph[point[0]][point[1]]:
+			if node not in visited:
+				visited.append(node)
+				queue.append(node)
+				\end{lstlisting}
+				While this algorithm actually produced solutions in the initial testing stage, it was slow and I realized it didn't comply with Requirement \ref{req-ghost-not-reversing}. To address these issues, changes were made and now the code for the main pathfinding function is as follows:
 				\begin{lstlisting} [language = Python]
 def find_next_move(start, end, forbidden):
 	visited = []
@@ -1460,8 +1520,20 @@ def find_next_move(start, end, forbidden):
 				queue.append(node)
 				# add all unvisited neighbors of current node to the queue
 				\end{lstlisting}
-Being a rather clean BFS implementation this code returns only the location of one of ghost's neighbors - the tile it has to move to next.
+Being a rather clean BFS implementation this code returns only the location of one of ghost's neighbors - the tile it has to move to next. It was rewritten from scratch and well commented. Forbidden tile was added and therefore Requirement \ref{req-ghost-not-reversing} fulfilled.
 		\section{Designing resources}
+			Admittedly, my computer graphics skills are quite limited, so are manual. I considered designing graphics on paper, scanning them and importing into game. Following my first sketches I have decided to rather use GIMP instead of paper and pencils. TODO: add mock drawing\\
+			As per Requirement \ref{req-orig-colors}, I needed to produce designs similar to those in original PacMan.
+			\begin{img}
+				\includegraphics[width=300pt]{images/original-graphics.jpg}\\
+				\caption{Original PacMan graphics. Source: www.todayifoundout.com}
+			\end{img}
+			\dsubsection{Walls}
+				These were rather simple. While original PacMan walls were build with a double blue framework, I went for a single framework. There is a clearly justified reason for that - my game was initially bigger and if I were to have double framework walls, player might have become confused, whether some space is accessible or not. After all the game board is a maze. I started with the simplest walls - 1010 and 0101. See pictures in the Design Section \ref{walls}. Then I generated a simple 1100 arc. Rest of the arcs were just rotated versions of it. Walls with three 1s and one 0 in their code, resembling letter T, were just merges of two of those double 1s arcs and wall 1111 was a merger of them all. GIMP offered tools for easy rotation and cop-pasting, which led to the graphics being produced in no time. I had to figure out how to make them transparent so that the game background could be seen from underneath. Again, GIMP offered function "Background to Alpha" which solved the problem instantly. And last, the format - it had to support transparency, be quite compact and readable by Pygame. I turned to GIF as it fitted these requirements perfectly.
+			\dsubsection{Ghosts}
+				In my opinion PycMan's greatest advantage is its simplicity - ghosts were created using GIMP's spray tool while pretty randomly stroking laptop's touchpad. This gave them their unique shape. To produce three ghosts of the same shape and different colors I used color manipulation tools available within GIMP to alter RGB channels in the original picture. Again these were exported as GIFs to preserve the partial transparency. For ghost graphic in red see Figure \ref{ghostimage}.
+			\dsubsection{Player}
+				The under-appreciated GIMP's ability to create circles of a single color and its unprecedented selection tool were used to create player's graphic of a yellow ball with 'mouth', fulfilling Requirement \ref{req-player-shape}. Again this was exported as GIF to preserve the Alpha channel.
 		\section{Core program code}
 			\dsubsection{Playing a single level}
 				To initialize the game, the core program calls function playlevel(), which takes no arguments as it utilizes global variables for reference on which level should be played and on lives remaining.
@@ -1487,122 +1559,154 @@ def playlevel():
 	# forcing pathfinding to update
 				\end{lstlisting}
 				By this part all initialization is done and the program starts main game loop.
-				\begin{lstlisting} [language = Python]
-	# ----- Main game loop -----
-	while game_on:
-		# ----- Level - winning handling -----
-		if coins_eaten == coins_total:
-			levelno += 1
+				\subsubsection{Main loop}
+					Following code initializes the main while loop. Its execution finishes when some part of the program sets game\_on flag to False.
+					\begin{lstlisting} [language = Python]
+# ----- Main game loop -----
+while game_on:
+					\end{lstlisting}
+				\subsubsection{Handling completing the level}
+					\begin{lstlisting} [language = Python]
+# ----- Level - winning handling -----
+if coins_eaten == coins_total:
+	levelno += 1
+	game_on = False
+	# ----- stop the level if all coins are eaten -----
+					\end{lstlisting}
+				\subsubsection{Handling user input part 1}
+					\begin{lstlisting} [language = Python]
+if player_time_segment == resources.constants.playerTimeSegmentSize:
+	# ----- Handling user input pt1 ------
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
 			game_on = False
-			# ----- stop the level if all coins are eaten -----
-		if player_time_segment == resources.constants.playerTimeSegmentSize:
-			# ----- Handling user input pt1 ------
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					game_on = False
-		
-			# ----- checking pressed keys -----
-			keys = pygame.key.get_pressed()
-			# ----- wall collision check -----
-			surroundings = walltypecheck(player.location)
-		# ----- ghost movement handling pt 1 -----
-		if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
-			# if it's time to update paths update them
-			for ghost in ghosts_list.sprites():
-				if ghost.color == 'red':
-					ghost.nexttile = find_next_move(ghost.location, player.location, ghost.previouslocation)
-				elif ghost.color == 'blue':
-					ghost.nexttile = find_next_move(ghost.location,
-					[player.location[0] + resources.constants.scatterSize,
-					player.location[1] + resources.constants.scatterSize],
-					ghost.previouslocation)
-				elif ghost.color == 'green':
-					ghost.nexttile = find_next_move(ghost.location,
-					[player.location[0] - resources.constants.scatterSize,
-					player.location[1] - resources.constants.scatterSize],
-					ghost.previouslocation)
-		
-		# ----- handling some frames/move -----
-		player_part = resources.constants.playerTimeSegmentSize - player_time_segment
-		ghost_part = resources.constants.ghostTimeSegmentSize - ghost_time_segment
-		
-		# ----- input handling pt 2 / player movement handling -----
-		if keys[pygame.K_LEFT] and surroundings[2] == '0':
-			player.move('left', player_part)
-		elif keys[pygame.K_RIGHT] and surroundings[0] == '0':
-			player.move('right', player_part)
-		elif keys[pygame.K_UP] and surroundings[1] == '0':
-			player.move('up', player_part)
-		elif keys[pygame.K_DOWN] and surroundings[3] == '0':
-			player.move('down', player_part)
-		
-		# ----- ghost movement handling pt 2 -----
-		for ghost in ghosts_list.sprites():
-			try:
-				ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
-			except Exception:
-				# if for some unforseen reason it's impossible to move the ghost just leave it there
-				pass
-		# ----- player dying handling -----
-		for ghost in ghosts_list.sprites():
-			if ghost.location == player.location:
-				# decrease lives counter
-				lives -= 1
-				reset()
-				# reset the board
-				player_time_segment = resources.constants.playerTimeSegmentSize+1
-				ghost_time_segment = resources.constants.ghostTimeSegmentSize+1
-				# force game to update ghost paths after respawning
-		if lives <= 0:
-			# if the player is dead for good
-			break
-		
-		# ----- Updating sprites position -----
-		eatables_list.update()
-		walls_list.update()
-		players_list.update()
-		ghosts_list.update()
-		# ----- Fill screen with background -----
-		screen.fill(resources.colors.background)
-		# ----- ...and sprites -----
-		eatables_list.draw(screen)
-		walls_list.draw(screen)
-		players_list.draw(screen)
-		ghosts_list.draw(screen)
-		
-		# ----- Counter info -----
-		label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total) +
-			"     Lives remaining " + str(lives) +
-			"     Level " + str(levelno+1), 1, (255, 255, 0))
-		screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))
-		
-		# ----- Refresh Screen -----
-		pygame.display.flip()
-		
-		# ----- FPS handling -----
-		player_time_segment -= 1
-		ghost_time_segment -= 1
-		clock.tick(resources.constants.fps)
-		
-		# ----- eating handling -----
-		for eatable in eatables_list.sprites():
-			if eatable.location == player.location:
-				eatable.kill()
-				coins_eaten += 1
-				# increasing eaten points counter
-		
-		# ----- initializing new time periods -----
-		if not player_time_segment:
-			player_time_segment = resources.constants.playerTimeSegmentSize
-		if not ghost_time_segment:
-			ghost_time_segment = resources.constants.ghostTimeSegmentSize
-				\end{lstlisting}
+
+	# ----- checking pressed keys -----
+	keys = pygame.key.get_pressed()
+	# ----- wall collision check -----
+	surroundings = walltypecheck(player.location)
+					\end{lstlisting}
+				\subsubsection{Handling ghost movement part 1}
+					\begin{lstlisting} [language = Python]
+# ----- ghost movement handling pt 1 -----
+if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
+	# if it's time to update paths update them
+	for ghost in ghosts_list.sprites():
+		if ghost.color == 'red':
+			ghost.nexttile = find_next_move(ghost.location, player.location, ghost.previouslocation)
+		elif ghost.color == 'blue':
+			ghost.nexttile = find_next_move(ghost.location,
+			[player.location[0] + resources.constants.scatterSize,
+			player.location[1] + resources.constants.scatterSize],
+			ghost.previouslocation)
+		elif ghost.color == 'green':
+			ghost.nexttile = find_next_move(ghost.location,
+			[player.location[0] - resources.constants.scatterSize,
+			player.location[1] - resources.constants.scatterSize],
+			ghost.previouslocation)
+					\end{lstlisting}
+				\subsubsection{Updating 'part' counters}
+					\begin{lstlisting} [language = Python]
+# ----- handling some frames/move -----
+player_part = resources.constants.playerTimeSegmentSize - player_time_segment
+ghost_part = resources.constants.ghostTimeSegmentSize - ghost_time_segment
+					\end{lstlisting}
+				\subsubsection{Handling input part 2}
+					\begin{lstlisting} [language = Python]
+# ----- input handling pt 2 / player movement handling -----
+if keys[pygame.K_LEFT] and surroundings[2] == '0':
+	player.move('left', player_part)
+elif keys[pygame.K_RIGHT] and surroundings[0] == '0':
+	player.move('right', player_part)
+elif keys[pygame.K_UP] and surroundings[1] == '0':
+	player.move('up', player_part)
+elif keys[pygame.K_DOWN] and surroundings[3] == '0':
+	player.move('down', player_part)
+					\end{lstlisting}
+				\subsubsection{Handling ghost movement part 2}
+					\begin{lstlisting} [language = Python]
+# ----- ghost movement handling pt 2 -----
+for ghost in ghosts_list.sprites():
+	try:
+		ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
+	except Exception:
+		# if for some unforseen reason it's impossible to move the ghost just leave it there
+		pass
+					\end{lstlisting}
+				\subsubsection{Handling player dying}
+					\begin{lstlisting} [language = Python]
+# ----- player dying handling -----
+for ghost in ghosts_list.sprites():
+	if ghost.location == player.location:
+		# decrease lives counter
+		lives -= 1
+		reset()
+		# reset the board
+		player_time_segment = resources.constants.playerTimeSegmentSize+1
+		ghost_time_segment = resources.constants.ghostTimeSegmentSize+1
+		# force game to update ghost paths after respawning
+if lives <= 0:
+	# if the player is dead for good
+	game_on = False
+	break
+					\end{lstlisting}
+				\subsubsection{Drawing}
+					\begin{lstlisting} [language = Python]
+# ----- Updating sprites position -----
+eatables_list.update()
+walls_list.update()
+players_list.update()
+ghosts_list.update()
+# ----- Fill screen with background -----
+screen.fill(resources.colors.background)
+# ----- ...and sprites -----
+eatables_list.draw(screen)
+walls_list.draw(screen)
+players_list.draw(screen)
+ghosts_list.draw(screen)
+					\end{lstlisting}
+				\subsubsection{Processing and rendering counters}
+					\begin{lstlisting} [language = Python]	
+# ----- Counter info -----
+label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total) +
+	"     Lives remaining " + str(lives) +
+	"     Level " + str(levelno+1), 1, (255, 255, 0))
+screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))
+					\end{lstlisting}
+				\subsubsection{Refreshing screen}
+					\begin{lstlisting} [language = Python]
+# ----- Refresh Screen -----
+pygame.display.flip()
+
+# ----- FPS handling -----
+player_time_segment -= 1
+ghost_time_segment -= 1
+clock.tick(resources.constants.fps)
+					\end{lstlisting}
+				\subsubsection{Handling eating Eatables}
+					TODO: update for hearts
+					\begin{lstlisting} [language = Python]
+# ----- eating handling -----
+for eatable in eatables_list.sprites():
+	if eatable.location == player.location:
+		eatable.kill()
+		coins_eaten += 1
+		# increasing eaten points counter
+					\end{lstlisting}
+				\subsubsection{Initializing new Time Periods}
+					\begin{lstlisting} [language = Python]
+# ----- initializing new time periods -----
+if not player_time_segment:
+	player_time_segment = resources.constants.playerTimeSegmentSize
+if not ghost_time_segment:
+	ghost_time_segment = resources.constants.ghostTimeSegmentSize
+					\end{lstlisting}
 				Development of this piece of code was particularly difficult due to having to simultaneously implement two Time Segment handlers. (See Section \ref{timesegments} for Time Segment explanation.)
 				My first approach was to implement those within single counter. It worked but there was no way to satisfy Requirement \ref{req-player-faster}.
 				Another problem I encountered was with the input handling. The player's sprite was jumping around, because player could change moving direction mid-time segment. The obvious choice was to move keypress checking to section that only executes once per time segment, rather than once per frame. My concern was that this will affect overall user input performance, compromising Requirement \ref{req-input}. My preliminary testing as well as $\beta$-testing revealed that with 60fps and player segment size equal to 10, the input rate of 6 key presses per second seemed optimal.
 			\dsubsection{Function switching levels}
 				\label{main}
-				Function named main() taking no parameters, iterating through levels and displaying appropriate messages. This is the main function that launches the whole game.
+				Function named main() taking no parameters, iterating through levels and displaying appropriate messages. This is the main function that launches the whole game. 
 				\begin{lstlisting} [language = Python]
 def main():
 	show_message(resources.constants.tutorialStringList)
@@ -1615,6 +1719,7 @@ def main():
 	else:
 		show_message(resources.constants.theEndStringList)
 				\end{lstlisting}
+				When the while loop breaks, either Game Over screen is displayed or a congratulations screen, fulfilling Requirements \ref{req-messages}.
 			\dsubsection{Displaying messages}
 				As it's seen in the Section \ref{main} - the function show\_message is used to display small text messages on the screen. Those messages include:
 				\begin{itemize}
@@ -1629,7 +1734,7 @@ def main():
 				\end{itemize}
 				TODO: Add this function code after 'press [space] to continue' is implemented.
 	\chapter{Code appendix}
-	TODO: update these files after changes
+	TODO: update these files before final submission
 		\section{main.py}
 			\begin{lstlisting} [language = Python]
 from classes import *
@@ -2153,8 +2258,8 @@ levelorder = [
 	"level6.bmp"
 ]
 			\end{lstlisting}
-	\chapter{Resources appendix}
-		
+	\chapter{Levels appendix}
+			
 	\chapter{References}
 		\begin{enumerate}
 			\item

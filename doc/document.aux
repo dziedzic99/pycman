@@ -16,20 +16,21 @@
 \newlabel{req-player-rotation}{{1c}{10}}
 \newlabel{req-walls-not-passable}{{1d}{10}}
 \newlabel{req-ghost-movement}{{1e}{10}}
-\newlabel{req-reset}{{1f}{10}}
-\newlabel{req-ghost-differences}{{1g}{10}}
-\newlabel{req-ghost-not-reversing}{{1h}{10}}
-\newlabel{req-level-progress}{{1i}{11}}
-\newlabel{req-coins-disappearing}{{1j}{11}}
-\newlabel{req-point++}{{1k}{11}}
-\newlabel{req-hearts}{{1l}{11}}
-\newlabel{req-lifes++}{{1m}{11}}
-\newlabel{req-level-up}{{1n}{11}}
-\newlabel{req-game-over}{{1o}{11}}
-\newlabel{req-win}{{1p}{11}}
-\newlabel{req-messages}{{1q}{11}}
-\newlabel{req-winnable}{{1r}{11}}
-\newlabel{smarterghosts}{{2a}{11}}
+\newlabel{req-life-loss}{{1f}{10}}
+\newlabel{req-reset}{{1g}{10}}
+\newlabel{req-ghost-differences}{{1h}{10}}
+\newlabel{req-ghost-not-reversing}{{1i}{10}}
+\newlabel{req-level-progress}{{1j}{11}}
+\newlabel{req-coins-disappearing}{{1k}{11}}
+\newlabel{req-point++}{{1l}{11}}
+\newlabel{req-hearts}{{1m}{11}}
+\newlabel{req-lifes++}{{1n}{11}}
+\newlabel{req-level-up}{{1o}{11}}
+\newlabel{req-game-over}{{1p}{11}}
+\newlabel{req-win}{{1q}{11}}
+\newlabel{req-messages}{{1r}{11}}
+\newlabel{req-winnable}{{1s}{11}}
+\newlabel{req-smarter-ghosts}{{2a}{11}}
 \newlabel{req-player-faster}{{2f}{11}}
 \newlabel{req-input}{{3a}{11}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Design}{13}}
@@ -107,7 +108,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2.29}{\ignorespaces Diagram showing order of nodes visits starting from node 1 using DFS algorithm Source: wikipedia.org}}{33}}
 \newlabel{DFSalg}{{2.29}{33}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2.30}{\ignorespaces Diagram showing order of nodes visits starting from node 1 using BFS algorithm Source: wikipedia.org}}{34}}
-\@writefile{toc}{\contentsline {subsubsection}{Difference between ghosts}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{Differences between ghosts}{35}}
 \newlabel{hunting}{{2.5.3}{35}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2.31}{\ignorespaces Popular meme. Source: pinterest.com}}{36}}
 \newlabel{trap}{{2.31}{36}}
@@ -125,71 +126,94 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2.34}{\ignorespaces Exemplar of the message screen appearing in a window rendered in Ubuntu Gnome graphical environment}}{42}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6.1}Tutorial}{43}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6.2}Loss of life}{43}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.3}Completing the level}{43}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.3}Completing a level}{43}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.35}{\ignorespaces Message displayed after completing a level. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}}{43}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6.4}Loosing the game}{43}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.5}Completing the entire game}{43}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.7}Testing}{43}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.1}zero-testing}{43}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.2}$\alpha $-testing}{43}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.3}$\beta $-testing}{44}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Implementation}{45}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.5}Completing the entire game}{44}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}Testing}{44}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.1}zero-testing}{44}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.2}$\alpha $-testing}{44}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7.3}$\beta $-testing}{45}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Implementation}{46}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Programming tools}{45}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}PyCharm}{45}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Pycharm window rendered in Ubuntu Gnome environment with Pycman project loaded.}}{46}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}GIMP}{46}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Git}{46}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.4}TeXstudio}{46}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces TeXstudio window rendered in Ubuntu Gnome environment with this document loaded.}}{47}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.5}Other tools}{47}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Interpreter and its modules}{47}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Virtual Environment}{47}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Modules}{47}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Project structure}{48}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Abbreviated directory structure layout}}{48}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Classes}{49}}
-\newlabel{classes}{{3.4}{49}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Project class diagram}}{49}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}GameObject}{50}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Eatable}{50}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Wall}{51}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.4}Movable}{51}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.5}Player}{52}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.6}Ghost}{53}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Resources}{54}}
-\newlabel{resources}{{3.5}{54}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Constants}{54}}
-\newlabel{constants}{{3.5.1}{54}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.6}Level processing}{56}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Reading bitmap files}{56}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Checking wall type}{57}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Scheme showing which parts of wall are added according to r,t,l,b values}}{58}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Adding Sprites according to tile types}{58}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}Sprite Groups}{59}}
-\newlabel{sprite-groups}{{3.6.4}{59}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.7}Ghost pathfinding algorithm}{59}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}Graph structure}{59}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.2}Graph building}{59}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.3}Choosing a target tile for each ghost}{60}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.4}Actual pathfinding}{61}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Inefficient method of running three searches.}}{62}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Efficient method of running one search.}}{63}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.8}Designing resources}{64}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.9}Core program code}{64}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.1}Playing a single level}{64}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.2}Function switching levels}{67}}
-\newlabel{main}{{3.9.2}{67}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.3}Displaying messages}{68}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Code appendix}{69}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Programming tools}{46}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}PyCharm}{46}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Pycharm window rendered in Ubuntu Gnome environment with Pycman project loaded.}}{47}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}GIMP}{47}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Git}{47}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Screenshot of the lists of some of the project commits in the GitHub web interface.}}{48}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.4}TeXstudio}{48}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces TeXstudio window rendered in Ubuntu Gnome environment with this document loaded.}}{48}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.5}Other tools}{49}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Interpreter and its modules}{49}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Virtual Environment}{49}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Modules}{49}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Project structure}{49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Abbreviated directory structure layout}}{50}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Classes}{51}}
+\newlabel{classes}{{3.4}{51}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Project class diagram}}{51}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}GameObject}{52}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Eatable}{52}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Wall}{53}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.4}Movable}{53}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.5}Player}{54}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.6}Ghost}{55}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Resources}{56}}
+\newlabel{resources}{{3.5}{56}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Constants}{56}}
+\newlabel{constants}{{3.5.1}{56}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Paths}{58}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Level processing}{59}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Reading bitmap files}{59}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Checking wall type}{60}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Scheme showing which parts of wall are added according to r,t,l,b values}}{61}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Adding Sprites according to tile types}{61}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}Sprite Groups}{62}}
+\newlabel{sprite-groups}{{3.6.4}{62}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.7}Ghost pathfinding algorithm}{62}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}Graph structure}{62}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.2}Graph building}{62}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.3}Choosing a target tile for each ghost}{63}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.4}Actual pathfinding}{64}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Inefficient method of running three searches.}}{65}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Efficient method of running one search.}}{66}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.8}Designing resources}{68}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Original PacMan graphics. Source: www.todayifoundout.com}}{68}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8.1}Walls}{68}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8.2}Ghosts}{69}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8.3}Player}{69}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.9}Core program code}{69}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.1}Playing a single level}{69}}
+\@writefile{toc}{\contentsline {subsubsection}{Main loop}{70}}
+\@writefile{toc}{\contentsline {subsubsection}{Handling completing the level}{70}}
+\@writefile{toc}{\contentsline {subsubsection}{Handling user input part 1}{70}}
+\@writefile{toc}{\contentsline {subsubsection}{Handling ghost movement part 1}{70}}
+\@writefile{toc}{\contentsline {subsubsection}{Updating 'part' counters}{71}}
+\@writefile{toc}{\contentsline {subsubsection}{Handling input part 2}{71}}
+\@writefile{toc}{\contentsline {subsubsection}{Handling ghost movement part 2}{71}}
+\@writefile{toc}{\contentsline {subsubsection}{Handling player dying}{71}}
+\@writefile{toc}{\contentsline {subsubsection}{Drawing}{72}}
+\@writefile{toc}{\contentsline {subsubsection}{Processing and rendering counters}{72}}
+\@writefile{toc}{\contentsline {subsubsection}{Refreshing screen}{72}}
+\@writefile{toc}{\contentsline {subsubsection}{Handling eating Eatables}{73}}
+\@writefile{toc}{\contentsline {subsubsection}{Initializing new Time Periods}{73}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.2}Function switching levels}{73}}
+\newlabel{main}{{3.9.2}{73}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.3}Displaying messages}{74}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Code appendix}{75}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}main.py}{69}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}classes.py}{76}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}levelprocessor.py}{79}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}paths.py}{79}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}References}{81}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}main.py}{75}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}classes.py}{82}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}levelprocessor.py}{85}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}paths.py}{85}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Levels appendix}{87}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{stronaopacmanie}{{1}{81}}
-\newlabel{pygamedocs}{{2}{81}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}References}{88}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{stronaopacmanie}{{1}{88}}
+\newlabel{pygamedocs}{{2}{88}}

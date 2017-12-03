@@ -33,13 +33,11 @@ editordef = {
     'blue_ghost': (0, 0, 255)
 }
 
-tutorialStringList = ["This is an example of a text message",
-                      "And this is line 2",
-                      "I can actually write something random here",
-                      "Let's give it a shot:",
-                      "Did you hear about the guy who invented the knock knock joke?",
-                      "",
-                      "He won the nobell prize!"]
+tutorialStringList = ["Welcome to PycMan Jan Dziedzic's CS project.",
+                      "If you remember PacMan, you pretty much know",
+                      "what to do. If not - try not to die, use arrow",
+                      "keys to move, eat coins and hearts to progress.",
+                      "Good luck."]
 
 
 congratsStringList = ["Wee, you completed another easy level.",
