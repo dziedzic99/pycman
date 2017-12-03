@@ -1457,6 +1457,7 @@ def find_nearest_not_wall(point):
 				With a slightly deceiving name - find\_nearest\_not\_wall - not only finds the coordinates of the nearest tile that isn't marked as a wall but it finds the nearest tile that isn't marked as a wall \textbf{that actually exists}.
 				Within lines 2-9 the location is being confined to the boundaries of the board - then condition in line 10 checks whether the tile in question is a wall - if it isn't - that solves the problem. Else - the actual search begins. With growing radius neighboring tiles are checked for not being a wall. As this algorithm may eventually lead to checking type of a tile outside the board, a try/catch routine is used. By filtering cases of IndexError, nonexistent tiles aren't checked. I found this solution cleaner that limiting the borders of search, checking whether radius doesn't extend beyond the board, after all it's only 3 very clean lines. The function eventually returns a nearest existing point not being a wall.
 			\dsubsection{Actual pathfinding}
+				\label{pathfinding}
 				After giving it a thought, the ghosts don't really require a complete path to operate. They just need to know where next to move. One single tile location or even a direction. I also figured that running searches from each tile of ghost's neighbors is inefficient. Out of pure reason... What seems faster? Finding one needle in a haystack three times or finding one of three needles in a haystack once? I would go for the second one. Here are two diagrams illustrating the concept:
 				\begin{img}
 					\includegraphics[width=400pt]{images/3searches}\\
@@ -1469,7 +1470,6 @@ def find_nearest_not_wall(point):
 				To keep things simple, my algorithm for pathfinding accepts three arguments: start (ghost position), end(target tile position) and forbidden (tile the ghost moved from - ghost reversing prevention as per requirement \ref{req-ghost-not-reversing}).
 				The initial version of the code had the following form.
 				\begin{lstlisting}[language=Python]
-
 def find_next_move(start, end):
 	visited = []
 	queue = []
@@ -1566,6 +1566,7 @@ def playlevel():
 while game_on:
 					\end{lstlisting}
 				\subsubsection{Handling completing the level}
+					The following code executes when all coins are eaten. It switches the game to next level and prevents next loop execution by setting the game\_on flag to False. This fulfills Requirement \ref{req-level-up}
 					\begin{lstlisting} [language = Python]
 # ----- Level - winning handling -----
 if coins_eaten == coins_total:
@@ -1573,7 +1574,8 @@ if coins_eaten == coins_total:
 	game_on = False
 	# ----- stop the level if all coins are eaten -----
 					\end{lstlisting}
-				\subsubsection{Handling user input part 1}
+				\subsubsection{Handling user input and movement part 1}
+					The following snippet executes only once per Player's Time Segment. It checks for user input, whether the game window was closed using operating system infrastructure and processes player's surroundings to determine to which tiles user can move (not to move onto wall tile as per Requirement \ref{req-walls-not-passable}).
 					\begin{lstlisting} [language = Python]
 if player_time_segment == resources.constants.playerTimeSegmentSize:
 	# ----- Handling user input pt1 ------
@@ -1587,6 +1589,7 @@ if player_time_segment == resources.constants.playerTimeSegmentSize:
 	surroundings = walltypecheck(player.location)
 					\end{lstlisting}
 				\subsubsection{Handling ghost movement part 1}
+					This code, executed once per Ghosts' Time Segment assigns new target tiles for each ghost using pathfinding function described in Section \ref{pathfinding}, implementing changes to target tiles form Section \ref{hunting}, fulfilling Requirement \ref{req-ghost-differences} and \ref{req-ghost-movement}.
 					\begin{lstlisting} [language = Python]
 # ----- ghost movement handling pt 1 -----
 if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
@@ -1606,12 +1609,14 @@ if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
 			ghost.previouslocation)
 					\end{lstlisting}
 				\subsubsection{Updating 'part' counters}
+					As Movable 'move' method requires supplying it with with Time Segment's Part, the following codes produces such number for both Ghosts (note that Ghosts share the same Time Segments)and the Player. For reference on Parts and Time Segments see Section \ref{timesegments}.
 					\begin{lstlisting} [language = Python]
 # ----- handling some frames/move -----
 player_part = resources.constants.playerTimeSegmentSize - player_time_segment
 ghost_part = resources.constants.ghostTimeSegmentSize - ghost_time_segment
 					\end{lstlisting}
 				\subsubsection{Handling input part 2}
+					As actual user input occurs every Player's Time Segment, rather than every Part, the following code executes every part, to actually move the Player's sprite.
 					\begin{lstlisting} [language = Python]
 # ----- input handling pt 2 / player movement handling -----
 if keys[pygame.K_LEFT] and surroundings[2] == '0':
@@ -1624,6 +1629,7 @@ elif keys[pygame.K_DOWN] and surroundings[3] == '0':
 	player.move('down', player_part)
 					\end{lstlisting}
 				\subsubsection{Handling ghost movement part 2}
+					Same as with player, actual Sprites moving must occur every Part, rather than every Time Segment. This loop iterates through Ghosts and moves each of them.
 					\begin{lstlisting} [language = Python]
 # ----- ghost movement handling pt 2 -----
 for ghost in ghosts_list.sprites():
@@ -1634,6 +1640,7 @@ for ghost in ghosts_list.sprites():
 		pass
 					\end{lstlisting}
 				\subsubsection{Handling player dying}
+					As per Requirement \ref{req-life-loss}, the game processes player dying by checking whether its current location matches any of the Ghosts' locations. If so, the life is subtracted from lives counter and the board is reseted. If the Player is subsequently in possession of no lives, game\_on flag is set to False to prevent next loop execution.
 					\begin{lstlisting} [language = Python]
 # ----- player dying handling -----
 for ghost in ghosts_list.sprites():
@@ -1651,6 +1658,7 @@ if lives <= 0:
 	break
 					\end{lstlisting}
 				\subsubsection{Drawing}
+					Following code is used to render Sprites on the screen.
 					\begin{lstlisting} [language = Python]
 # ----- Updating sprites position -----
 eatables_list.update()
@@ -1666,6 +1674,7 @@ players_list.draw(screen)
 ghosts_list.draw(screen)
 					\end{lstlisting}
 				\subsubsection{Processing and rendering counters}
+					This code handles counters displayed below the board.
 					\begin{lstlisting} [language = Python]	
 # ----- Counter info -----
 label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total) +
@@ -1674,6 +1683,7 @@ label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total
 screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))
 					\end{lstlisting}
 				\subsubsection{Refreshing screen}
+					The following code handles screen refreshing using pygame internal methods and supplies new values for player\_time\_segment and ghost\_time\_segment variables.
 					\begin{lstlisting} [language = Python]
 # ----- Refresh Screen -----
 pygame.display.flip()
@@ -1685,6 +1695,7 @@ clock.tick(resources.constants.fps)
 					\end{lstlisting}
 				\subsubsection{Handling eating Eatables}
 					TODO: update for hearts
+					As per Requirement \ref{req-coins-disappearing} and \ref{req-level-progress}, the following code checks whether any of the Eatables is affected by Player's presence and if so, it kills it, modifying appropriate counters.
 					\begin{lstlisting} [language = Python]
 # ----- eating handling -----
 for eatable in eatables_list.sprites():
@@ -1694,6 +1705,7 @@ for eatable in eatables_list.sprites():
 		# increasing eaten points counter
 					\end{lstlisting}
 				\subsubsection{Initializing new Time Periods}
+					Finally, if either of Time Segments comes to an end, the following code executes to initialize a new one.
 					\begin{lstlisting} [language = Python]
 # ----- initializing new time periods -----
 if not player_time_segment:
@@ -1701,7 +1713,10 @@ if not player_time_segment:
 if not ghost_time_segment:
 	ghost_time_segment = resources.constants.ghostTimeSegmentSize
 					\end{lstlisting}
-				Development of this piece of code was particularly difficult due to having to simultaneously implement two Time Segment handlers. (See Section \ref{timesegments} for Time Segment explanation.)
+				Provided the game\_on flag is still set to True, the loop continues.
+				\linebreak
+				
+				Development of the code described in the above Section was particularly difficult due to having to simultaneously implement two Time Segment handlers. (See Section \ref{timesegments} for Time Segment explanation.)
 				My first approach was to implement those within single counter. It worked but there was no way to satisfy Requirement \ref{req-player-faster}.
 				Another problem I encountered was with the input handling. The player's sprite was jumping around, because player could change moving direction mid-time segment. The obvious choice was to move keypress checking to section that only executes once per time segment, rather than once per frame. My concern was that this will affect overall user input performance, compromising Requirement \ref{req-input}. My preliminary testing as well as $\beta$-testing revealed that with 60fps and player segment size equal to 10, the input rate of 6 key presses per second seemed optimal.
 			\dsubsection{Function switching levels}
@@ -2259,7 +2274,13 @@ levelorder = [
 ]
 			\end{lstlisting}
 	\chapter{Levels appendix}
-			
+		TODO: supply levels after generating them.\\
+		This will look more or less like this:\\
+		------------------\\
+		level source image\\
+		------------------\\
+		rendered level image\\
+		etc. I assume no more than 3 images per page, resulting in at least extra 7 pages.
 	\chapter{References}
 		\begin{enumerate}
 			\item
