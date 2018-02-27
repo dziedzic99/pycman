@@ -31,8 +31,14 @@
 \newlabel{req-messages}{{1r}{11}}
 \newlabel{req-winnable}{{1s}{11}}
 \newlabel{req-smarter-ghosts}{{2a}{11}}
+\newlabel{req-no-ghost-house}{{2b}{11}}
+\newlabel{req-no-powerips}{{2c}{11}}
+\newlabel{req-not-dying}{{2d}{11}}
+\newlabel{req-no-ghost-modes}{{2e}{11}}
 \newlabel{req-player-faster}{{2f}{11}}
 \newlabel{req-input}{{3a}{11}}
+\newlabel{req-spacebar}{{3b}{11}}
+\newlabel{req-player-only-input}{{3c}{11}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Design}{13}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -78,56 +84,57 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2.24}{\ignorespaces Coin graphics}}{25}}
 \@writefile{toc}{\contentsline {subsubsection}{Hearts}{25}}
 \newlabel{hearts}{{2.3.4}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.25}{\ignorespaces Heart graphics}}{25}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}Empty tiles}{25}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Levels}{25}}
-\newlabel{Levels}{{2.4}{25}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Permanent storing}{25}}
-\newlabel{level-permanent-storing}{{2.4.1}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.25}{\ignorespaces An exemplar of a level being edited in the GIMP software}}{26}}
-\newlabel{gimplevel}{{2.25}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Storing while in game}{26}}
-\newlabel{level-ingame-storing}{{2.4.2}{26}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Levels}{26}}
+\newlabel{Levels}{{2.4}{26}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Permanent storing}{26}}
+\newlabel{level-permanent-storing}{{2.4.1}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.26}{\ignorespaces An exemplar of a level being edited in the GIMP software}}{26}}
+\newlabel{gimplevel}{{2.26}{26}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Storing while in game}{27}}
+\newlabel{level-ingame-storing}{{2.4.2}{27}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}Interpreting}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.26}{\ignorespaces First tests of interpretation of level files. Note that coins are formed into letters LU, RU, LB, RB as in words Left, Right, Upper, Bottom to load the tiles in the right orientation. Old 64x64 grid is used.}}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.27}{\ignorespaces First tests of interpretation of level files. Note that coins are formed into letters LU, RU, LB, RB as in words Left, Right, Upper, Bottom to load the tiles in the right orientation. Old 64x64 grid is used.}}{28}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.4}Designing the levels}{29}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.5}User-defined levels}{29}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.6}Progressing to the next level}{29}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.5}Gameplay scheme}{30}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}Introduction to the concept of time segments}{30}}
 \newlabel{timesegments}{{2.5.1}{30}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.27}{\ignorespaces Scheme depicting relation between a time segment and parts}}{30}}
-\newlabel{segment-part-relation}{{2.27}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.28}{\ignorespaces Scheme depicting relation between a time segment and parts}}{30}}
+\newlabel{segment-part-relation}{{2.28}{30}}
 \newlabel{part_definition}{{2.5.1}{30}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}Player movement}{30}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.28}{\ignorespaces Diagram showing how tasks are executed either once per time segment or once per part}}{31}}
-\newlabel{player-TS}{{2.28}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.29}{\ignorespaces Diagram showing how tasks are executed either once per time segment or once per part}}{31}}
+\newlabel{player-TS}{{2.29}{31}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.3}Ghost movement}{32}}
 \newlabel{ghost-movement}{{2.5.3}{32}}
 \@writefile{toc}{\contentsline {subsubsection}{The graph}{32}}
 \@writefile{toc}{\contentsline {subsubsection}{Pathfinding}{33}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.29}{\ignorespaces Diagram showing order of nodes visits starting from node 1 using DFS algorithm Source: wikipedia.org}}{33}}
-\newlabel{DFSalg}{{2.29}{33}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.30}{\ignorespaces Diagram showing order of nodes visits starting from node 1 using BFS algorithm Source: wikipedia.org}}{34}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.30}{\ignorespaces Diagram showing order of nodes visits starting from node 1 using DFS algorithm Source: wikipedia.org}}{33}}
+\newlabel{DFSalg}{{2.30}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.31}{\ignorespaces Diagram showing order of nodes visits starting from node 1 using BFS algorithm Source: wikipedia.org}}{34}}
 \@writefile{toc}{\contentsline {subsubsection}{Differences between ghosts}{35}}
 \newlabel{hunting}{{2.5.3}{35}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.31}{\ignorespaces Popular meme. Source: pinterest.com}}{36}}
-\newlabel{trap}{{2.31}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.32}{\ignorespaces Popular meme. Source: pinterest.com}}{36}}
+\newlabel{trap}{{2.32}{36}}
 \@writefile{toc}{\contentsline {subsubsection}{Calling pathfinding algorithm}{37}}
 \@writefile{toc}{\contentsline {subsubsection}{Ghosts speed}{38}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.4}Handling movement animation}{38}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.32}{\ignorespaces Diagram showing how tasks are executed either once per time segment or once per part (for a ghost) \newline  See Figure 2.28\hbox {} for the same for player.}}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.33}{\ignorespaces Diagram showing how tasks are executed either once per time segment or once per part (for a ghost) \newline  See Figure 2.29\hbox {} for the same for player.}}{40}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.5}Eating}{40}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.6}Getting killed}{41}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5.7}Respawning after a loss of life}{41}}
 \newlabel{respawning}{{2.5.7}{41}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.6}Types of message screens}{41}}
 \newlabel{typesofscreens}{{2.6}{41}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.33}{\ignorespaces Diagram showing how game is halted until message is dismissed using spacebar}}{42}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.34}{\ignorespaces Exemplar of the message screen appearing in a window rendered in Ubuntu Gnome graphical environment}}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.34}{\ignorespaces Diagram showing how game is halted until message is dismissed using spacebar}}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.35}{\ignorespaces Exemplar of the message screen appearing in a window rendered in Ubuntu Gnome graphical environment}}{42}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6.1}Tutorial}{43}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6.2}Loss of life}{43}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6.3}Completing a level}{43}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.35}{\ignorespaces Message displayed after completing a level. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}}{43}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.36}{\ignorespaces Message displayed after completing a level. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}}{43}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6.4}Loosing the game}{43}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6.5}Completing the entire game}{44}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.7}Testing}{44}}
@@ -203,18 +210,31 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.9.2}Function switching levels}{74}}
 \newlabel{main}{{3.9.2}{74}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.9.3}Displaying messages}{75}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Code appendix}{76}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation}{76}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}main.py}{76}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}classes.py}{83}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}levelprocessor.py}{86}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}paths.py}{86}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Levels appendix}{88}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}General testing}{76}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Meeting the requirements}{78}}
+\gdef \LT@i {\LT@entry 
+    {1}{68.9055pt}\LT@entry 
+    {1}{154.26378pt}\LT@entry 
+    {1}{125.81102pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Changes}{79}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Room for future development}{82}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Final assessment}{83}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Discussion}{83}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Code appendix}{85}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}References}{89}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}main.py}{85}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}classes.py}{92}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}levelprocessor.py}{95}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}paths.py}{95}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Levels appendix}{97}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{stronaopacmanie}{{1}{89}}
-\newlabel{pygamedocs}{{2}{89}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}References}{98}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{stronaopacmanie}{{1}{98}}
+\newlabel{pygamedocs}{{2}{98}}

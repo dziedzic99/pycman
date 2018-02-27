@@ -21,12 +21,14 @@ leveldef = {
     'red_ghost': 4,
     'green_ghost': 5,
     'blue_ghost': 6,
+    'heart': 7,
 }
 
 editordef = {
     'nothing': (255, 255, 255),
     'wall': (0, 0, 0),
     'coin': (255, 255, 0),
+    'heart': (200, 200, 255),
     'player': (255, 0, 0),
     'red_ghost': (200, 100, 100),
     'green_ghost': (0, 255, 0),

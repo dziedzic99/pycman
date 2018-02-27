@@ -6,7 +6,7 @@ player = None
 coins_total = 0
 coins_eaten = 0
 level = None
-levelno = 3
+levelno = 1
 lives = 30
 pygame.init()
 myfont = pygame.font.SysFont("monospace", resources.constants.fontsize)
@@ -134,6 +134,9 @@ def loadlevel(file):
             if box == resources.constants.leveldef["wall"]:
                 wall = Wall((col, row), walltypecheck((col, row)))
                 walls_list.add(wall)
+            elif box == resources.constants.leveldef["heart"]:
+                heart = Eatable('heart', (col, row))
+                eatables_list.add(heart)
             elif box == resources.constants.leveldef["player"]:
                 player = Player((col, row))
                 players_list.add(player)
@@ -194,6 +197,7 @@ def show_real_congrats():
     pygame.display.flip()
     sleep(5)
 
+
 def show_permanent_death():
     screen.fill(resources.colors.background)
     for i in range(len(resources.constants.theEndStringList)):
@@ -245,6 +249,7 @@ def playlevel():
             keys = pygame.key.get_pressed()
             # ----- wall collision check -----
             surroundings = walltypecheck(player.location)
+
         # ----- ghost movement handling pt 1 -----
         if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
             # if it's time to update paths update them
@@ -276,13 +281,6 @@ def playlevel():
         elif keys[pygame.K_DOWN] and surroundings[3] == '0':
             player.move('down', player_part)
 
-        # ----- ghost movement handling pt 2 -----
-        for ghost in ghosts_list.sprites():
-            try:
-                ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
-            except Exception:
-                # if for some unforseen reason it's impossible to move the ghost just leave it there
-                pass
         # ----- player dying handling -----
         for ghost in ghosts_list.sprites():
             if ghost.location == player.location:
@@ -290,9 +288,18 @@ def playlevel():
                 lives -= 1
                 reset()
                 # reset the board
-                player_time_segment = resources.constants.playerTimeSegmentSize+1
-                ghost_time_segment = resources.constants.ghostTimeSegmentSize+1
+                player_time_segment = resources.constants.playerTimeSegmentSize + 1
+                ghost_time_segment = resources.constants.ghostTimeSegmentSize + 1
                 # force game to update ghost paths after respawning
+
+        # ----- ghost movement handling pt 2 -----
+        for ghost in ghosts_list.sprites():
+            try:
+                ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
+            except Exception:
+                # if for some unforseen reason it's impossible to move the ghost just leave it there
+                pass
+
         if lives <= 0:
             # if the player is dead for good
             break
@@ -328,8 +335,12 @@ def playlevel():
         for eatable in eatables_list.sprites():
             if eatable.location == player.location:
                 eatable.kill()
-                coins_eaten += 1
-                # increasing eaten points counter
+                if eatable.type == 'coin':
+                    coins_eaten += 1
+                    # increasing eaten points counter
+                elif eatable.type == 'heart':
+                    lives += 1
+                    # increasing number of lives
 
         # ----- initializing new time periods -----
         if not player_time_segment:

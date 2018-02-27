@@ -12,6 +12,8 @@ def readlevel(file):
             pixel = im.getpixel((col, row))
             if pixel == resources.constants.editordef["coin"]:
                 level[col][row] = resources.constants.leveldef['coin']
+            elif pixel == resources.constants.editordef["heart"]:
+                level[col][row] = resources.constants.leveldef['heart']
             elif pixel == resources.constants.editordef["wall"]:
                 level[col][row] = resources.constants.leveldef['wall']
             elif pixel == resources.constants.editordef["player"]:

@@ -7,6 +7,7 @@
 \author{Jan Dziedzic}
 \usepackage{fancyhdr}
 \usepackage{float}
+\usepackage{longtable}
 \usepackage[section]{placeins}
 \title{PycMan}
 \fancypagestyle{}{%
@@ -265,12 +266,16 @@
 							\label{req-smarter-ghosts}
 						\item
 							There is no 'ghost house' where ghosts start from. All sprites move from the beginning and ghost chase the player immediately.
+							\label{req-no-ghost-house}
 						\item
 							There are no power-ups in the levels.
+							\label{req-no-powerips}
 						\item
 							Ghosts cannot die.
+							\label{req-not-dying}
 						\item
 							Ghost don't change 'modes' and don't became frightened of the player.
+							\label{req-no-ghost-modes}
 						\item
 							Player can move faster than the ghosts.
 							\label{req-player-faster}
@@ -283,8 +288,10 @@
 							\label{req-input}
 						\item
 							Spacebar used to dismiss on-screen messages.
+							\label{req-spacebar}
 						\item
 							Player sprite must not move without user input.
+							\label{req-player-only-input}
 						
 					\end{enumerate} 
 				\item
@@ -516,7 +523,10 @@ def walltypecheck(location):
 				\subsubsection{Hearts}
 					\label{hearts}
 					Hearts are similar to coins in terms of being eaten, but they spawn in designated places and their consumption increases lives counter.
-					%TODO: Heart graphics
+					\begin{img}
+						\includegraphics{images/heart}\\
+						\caption{Heart graphics}
+					\end{img}
 			\dsubsection{Empty tiles}
 				These tiles are actually not drawn. They only act as an abstract concept to hold information that coin is not to be drawn on this particular grid tile. Player and ghost can move through this tile. For user these appear as plain dark blue space - the color of the background.
 		\section{Levels}
@@ -1748,6 +1758,208 @@ def main():
 						Congratulations on completing the whole game
 				\end{itemize}
 				TODO: Add this function code after 'press [space] to continue' is implemented.
+	\chapter{Evaluation}
+		The Implementation phase of project development is followed by Testing phase, during which the potentially ready project is checked for errors, functionality, usability and overall performance.
+		\section{General testing}
+			General testing involves mostly assessing game's responsiveness to various input, expected and unexpected under different initial conditions.
+			The overall performance of the project satisfies both me and the stakeholder example, Wojciech, who did the $\beta$-testing.
+			The game was tested under following conditions.\\
+			\begin{center}
+				\begin{tabular}{ | p{4cm} | p{4cm} | p{3cm} |}
+					\hline
+					Input&Response&Comment \\ \hline
+					Performing mouse operations on the window&No response other than window closing when X button is clicked.&Expected response confirmed. \\ \hline
+					Pressing keys other than arrow keys during gameplay&No response related to these keys&As expected \\ \hline
+					Pressing keys other than space bar when message is displayed&No response related to those keys&As expected \\ \hline
+					Pressing arrow keys repeatedly, very fast&Performance is not compromised, gameplay appears to be normal.&Acceptable response.\\ \hline
+					Abandoning the game when it is on&The ghosts kill the player repeatedly and eventually the game comes to an end with the proper message displayed.&As expected \\ \hline
+				\end{tabular}
+			\end{center}
+		\newpage
+		\section{Meeting the requirements}
+			\begin{center}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline
+					Requirement&Testing method&Result \\ \hline
+					\ref{req-orig-colors}&Game was visually assessed&The colors resemble these of original PacMan. \\ \hline
+					\ref{req-player-shape}&Player's graphic was visually assessed.&Matches the requirement. \\ \hline
+					\ref{req-player-rotation}&Game was played and player was moved&Player's sprite was rotated accordingly \\ \hline
+					\ref{req-walls-not-passable}&Player was intentionally, excessively moved in direction of the wall, ghost movement was observed.&Neither of the sprites managed to pass the wall nor appear on the wall tile. \\ \hline
+					\ref{req-ghost-movement}&Ghost movement was observed.&Ghosts appear to chase the player.\\ \hline
+					\ref{req-life-loss}&Player was exposed to contact with the ghosts while stationary, moving away, sideways and towards the ghosts.&In a small number of cases the player was able to move 'through' the ghost when moving directly at it.\\ \hline
+					\ref{req-reset}&The game was played and lives were lost.&Each time the loss of a life made the board reset.\\ \hline
+					\ref{req-ghost-differences}&The ghosts were observed when the game was played.&Though ghosts sometimes took the same path, most of the time they were using different paths to surround the player.\\ \hline
+					\ref{req-ghost-not-reversing}&The ghosts were observed when the game was played.&Ghosts didn't reverse. \\ \hline
+					\ref{req-level-progress} \& \ref{req-coins-disappearing}&The game was played and the coins were exposed to the player.&Coins disappeared only upon contact and the appropriate counter increased. \\ \hline
+					\ref{req-hearts} \& \ref{req-lifes++}&The game was played and the hearts were exposed to the player.&Hearts disappeared only upon contact and the appropriate counter increased. \\ \hline
+					\ref{req-level-up} \& \ref{req-win} \& \ref{req-winnable}&The game was played to the end.&All levels were passable and upon game completion the appropriate message appeared.\\ \hline
+					\ref{req-game-over}&The game was played and the player lost.&The appropriate message appeared when the number of lives fell below 0.\\ \hline
+					\ref{req-messages}&The game was played and all conditions to display all messages were met.&Each time the messages appeared appropriately.\\ \hline
+					\ref{req-smarter-ghosts}&The game was played. Assessors were also shown the original game.&Most of the testers named Pycman ghosts more intelligent\\ \hline
+					\ref{req-no-ghost-house} \& \ref{req-no-powerips}&The game was played.&No ghost house, nor power-ups were found.\\ \hline
+					\ref{req-not-dying}&The game was played.&No ghosts were harmed during testing.\\ \hline
+					\ref{req-no-ghost-modes}&The game was played.&No behavior indicating any ghost 'modes' were found.\\ \hline
+					\ref{req-player-faster}&The game was played. The speed of the sprites was observed.&Player was moving notably faster than the ghosts and was able to outrun them.\\ \hline
+					\ref{req-input}&The arrow Keys were tested during the game.&Game was responsive to various combinations of pressed arrows and the game responded accordingly with no anomalies.\\ \hline
+					\ref{req-spacebar}&The spacebar was used to dismiss the messages.&The messages disappeared accordingly.\\ \hline
+					\ref{req-player-only-input}&The player was observed when no input was provided.&Player stayed still.\\ \hline
+				\end{longtable}
+			\end{center}
+		\section{Changes}
+			As seen above, Requirement \ref{req-life-loss} was not fully met as abnormal behavior was observed when the game was subject to rather atypical input. This is exactly why such a throughout testing was made. Further debugging indicated that Player was able to move through the ghost without losing life when following situation took place:\\
+			\begin{itemize}
+				\item The player is moving directly towards the ghost.
+				\item When contact occurs, the frame number is divisible by both size of the player's and ghosts' time segment in frames.
+			\end{itemize}
+			Reason to this bug was order of commands in the main loop. The location of both player and ghosts was changed during a single execution of the main loop and only later the locations are checked for a collision. This allows a ghost and the player to 'swap' grid locations in a single frame without having the same location in time other than executions of the code in between the locations change. The solution to this problem was rather simple - the condition to check whether location of the ghost and the player are the same was moved there. the issue was fixed as indicated by further testing.
+			
+			The updated main loop code is as follows:
+			\begin{lstlisting}[language=Python]
+# ----- Main game loop -----
+while game_on:
+	# ----- Level - winning handling -----
+	if coins_eaten == coins_total:
+		levelno += 1
+		game_on = False
+		# ----- stop the level if all coins are eaten -----
+	if player_time_segment == resources.constants.playerTimeSegmentSize:
+		# ----- Handling user input pt1 ------
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				game_on = False
+				exit(0)
+		# ----- checking pressed keys -----
+		keys = pygame.key.get_pressed()
+		# ----- wall collision check -----
+		surroundings = walltypecheck(player.location)
+
+	# ----- ghost movement handling pt 1 -----
+	if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
+		# if it's time to update paths update them
+		for ghost in ghosts_list.sprites():
+			if ghost.color == 'red':
+				ghost.nexttile = find_next_move(ghost.location, player.location, ghost.previouslocation)
+			elif ghost.color == 'blue':
+				ghost.nexttile = find_next_move(ghost.location,
+												[player.location[0] + resources.constants.scatterSize,
+												 player.location[1] + resources.constants.scatterSize],
+												ghost.previouslocation)
+			elif ghost.color == 'green':
+				ghost.nexttile = find_next_move(ghost.location,
+												[player.location[0] - resources.constants.scatterSize,
+												 player.location[1] - resources.constants.scatterSize],
+												ghost.previouslocation)
+
+	# ----- handling some frames/move -----
+	player_part = resources.constants.playerTimeSegmentSize - player_time_segment
+	ghost_part = resources.constants.ghostTimeSegmentSize - ghost_time_segment
+
+	# ----- input handling pt 2 / player movement handling -----
+	if keys[pygame.K_LEFT] and surroundings[2] == '0':
+		player.move('left', player_part)
+	elif keys[pygame.K_RIGHT] and surroundings[0] == '0':
+		player.move('right', player_part)
+	elif keys[pygame.K_UP] and surroundings[1] == '0':
+		player.move('up', player_part)
+	elif keys[pygame.K_DOWN] and surroundings[3] == '0':
+		player.move('down', player_part)
+
+	# ----- player dying handling -----
+	for ghost in ghosts_list.sprites():
+		if ghost.location == player.location:
+			# decrease lives counter
+			lives -= 1
+			reset()
+			# reset the board
+			player_time_segment = resources.constants.playerTimeSegmentSize + 1
+			ghost_time_segment = resources.constants.ghostTimeSegmentSize + 1
+			# force game to update ghost paths after respawning
+
+	# ----- ghost movement handling pt 2 -----
+	for ghost in ghosts_list.sprites():
+		try:
+			ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
+		except Exception:
+			# if for some unforseen reason it's impossible to move the ghost just leave it there
+			pass
+
+	if lives <= 0:
+		# if the player is dead for good
+		break
+
+	# ----- Updating sprites position -----
+	eatables_list.update()
+	walls_list.update()
+	players_list.update()
+	ghosts_list.update()
+	# ----- Fill screen with background -----
+	screen.fill(resources.colors.background)
+	# ----- ...and sprites -----
+	eatables_list.draw(screen)
+	walls_list.draw(screen)
+	players_list.draw(screen)
+	ghosts_list.draw(screen)
+
+	# ----- Counter info -----
+	label = myfont.render("Coins eaten " + str(coins_eaten) + " / " + str(coins_total) +
+						  "     Lives remaining " + str(lives) +
+						  "     Level " + str(levelno+1), 1, (255, 255, 0))
+	screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))
+
+	# ----- Refresh Screen -----
+	pygame.display.flip()
+
+	# ----- FPS handling -----
+	player_time_segment -= 1
+	ghost_time_segment -= 1
+	clock.tick(resources.constants.fps)
+
+	# ----- eating handling -----
+	for eatable in eatables_list.sprites():
+		if eatable.location == player.location:
+			eatable.kill()
+			if eatable.type == 'coin':
+				coins_eaten += 1
+				# increasing eaten points counter
+			elif eatable.type == 'heart':
+				lives += 1
+				# increasing number of lives
+
+	# ----- initializing new time periods -----
+	if not player_time_segment:
+		player_time_segment = resources.constants.playerTimeSegmentSize
+	if not ghost_time_segment:
+		ghost_time_segment = resources.constants.ghostTimeSegmentSize
+			\end{lstlisting}
+		\section{Room for future development}
+			The game was tested on a personal laptop with rather mediocre specifications. It performed very well, though when framerate was measured I have identified the performance bottleneck to be the pathfinding algorithm. I have figured that there are at lest two very related ways of fixing its performance. As player chooses the next tile every time Period, the next pathfinding computation can begin immediately following this decision in a separate thread. This leads to obvious improvement of running the game in the total number of four threads. One main thread for displaying the graphics and providing general gameplay as well as handling the input + total of three threads, one per ghost for pathfinding. This would allow to run the game on processors with less computing power but could possibly make the project require more primary memory.
+			
+			The general structure of the project and its cleanness allows for non-obvious user modifications, adding new ghosts, hunting in different regions would require mere extra 10 lines or even less. The possibilities are unlimited as it is an Open Source project. But for the easiest start - users may create their own levels as a form of customizing the game.
+			
+			This game may be referred to as 'skinnable' - users may change the graphics as they wish by a matter of a simple files substitution. For example, the player's image can be substituted with the user face and ghosts may be substituted with images of college tuition invoices. Possibilities are endless though limited to 16 million colors bitmaps of size 64x64. 
+		\section{Final assessment}
+			The game appears to be working as expected, all assumed conditions were objectively met without major issues, no complaints were made other than that the game is hard which was actually intended.
+		\section{Discussion}
+			Admittedly the development of such project required some assumptions on how to approach the general problem of actually not wasting 20\% worth of A-Levels CS marks as well as learning something useful and presenting a quality work. Initial decisions that I have appreciated when beginning to develop this project include:
+			\begin{itemize}
+				\item
+				Using \LaTeX instead of any popular word processor which broadened my knowledge on how to use this tool which will be an obvious choice later in my astronomy related future.
+				\item
+				Writing a clean code. The development of this project was not continuous, I joined English education system straight into Year 13 without knowing that I would have to make up for all the project work my peers already did over the Year 12 and holidays in between. This plus an exceptional amount of other work made me spread the development into large batches of sleep deprived weekend nights, without clean code I would have to spend extra time getting around undocumented solutions each time I attempted to move the project forward.
+				\item
+				Regular backups - honestly, these saved tens of hours when I corrupted my main drive.
+				\item
+				Doing something I know how to approach - yes, making a game was a challenge but then I knew what tools to use and when I stumbled on a problem I knew where to seek answers.
+			\end{itemize}
+		Things I would have done differently:
+			\begin{itemize}
+				\item
+				I have said that \LaTeX was a good choice over for example Microsoft Word. Which still doesn't make it the perfect choice for documenting a Python project. There is a module for that (like for almost everything else). Jupyter Notebook would be my choice for writing this document if I were to do it again.
+				\item
+				Spending more time to figure out how to save time. I have spent definitely too much time on writing this documentation and I probably should have planned it better.
+				\item
+				Realizing that giving up on a feature is more painful than implementing it. Hearts were to vanish but then the cleanness of my OOP code made them appear in just a few lines.  
+			\end{itemize}
 	\chapter{Code appendix}
 	TODO: update these files before final submission
 		\section{main.py}

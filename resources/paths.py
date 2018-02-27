@@ -22,7 +22,8 @@ image = {
     "player": graphics + "player.png",
     "red_ghost": graphics + "redghost.png",
     "blue_ghost": graphics + "blueghost.png",
-    "green_ghost": graphics + "greenghost.png"
+    "green_ghost": graphics + "greenghost.png",
+    "heart": graphics + "heart.png"
 }
 
 levelorder = [
