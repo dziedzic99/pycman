@@ -548,10 +548,11 @@ def walltypecheck(location):
 					Player & (255, 0, 0) \\ \hline
 					Red Ghost & (200, 100, 100) \\ \hline
 					Green Ghost & (0, 255, 0) \\ \hline
-					Blue Ghost & (0, 0, 255) \\ 
-					%TODO: heart color
+					Blue Ghost & (0, 0, 255) \\ \hline
+					Heart & (200, 200, 255) \\
 					\hline
 				\end{tabular}
+			\newpage
 			\dsubsection{Storing while in game}
 				\label{level-ingame-storing}
 				Do you remember my first concept for the most optimal storage of levels mentioned earlier? Well, that didn't work for storing levels as files... But in game while loaded in RAM - works like a charm. List of lists of integers, just like that:\\
@@ -602,8 +603,8 @@ def walltypecheck(location):
 					Player & 3 \\ \hline
 					Red Ghost & 4 \\ \hline
 					Green Ghost & 5 \\ \hline
-					Blue Ghost & 6 \\ 
-					%TODO: heart value
+					Blue Ghost & 6 \\ \hline
+					Heart (not included in this level) & 7 \\
 					\hline
 				\end{tabular}
 			\dsubsection{Interpreting}
@@ -966,19 +967,30 @@ for Movable in Movables:
 				\caption{Exemplar of the message screen appearing in a window rendered in Ubuntu Gnome graphical environment}
 			\end{img}
 			\dsubsection{Tutorial}
-				TODO: Photo of the screen These will be actually completed when I will have time to input actual strings, whilst more critical game parts may be developed earlier.\\
-				I remind that I had to make 13 months worth of coursework from 3 subjects in 3 months.
+				\begin{img}
+					\includegraphics[width=300pt]{images/tutorial.png}\\
+					\caption{Message displayed after starting the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
 			\dsubsection{Loss of life}
-				TODO: Photo of the screen
+				\begin{img}
+					\includegraphics[width=300pt]{images/loss_of_life_msg.png}\\
+					\caption{Message displayed after losing a life. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
 			\dsubsection{Completing a level}
 				\begin{img}
 						\includegraphics[width=300pt]{images/level-complete.png}\\
 						\caption{Message displayed after completing a level. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
 				\end{img}
 			\dsubsection{Loosing the game}
-				TODO: Photo of the screen
+				\begin{img}
+					\includegraphics[width=300pt]{images/game_over_msg.png}\\
+					\caption{Message displayed upon losing the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
 			\dsubsection{Completing the entire game}
-				TODO: Photo of the screen
+				\begin{img}
+					\includegraphics[width=300pt]{images/real_congrats_msg.png}\\
+					\caption{Message displayed after completing the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
 		\section{Testing}
 			I have decided to use three stages of testing, namely zero, alpha ($\alpha$) and beta ($\beta$).
 			\dsubsection{zero-testing}
@@ -1107,7 +1119,7 @@ class Wall(GameObject):
 		super().__init__(location)
 		self.setimage('w'+str(type))
 				\end{lstlisting}
-			\subsection{Movable}
+			\dsubsection{Movable}
 				Movable is the most complex class deriving from GameObject. It is a blueprint for both Ghosts and the Player, which in contrary to other GameObjects are not static and may move or reset their position to initial (see Section \ref{respawning} for information about Movable respawning).
 				It has an additional attribute of 'speed' which is an (integer, integer) tuple with information in which direction (x, y) is the Movable moving. Naturally it has a 'move' method that processes these information accordingly. This method takes following arguments:
 				\begin{itemize}
@@ -2486,13 +2498,73 @@ levelorder = [
 ]
 			\end{lstlisting}
 	\chapter{Levels appendix}
-		TODO: supply levels after generating them.\\
-		This will look more or less like this:\\
-		------------------\\
-		level source image\\
-		------------------\\
-		rendered level image\\
-		etc. I assume no more than 3 images per page, resulting in at least extra 7 pages.
+		\newpage
+		\section{Level 1}
+			\dsubsection{Source image}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level1}\\
+				\caption{Level 1 source image}
+			\end{img}
+			\dsubsection{Rendered level}
+				\begin{img}
+					\includegraphics[width=350pt]{images/level1_r}\\
+					\caption{Level 1 rendered in game}
+				\end{img}
+		\section{Level 2}
+			\dsubsection{Source image}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level2}\\
+				\caption{Level 2 source image}
+			\end{img}
+			\dsubsection{Rendered level}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level2_r}\\
+				\caption{Level 2 rendered in game}
+			\end{img}
+		\section{Level 3}
+			\dsubsection{Source image}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level3}\\
+				\caption{Level 3 source image}
+			\end{img}
+			\dsubsection{Rendered level}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level3_r}\\
+				\caption{Level 3 rendered in game}
+			\end{img}
+		\section{Level 4}
+			\dsubsection{Source image}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level4}\\
+				\caption{Level 4 source image}
+			\end{img}
+			\dsubsection{Rendered level}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level4_r}\\
+				\caption{Level 4 rendered in game}
+			\end{img}
+		\section{Level 5}
+			\dsubsection{Source image}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level5}\\
+				\caption{Level 5 source image}
+			\end{img}
+			\dsubsection{Rendered level}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level5_r}\\
+				\caption{Level 5 rendered in game}
+			\end{img}
+		\section{Level 6}
+			\dsubsection{Source image}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level6}\\
+				\caption{Level 6 source image}
+			\end{img}
+			\dsubsection{Rendered level}
+			\begin{img}
+				\includegraphics[width=350pt]{images/level6_r}\\
+				\caption{Level 6 rendered in game}
+			\end{img}
 	\chapter{References}
 		\begin{enumerate}
 			\item

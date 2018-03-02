@@ -6,7 +6,7 @@ player = None
 coins_total = 0
 coins_eaten = 0
 level = None
-levelno = 1
+levelno = 2
 lives = 30
 pygame.init()
 myfont = pygame.font.SysFont("monospace", resources.constants.fontsize)
@@ -291,7 +291,7 @@ def playlevel():
                 player_time_segment = resources.constants.playerTimeSegmentSize + 1
                 ghost_time_segment = resources.constants.ghostTimeSegmentSize + 1
                 # force game to update ghost paths after respawning
-
+                show_message(resources.constants.lossOfLifeStringList)
         # ----- ghost movement handling pt 2 -----
         for ghost in ghosts_list.sprites():
             try:
@@ -320,8 +320,9 @@ def playlevel():
         # ----- Counter info -----
         label = myfont.render("Coins eaten " + str(coins_eaten) + " / " + str(coins_total) +
                               "     Lives remaining " + str(lives) +
-                              "     Level " + str(levelno+1), 1, (255, 255, 0))
-        screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))
+                              "     Level " + str(levelno), 1, (255, 255, 0))
+        screen.blit(label, (resources.constants.tileWidth / 2,
+                            resources.constants.gamesize * resources.constants.tileWidth))
 
         # ----- Refresh Screen -----
         pygame.display.flip()
@@ -361,3 +362,4 @@ def main():
         show_message(resources.constants.theEndStringList)
 
 main()
+#show_message(resources.constants.realCongratsStringList)
