@@ -6,7 +6,7 @@ player = None
 coins_total = 0
 coins_eaten = 0
 level = None
-levelno = 2
+levelno = 1
 lives = 30
 pygame.init()
 myfont = pygame.font.SysFont("monospace", resources.constants.fontsize)
@@ -173,7 +173,12 @@ def show_message(messageboard):
         label = myfont.render(messageboard[i], 1, (255, 255, 0))
         screen.blit(label, (0, resources.constants.fontsize * i))
     pygame.display.flip()
-    sleep(5)
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == 32:
+                waiting = False
+        sleep(0.05)
 
 
 def show_tutorial():
