@@ -21,7 +21,7 @@ leveldef = {
     'red_ghost': 4,
     'green_ghost': 5,
     'blue_ghost': 6,
-    'heart': 7,
+    'heart': 7
 }
 
 editordef = {

@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{report}
+\documentclass[11pt,a4paper,notitlepage]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -61,10 +61,11 @@
 
 
 \begin{document}
+	\thispagestyle{plain}
 	\maketitle
+	
 	\newpage
 	\thispagestyle{empty}
-	$$$$
 	\newpage
 	\thispagestyle{empty}
 	\tableofcontents
@@ -89,6 +90,8 @@
 			The game develops critical thinking skills and takes effect of human nature of taking risks and tackling unknown - with having more confidence when predicting ghost behavior, the player actually gets better when playing despite problems generally low complexity.
 			
 			Actually the game itself may be referred as to playing tag in a transparent maze. Such a play would be very hard for a human to enjoy as analyzing transparent walls while running and predicting opponent's next move is a far too complex problem for human cognition. That's why computational approach on this game is required - where player can see ghosts from above the board whilst ghost may exhibit algorithmically advanced behavior.
+
+
 		\section{Stakeholders}
 			Proposed end user group is really wide. As the game itself can be launched on virtually any device due to Python versatility, it may be used on a spectrum of devices with different controllers, from mobile phones and smart watches through PCs reaching as far as game console emulators mimicking the most authentic PacMan game experience. Such portability should satisfy most users.
 			
@@ -170,7 +173,7 @@
 			
 			-I think that making the ghost chase the player indirectly may be the way, how about them tailing the PycMan?
 			
-			-Yeah, that migh be fine but this may eventually lead to them not catching it at all if it doesn't move.
+			-Yeah, that might be fine but this may eventually lead to them not catching it at all if it doesn't move.
 			
 			-Oh, that might be the case.
 			
@@ -349,6 +352,10 @@
 				Pop-up messaging
 		\end{itemize}
 		\section{Main window layout}
+			\begin{img}
+				\includegraphics[width=350pt]{images/window_whiteboard.jpg}\\
+				\caption{Very early design of the game window. Note the lack of counters.}
+			\end{img}
 			Main game window consists of a board where the actual game takes place.
 			Below the board there is a set of informative counters kept in characteristic PacMan colours of gold-yellow on dark/royal-blue background as per requirement \ref{req-orig-colors}.
 			\begin{img}
@@ -365,6 +372,10 @@
 				\end{img}
 				General idea is that all border tiles of each level (tile system explained later) have to be walls, which creates a nice, outer border of the board with rounded edges.
 			\dsubsection{Counters}
+				\begin{img}
+					\includegraphics[width=350pt]{images/counters_whiteboard.jpg}\\
+					\caption{Counter placement design in its earliest stage.}
+				\end{img}
 				Directly below the board, counters are located, these provide information on:
 				\begin{enumerate}
 					\item
@@ -630,11 +641,9 @@ elif level[column][row] = heart
 				Process of level design is quite easy and only limitation one needs to remember is that all coin - having tiles must be accessible by a player - not surrounded by a wall. The rest is just a subjective approach to the difficulty. As not all ghosts have to be used, the first few levels have one or two ghosts at most, making them easier. Through alpha testing I have noticed that long passages are traps, as one ghost may approach player from one side and other from the other and there is nowhere to hide. Also it's easier for ghosts to navigate through complex maze and these might be finger-tangling even for advanced players.
 				See Figure \ref{gimplevel} for a screenshot of a design process.
 			\dsubsection{User-defined levels}
-				As levels can be created using a very basic bitmap editing software, user might actually add their own levels. And use them instead of the built-in ones.
+				As levels can be created using a very basic bitmap editing software, user might actually add their own levels. And use them instead of the built-in ones or as an addition to them.
 				
-				Self-adding levels instruction is available in Appendix X.
-				TODO:reference to right appendix
-				TODO:instruction
+				Self-adding levels instruction is available as an appendix in Section 7 \ref{new_levels_guide}.
 			\dsubsection{Progressing to the next level}
 				When player eats all coins, they advance to the next level, fulfilling Requirement \ref{req-level-progress} and eventually \ref{req-level-up}. At this stage a message screen (described later) appears and all level - loading procedures are called. Also counters of coins eaten and total are reset at this point.
 				
@@ -1236,12 +1245,14 @@ leveldef = {
 	'red_ghost': 4,
 	'green_ghost': 5,
 	'blue_ghost': 6,
+	'heart': 7
 }
 
 editordef = {
 	'nothing': (255, 255, 255),
 	'wall': (0, 0, 0),
 	'coin': (255, 255, 0),
+	'heart': (200, 200, 255),
 	'player': (255, 0, 0),
 	'red_ghost': (200, 100, 100),
 	'green_ghost': (0, 255, 0),
@@ -1769,7 +1780,21 @@ def main():
 					\item
 						Congratulations on completing the whole game
 				\end{itemize}
-				TODO: Add this function code after 'press [space] to continue' is implemented.
+				Following is the code for the show\_message function. It takes a single argument of a list of lines to display.
+				\begin{lstlisting} [language = Python]
+def show_message(messageboard):
+	screen.fill(resources.colors.background)
+	for i in range(len(messageboard)):
+		label = myfont.render(messageboard[i], 1, (255, 255, 0))
+		screen.blit(label, (0, resources.constants.fontsize * i))
+	pygame.display.flip()
+	waiting = True
+	while waiting:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN and event.key == 32:
+				waiting = False
+	sleep(0.05)
+				\end{lstlisting}
 	\chapter{Evaluation}
 		The Implementation phase of project development is followed by Testing phase, during which the potentially ready project is checked for errors, functionality, usability and overall performance.
 		\section{General testing}
@@ -1955,7 +1980,7 @@ while game_on:
 			Admittedly the development of such project required some assumptions on how to approach the general problem of actually not wasting 20\% worth of A-Levels CS marks as well as learning something useful and presenting a quality work. Initial decisions that I have appreciated when beginning to develop this project include:
 			\begin{itemize}
 				\item
-				Using \LaTeX instead of any popular word processor which broadened my knowledge on how to use this tool which will be an obvious choice later in my astronomy related future.
+				Using \LaTeX\ instead of any popular word processor which broadened my knowledge on how to use this tool which will be an obvious choice later in my astronomy related future.
 				\item
 				Writing a clean code. The development of this project was not continuous, I joined English education system straight into Year 13 without knowing that I would have to make up for all the project work my peers already did over the Year 12 and holidays in between. This plus an exceptional amount of other work made me spread the development into large batches of sleep deprived weekend nights, without clean code I would have to spend extra time getting around undocumented solutions each time I attempted to move the project forward.
 				\item
@@ -2565,10 +2590,34 @@ levelorder = [
 				\includegraphics[width=350pt]{images/level6_r}\\
 				\caption{Level 6 rendered in game}
 			\end{img}
+	\chapter{Guide to creating new levels}
+		\label{new_levels_guide}
+		Recommended software: GIMP version 2.3 or higher.\\
+		Recommended hardware: screen, keyboard, mouse or a touch/stylus interface.
+		\begin{itemize}
+			\item
+				Create a 32 x 32 RGB bitmap in .bmp format.
+			\item
+				Fill it with black color (255, 255, 255)
+			\item
+				Use pencil tool with a solid tip of size 1px to draw paths for the Movables, refer to Section \ref{level-permanent-storing} for available colors.
+				It is strongly discouraged not to set border of the image as color black (255, 255, 255) symbolizing walls. While this shouldn't produce an error, this may negatively impact the gameplay.
+			\item
+				Again, use the same tool to place the player, ghosts, coins and hearts according to the above-mentioned specification.
+				Remember that there should be precisely one player tile. You can add as many ghosts of all the three colors as you want. You may also decide not to include some.
+			\item
+				Place the bitmap in the resources/levels directory.
+			\item
+				Update 'totallevels' in recources/constants.py to indicate how many levels are in the folder.
+			\item
+				Add filename of your new level source image to 'levelorder' dictionary in resources/paths.py.
+			\item
+				Play your newly modified game!
+		\end{itemize}
 	\chapter{References}
 		\begin{enumerate}
 			\item
-				http://gameinternals.com/post/2072558330/understanding-pac-man-ghost-behavior
+				https://goo.gl/36A62h
 				\label{stronaopacmanie}
 			\item
 				https://www.pygame.org/docs
