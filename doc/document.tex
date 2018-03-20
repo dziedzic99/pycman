@@ -1555,7 +1555,11 @@ def find_next_move(start, end, forbidden):
 				\end{lstlisting}
 Being a rather clean BFS implementation this code returns only the location of one of ghost's neighbors - the tile it has to move to next. It was rewritten from scratch and well commented. Forbidden tile was added and therefore Requirement \ref{req-ghost-not-reversing} fulfilled.
 		\section{Designing resources}
-			Admittedly, my computer graphics skills are quite limited, so are manual. I considered designing graphics on paper, scanning them and importing into game. Following my first sketches I have decided to rather use GIMP instead of paper and pencils. TODO: add mock drawing\\
+			Admittedly, my computer graphics skills are quite limited, so are manual. I considered designing graphics on paper, scanning them and importing into game. Following my first sketches I have decided to rather use GIMP instead of paper and pencils. Even though, some initial drawings on a whiteboard came handy.\\
+			\begin{img}
+				\includegraphics[width=300pt]{images/wall-whiteboard-design.jpg}\\
+				\caption{Initial whiteboard design of the wall tiles}
+			\end{img}
 			As per Requirement \ref{req-orig-colors}, I needed to produce designs similar to those in original PacMan.
 			\begin{img}
 				\includegraphics[width=300pt]{images/original-graphics.jpg}\\
@@ -1727,15 +1731,18 @@ ghost_time_segment -= 1
 clock.tick(resources.constants.fps)
 					\end{lstlisting}
 				\subsubsection{Handling eating Eatables}
-					TODO: update for hearts
 					As per Requirement \ref{req-coins-disappearing} and \ref{req-level-progress}, the following code checks whether any of the Eatables is affected by Player's presence and if so, it kills it, modifying appropriate counters.
 					\begin{lstlisting} [language = Python]
 # ----- eating handling -----
 for eatable in eatables_list.sprites():
 	if eatable.location == player.location:
 		eatable.kill()
-		coins_eaten += 1
-		# increasing eaten points counter
+		if eatable.type == 'coin':
+			coins_eaten += 1
+			# increasing eaten points counter
+		elif eatable.type == 'heart':
+			lives += 1
+			# increasing number of lives
 					\end{lstlisting}
 				\subsubsection{Initializing new Time Periods}
 					Finally, if either of Time Segments comes to an end, the following code executes to initialize a new one.
@@ -1797,6 +1804,10 @@ def show_message(messageboard):
 				\end{lstlisting}
 	\chapter{Evaluation}
 		The Implementation phase of project development is followed by Testing phase, during which the potentially ready project is checked for errors, functionality, usability and overall performance.
+		\begin{img}
+			\includegraphics[width=300pt]{images/tester.jpg}\\
+			\caption{One of the testers playing PycMan}
+		\end{img}
 		\section{General testing}
 			General testing involves mostly assessing game's responsiveness to various input, expected and unexpected under different initial conditions.
 			The overall performance of the project satisfies both me and the stakeholder example, Wojciech, who did the $\beta$-testing.
@@ -1806,10 +1817,10 @@ def show_message(messageboard):
 					\hline
 					Input&Response&Comment \\ \hline
 					Performing mouse operations on the window&No response other than window closing when X button is clicked.&Expected response confirmed. \\ \hline
-					Pressing keys other than arrow keys during gameplay&No response related to these keys&As expected \\ \hline
-					Pressing keys other than space bar when message is displayed&No response related to those keys&As expected \\ \hline
+					Pressing keys other than arrow keys during gameplay&No response related to these keys&As expected, no action \\ \hline
+					Pressing keys other than space bar when message is displayed&No response related to those keys&As expected, no action \\ \hline
 					Pressing arrow keys repeatedly, very fast&Performance is not compromised, gameplay appears to be normal.&Acceptable response.\\ \hline
-					Abandoning the game when it is on&The ghosts kill the player repeatedly and eventually the game comes to an end with the proper message displayed.&As expected \\ \hline
+					Abandoning the game when it is on&The ghosts kill the player repeatedly and eventually the game comes to an end with the proper message displayed.&As expected, provided spacebar is pressed every kill\\ \hline
 				\end{tabular}
 			\end{center}
 		\newpage
@@ -1842,16 +1853,32 @@ def show_message(messageboard):
 					\ref{req-player-only-input}&The player was observed when no input was provided.&Player stayed still.\\ \hline
 				\end{longtable}
 			\end{center}
-		\section{Changes}
-			As seen above, Requirement \ref{req-life-loss} was not fully met as abnormal behavior was observed when the game was subject to rather atypical input. This is exactly why such a throughout testing was made. Further debugging indicated that Player was able to move through the ghost without losing life when following situation took place:\\
-			\begin{itemize}
-				\item The player is moving directly towards the ghost.
-				\item When contact occurs, the frame number is divisible by both size of the player's and ghosts' time segment in frames.
-			\end{itemize}
-			Reason to this bug was order of commands in the main loop. The location of both player and ghosts was changed during a single execution of the main loop and only later the locations are checked for a collision. This allows a ghost and the player to 'swap' grid locations in a single frame without having the same location in time other than executions of the code in between the locations change. The solution to this problem was rather simple - the condition to check whether location of the ghost and the player are the same was moved there. the issue was fixed as indicated by further testing.
+			Photos from testing as proof of features working:\\
+			\begin{img}
+				\includegraphics[width=300pt]{images/ghosts-chasing0.png}\\
+				\caption{Image of ghosts chasing the player. Absence of eaten coins can be seen.}
+			\end{img}
+			\begin{img}
+				\includegraphics[width=300pt]{images/hearts-working0.png}\\
+				\caption{State of game prior to heart eating.}
+			\end{img}
+			\begin{img}
+				\includegraphics[width=300pt]{images/hearts-working1.png}\\
+				\caption{State of game post heart eating. Note the state of "Lives remaining" counter and the "Coins eaten" counter. 'Coins under the hearts' bug can be visible.}
+				\label{coins-under-hearts}
+			\end{img}
 			
-			The updated main loop code is as follows:
-			\begin{lstlisting}[language=Python]
+		\section{Changes}
+			\dsubsection{Fixing requirement 1f}
+				As seen above, Requirement \ref{req-life-loss} was not fully met as abnormal behavior was observed when the game was subject to rather atypical input. This is exactly why such a throughout testing was made. Further debugging indicated that Player was able to move through the ghost without losing life when following situation took place:\\
+				\begin{itemize}
+					\item The player is moving directly towards the ghost.
+					\item When contact occurs, the frame number is divisible by both size of the player's and ghosts' time segment in frames.
+				\end{itemize}
+				Reason to this bug was order of commands in the main loop. The location of both player and ghosts was changed during a single execution of the main loop and only later the locations are checked for a collision. This allows a ghost and the player to 'swap' grid locations in a single frame without having the same location in time other than executions of the code in between the locations change. The solution to this problem was rather simple - the condition to check whether location of the ghost and the player are the same was moved there. the issue was fixed as indicated by further testing.
+				
+				The updated main loop code is as follows:
+				\begin{lstlisting}[language=Python]
 # ----- Main game loop -----
 while game_on:
 	# ----- Level - winning handling -----
@@ -1879,12 +1906,12 @@ while game_on:
 			elif ghost.color == 'blue':
 				ghost.nexttile = find_next_move(ghost.location,
 												[player.location[0] + resources.constants.scatterSize,
-												 player.location[1] + resources.constants.scatterSize],
+											 player.location[1] + resources.constants.scatterSize],
 												ghost.previouslocation)
 			elif ghost.color == 'green':
 				ghost.nexttile = find_next_move(ghost.location,
 												[player.location[0] - resources.constants.scatterSize,
-												 player.location[1] - resources.constants.scatterSize],
+											 player.location[1] - resources.constants.scatterSize],
 												ghost.previouslocation)
 
 	# ----- handling some frames/move -----
@@ -1939,8 +1966,8 @@ while game_on:
 
 	# ----- Counter info -----
 	label = myfont.render("Coins eaten " + str(coins_eaten) + " / " + str(coins_total) +
-						  "     Lives remaining " + str(lives) +
-						  "     Level " + str(levelno+1), 1, (255, 255, 0))
+				  "     Lives remaining " + str(lives) +
+				  "     Level " + str(levelno+1), 1, (255, 255, 0))
 	screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))
 
 	# ----- Refresh Screen -----
@@ -1967,7 +1994,35 @@ while game_on:
 		player_time_segment = resources.constants.playerTimeSegmentSize
 	if not ghost_time_segment:
 		ghost_time_segment = resources.constants.ghostTimeSegmentSize
-			\end{lstlisting}
+				\end{lstlisting}
+			\dsubsection{'Coins under hearts' bug}
+				During testing and as seen in the Figure \ref{coins-under-hearts}, the bug that places coins under hearts has been spotted. Its origin was backtracked to the original coin-placing function which was implemented prior to hearts development and therefore didn't account for them. Following is the code that placed coins in every tile which wasn't a 'wall' or marked as 'nothing'. This included tiles designated as 'hearts'.
+				\begin{lstlisting}[language=Python]
+box = level[col][row]
+if box != resources.constants.leveldef["wall"]\
+		and box != resources.constants.leveldef['nothing']:
+	eatable = Eatable('coin', (col, row))
+	eatables_list.add(eatable)
+	coins_total += 1
+				\end{lstlisting}
+				The fix was easily developed and 'heart' tiles were added to the list of excluded tiles.
+				\begin{lstlisting}[language=Python]
+box = level[col][row]
+if box != resources.constants.leveldef["wall"]\
+		and box != resources.constants.leveldef['nothing']\
+		and box != resources.constants.leveldef['heart']:
+	eatable = Eatable('coin', (col, row))
+	eatables_list.add(eatable)
+	coins_total += 1
+				\end{lstlisting}
+				\begin{img}
+					\includegraphics[width=300pt]{images/hearts-working2.png}\\
+					\caption{State of game prior to heart eating.}
+				\end{img}
+				\begin{img}
+					\includegraphics[width=300pt]{images/hearts-working3.png}\\
+					\caption{State of game after heart eating. Note that the 'Coins eaten' counter was not increased, which is the expected behavior.}
+				\end{img}
 		\section{Room for future development}
 			The game was tested on a personal laptop with rather mediocre specifications. It performed very well, though when framerate was measured I have identified the performance bottleneck to be the pathfinding algorithm. I have figured that there are at lest two very related ways of fixing its performance. As player chooses the next tile every time Period, the next pathfinding computation can begin immediately following this decision in a separate thread. This leads to obvious improvement of running the game in the total number of four threads. One main thread for displaying the graphics and providing general gameplay as well as handling the input + total of three threads, one per ghost for pathfinding. This would allow to run the game on processors with less computing power but could possibly make the project require more primary memory.
 			

@@ -127,7 +127,9 @@ def loadlevel(file):
     for col in range(0, resources.constants.gamesize):
         for row in range(0, resources.constants.gamesize):
             box = level[col][row]
-            if box != resources.constants.leveldef["wall"] and box != resources.constants.leveldef['nothing']:
+            if box != resources.constants.leveldef["wall"]\
+                    and box != resources.constants.leveldef['nothing']\
+                    and box != resources.constants.leveldef['heart']:
                 eatable = Eatable('coin', (col, row))
                 eatables_list.add(eatable)
                 coins_total += 1
