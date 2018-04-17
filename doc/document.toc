@@ -1,0 +1,136 @@
+\contentsline {chapter}{\numberline {1}Project Definition and Analysis}{6}
+\contentsline {section}{\numberline {1.1}Project Definition}{7}
+\contentsline {section}{\numberline {1.2}Stakeholders}{8}
+\contentsline {section}{\numberline {1.3}Software Challenges}{8}
+\contentsline {section}{\numberline {1.4}The Interview}{10}
+\contentsline {section}{\numberline {1.5}Requirement specification (success criteria)}{11}
+\contentsline {chapter}{\numberline {2}Design}{14}
+\contentsline {section}{\numberline {2.1}Main window layout}{16}
+\contentsline {subsection}{\numberline {2.1.1}Board}{17}
+\contentsline {subsection}{\numberline {2.1.2}Counters}{19}
+\contentsline {section}{\numberline {2.2}Grid layout}{20}
+\contentsline {section}{\numberline {2.3}Types of tiles}{22}
+\contentsline {subsection}{\numberline {2.3.1}Walls}{22}
+\contentsline {subsection}{\numberline {2.3.2}Player}{26}
+\contentsline {subsection}{\numberline {2.3.3}Ghosts}{26}
+\contentsline {subsection}{\numberline {2.3.4}Eatables}{27}
+\contentsline {subsubsection}{Coins}{27}
+\contentsline {subsubsection}{Hearts}{28}
+\contentsline {subsection}{\numberline {2.3.5}Empty tiles}{28}
+\contentsline {section}{\numberline {2.4}Levels}{29}
+\contentsline {subsection}{\numberline {2.4.1}Permanent storing}{29}
+\contentsline {subsection}{\numberline {2.4.2}Storing while in game}{31}
+\contentsline {subsection}{\numberline {2.4.3}Interpreting}{33}
+\contentsline {subsection}{\numberline {2.4.4}Designing the levels}{34}
+\contentsline {subsection}{\numberline {2.4.5}User-defined levels}{34}
+\contentsline {subsection}{\numberline {2.4.6}Progressing to the next level}{34}
+\contentsline {section}{\numberline {2.5}Gameplay scheme}{34}
+\contentsline {subsection}{\numberline {2.5.1}Introduction to the concept of time segments}{35}
+\contentsline {subsection}{\numberline {2.5.2}Player movement}{35}
+\contentsline {subsection}{\numberline {2.5.3}Ghost movement}{36}
+\contentsline {subsubsection}{The graph}{37}
+\contentsline {subsubsection}{Pathfinding}{38}
+\contentsline {subsubsection}{Differences between ghosts}{40}
+\contentsline {subsubsection}{Calling pathfinding algorithm}{42}
+\contentsline {subsubsection}{Ghosts speed}{43}
+\contentsline {subsection}{\numberline {2.5.4}Handling movement animation}{43}
+\contentsline {subsection}{\numberline {2.5.5}Eating}{45}
+\contentsline {subsection}{\numberline {2.5.6}Getting killed}{46}
+\contentsline {subsection}{\numberline {2.5.7}Respawning after a loss of life}{46}
+\contentsline {section}{\numberline {2.6}Types of message screens}{46}
+\contentsline {subsection}{\numberline {2.6.1}Tutorial}{48}
+\contentsline {subsection}{\numberline {2.6.2}Loss of life}{49}
+\contentsline {subsection}{\numberline {2.6.3}Completing a level}{50}
+\contentsline {subsection}{\numberline {2.6.4}Loosing the game}{51}
+\contentsline {subsection}{\numberline {2.6.5}Completing the entire game}{52}
+\contentsline {section}{\numberline {2.7}Testing}{52}
+\contentsline {subsection}{\numberline {2.7.1}zero-testing}{52}
+\contentsline {subsection}{\numberline {2.7.2}$\alpha $-testing}{53}
+\contentsline {subsection}{\numberline {2.7.3}$\beta $-testing}{53}
+\contentsline {chapter}{\numberline {3}Implementation}{54}
+\contentsline {section}{\numberline {3.1}Programming tools}{54}
+\contentsline {subsection}{\numberline {3.1.1}PyCharm}{54}
+\contentsline {subsection}{\numberline {3.1.2}GIMP}{55}
+\contentsline {subsection}{\numberline {3.1.3}Git}{55}
+\contentsline {subsection}{\numberline {3.1.4}TeXstudio}{56}
+\contentsline {subsection}{\numberline {3.1.5}Other tools}{57}
+\contentsline {section}{\numberline {3.2}Interpreter and its modules}{57}
+\contentsline {subsection}{\numberline {3.2.1}Virtual Environment}{57}
+\contentsline {subsection}{\numberline {3.2.2}Modules}{57}
+\contentsline {section}{\numberline {3.3}Project structure}{57}
+\contentsline {section}{\numberline {3.4}Classes}{59}
+\contentsline {subsection}{\numberline {3.4.1}GameObject}{60}
+\contentsline {subsection}{\numberline {3.4.2}Eatable}{60}
+\contentsline {subsection}{\numberline {3.4.3}Wall}{61}
+\contentsline {subsection}{\numberline {3.4.4}Movable}{61}
+\contentsline {subsection}{\numberline {3.4.5}Player}{62}
+\contentsline {subsection}{\numberline {3.4.6}Ghost}{63}
+\contentsline {section}{\numberline {3.5}Resources}{64}
+\contentsline {subsection}{\numberline {3.5.1}Constants}{64}
+\contentsline {subsection}{\numberline {3.5.2}Paths}{66}
+\contentsline {section}{\numberline {3.6}Level processing}{67}
+\contentsline {subsection}{\numberline {3.6.1}Reading bitmap files}{67}
+\contentsline {subsection}{\numberline {3.6.2}Checking wall type}{68}
+\contentsline {subsection}{\numberline {3.6.3}Adding Sprites according to tile types}{69}
+\contentsline {subsection}{\numberline {3.6.4}Sprite Groups}{70}
+\contentsline {section}{\numberline {3.7}Ghost pathfinding algorithm}{70}
+\contentsline {subsection}{\numberline {3.7.1}Graph structure}{70}
+\contentsline {subsection}{\numberline {3.7.2}Graph building}{70}
+\contentsline {subsection}{\numberline {3.7.3}Choosing a target tile for each ghost}{71}
+\contentsline {subsection}{\numberline {3.7.4}Actual pathfinding}{72}
+\contentsline {section}{\numberline {3.8}Designing resources}{76}
+\contentsline {subsection}{\numberline {3.8.1}Walls}{77}
+\contentsline {subsection}{\numberline {3.8.2}Ghosts}{78}
+\contentsline {subsection}{\numberline {3.8.3}Player}{78}
+\contentsline {section}{\numberline {3.9}Core program code}{78}
+\contentsline {subsection}{\numberline {3.9.1}Playing a single level}{78}
+\contentsline {subsubsection}{Main loop}{79}
+\contentsline {subsubsection}{Handling completing the level}{79}
+\contentsline {subsubsection}{Handling user input and movement part 1}{79}
+\contentsline {subsubsection}{Handling ghost movement part 1}{79}
+\contentsline {subsubsection}{Updating 'part' counters}{80}
+\contentsline {subsubsection}{Handling input part 2}{80}
+\contentsline {subsubsection}{Handling ghost movement part 2}{81}
+\contentsline {subsubsection}{Handling player dying}{81}
+\contentsline {subsubsection}{Drawing}{81}
+\contentsline {subsubsection}{Processing and rendering counters}{82}
+\contentsline {subsubsection}{Refreshing screen}{82}
+\contentsline {subsubsection}{Handling eating Eatables}{82}
+\contentsline {subsubsection}{Initializing new Time Periods}{83}
+\contentsline {subsection}{\numberline {3.9.2}Function switching levels}{83}
+\contentsline {subsection}{\numberline {3.9.3}Displaying messages}{84}
+\contentsline {chapter}{\numberline {4}Evaluation}{85}
+\contentsline {section}{\numberline {4.1}General testing}{85}
+\contentsline {section}{\numberline {4.2}Meeting the requirements}{87}
+\contentsline {section}{\numberline {4.3}Changes}{91}
+\contentsline {subsection}{\numberline {4.3.1}Fixing requirement 1f}{91}
+\contentsline {subsection}{\numberline {4.3.2}'Coins under hearts' bug}{94}
+\contentsline {section}{\numberline {4.4}Room for future development}{96}
+\contentsline {section}{\numberline {4.5}Final assessment}{97}
+\contentsline {section}{\numberline {4.6}Discussion}{97}
+\contentsline {chapter}{\numberline {5}Code appendix}{99}
+\contentsline {section}{\numberline {5.1}main.py}{99}
+\contentsline {section}{\numberline {5.2}classes.py}{106}
+\contentsline {section}{\numberline {5.3}levelprocessor.py}{109}
+\contentsline {section}{\numberline {5.4}paths.py}{109}
+\contentsline {chapter}{\numberline {6}Levels appendix}{111}
+\contentsline {section}{\numberline {6.1}Level 1}{112}
+\contentsline {subsection}{\numberline {6.1.1}Source image}{112}
+\contentsline {subsection}{\numberline {6.1.2}Rendered level}{113}
+\contentsline {section}{\numberline {6.2}Level 2}{114}
+\contentsline {subsection}{\numberline {6.2.1}Source image}{114}
+\contentsline {subsection}{\numberline {6.2.2}Rendered level}{115}
+\contentsline {section}{\numberline {6.3}Level 3}{116}
+\contentsline {subsection}{\numberline {6.3.1}Source image}{116}
+\contentsline {subsection}{\numberline {6.3.2}Rendered level}{117}
+\contentsline {section}{\numberline {6.4}Level 4}{118}
+\contentsline {subsection}{\numberline {6.4.1}Source image}{118}
+\contentsline {subsection}{\numberline {6.4.2}Rendered level}{119}
+\contentsline {section}{\numberline {6.5}Level 5}{120}
+\contentsline {subsection}{\numberline {6.5.1}Source image}{120}
+\contentsline {subsection}{\numberline {6.5.2}Rendered level}{121}
+\contentsline {section}{\numberline {6.6}Level 6}{122}
+\contentsline {subsection}{\numberline {6.6.1}Source image}{122}
+\contentsline {subsection}{\numberline {6.6.2}Rendered level}{123}
+\contentsline {chapter}{\numberline {7}Guide to creating new levels}{124}
+\contentsline {chapter}{\numberline {8}References}{125}
