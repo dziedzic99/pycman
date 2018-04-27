@@ -415,6 +415,10 @@
 			\end{img}
 			The following section describes types of different tiles used throughout the game.
 		\section{Types of tiles}
+			\begin{img}
+				\includegraphics[width=400pt]{images/class_diagram}\\
+				\caption{Project class diagram visualizing dependencies between different tiles.}
+			\end{img}
 			\dsubsection{Walls}
 				\label{walls}
 				As wall tiles have to connect with neighboring (common edge) tiles, they need to be represented by different graphics depending on their surroundings. 
@@ -1036,10 +1040,41 @@ for Movable in Movables:
 					\item
 						Quality of input controls was assessed.
 				\end{enumerate}
+			\dsubsection{Testing procedure}
+				Following procedures were designed to ensure sufficient testing.
+				\begin{center}
+					\begin{longtable}{ | p{3cm} | p{7cm} |}
+						\hline
+						Requirement&Testing method \\ \hline
+						\ref{req-orig-colors}&Visual assessment. \\ \hline
+						\ref{req-player-shape}&Visual assessment. \\ \hline
+						\ref{req-player-rotation}&Moving the player. (playing the game) \\ \hline
+						\ref{req-walls-not-passable}&PIntentional, excessive moving the player in direction of the wall, ghost movement observation.\\ \hline
+						\ref{req-ghost-movement}&Ghost movement observation.\\ \hline
+						\ref{req-life-loss}&Exposing the player to the contact with a ghost.\\ \hline
+						\ref{req-reset}&Playing game and losing lives.\\ \hline
+						\ref{req-ghost-differences}&Ghost behavior observation.\\ \hline
+						\ref{req-ghost-not-reversing}&Ghost behavior observation, playing the game.\\ \hline
+						\ref{req-level-progress} \& \ref{req-coins-disappearing}&Exposing coins to the contact with a player sprite.\\ \hline
+						\ref{req-hearts} \& \ref{req-lifes++}&Exposing hearts to the contact with a player sprite.\\ \hline
+						\ref{req-level-up} \& \ref{req-win} \& \ref{req-winnable}&Playing the game until it finishes.\\ \hline
+						\ref{req-game-over}&Playing the game and losing.\\ \hline
+						\ref{req-messages}&Playing the game so to see all the messages.\\ \hline
+						\ref{req-smarter-ghosts}&Playing the game. Assessors were also shown the original game.\\ \hline
+						\ref{req-no-ghost-house} \&
+						\ref{req-no-powerips}&Checking for behavior that looks like ghosts were to accumulate in a single position.\\ \hline
+						\ref{req-not-dying}&Playing the game.\\ \hline
+						\ref{req-no-ghost-modes}&Playing the game.\\ \hline
+						\ref{req-player-faster}&Observation of sprites speed.\\ \hline
+						\ref{req-input}&Repetitive pressing of different arrow keys in different combinations.\\ \hline
+						\ref{req-spacebar}&Using spacebar to dismiss the messages.\\ \hline
+						\ref{req-player-only-input}&Player sprite observation.\\ \hline
+					\end{longtable}
+				\end{center}
 	\chapter{Implementation}
 		In this section the detailed description of how the game files were created is provided.
 		\section{Programming tools}
-			Whole development of the game, as mentioned in Section \ref{freeware}, was done using a Ubuntu running computer and legally obtained tools I didn't have to pay for, namely opensource, freeware or free for education software.
+			Whole development of the game, as mentioned in Section \ref{freeware}, was done using a Ubuntu running computer and legally obtained tools I did not have to pay for, namely open source, freeware or free for education software.
 			\dsubsection{PyCharm}
 				I used, in my opinion, a brilliant Python IDE called PyCharm. Developed by a company JetBrains and obtained under Free for Education license for the entirety of the project development. The program has a lot of useful functions, which made my work easier and admittedly contributed to me learning how to code more efficiently.
 				\begin{img}
@@ -1553,7 +1588,8 @@ def find_next_move(start, end, forbidden):
 				queue.append(node)
 				# add all unvisited neighbors of current node to the queue
 				\end{lstlisting}
-Being a rather clean BFS implementation this code returns only the location of one of ghost's neighbors - the tile it has to move to next. It was rewritten from scratch and well commented. Forbidden tile was added and therefore Requirement \ref{req-ghost-not-reversing} fulfilled.
+				Being a rather clean BFS implementation this code returns only the location of one of ghost's neighbors - the tile it has to move to next. It was rewritten from scratch and well commented. Forbidden tile was added and therefore Requirement \ref{req-ghost-not-reversing} fulfilled.
+				Notably, there is an try-except (AKA try-catch) block there. Following initial testing it was noted that when ghosts respawn, they still have the forbidden tile saved and the algorithm tries to remove it from the list of neighbors. It is not guaranteed though that it is still there. For this reason a singly try-catch block was implemented and the problem subsequently vanished.
 		\section{Designing resources}
 			Admittedly, my computer graphics skills are quite limited, so are manual. I considered designing graphics on paper, scanning them and importing into game. Following my first sketches I have decided to rather use GIMP instead of paper and pencils. Even though, some initial drawings on a whiteboard came handy.\\
 			\begin{img}
@@ -1603,7 +1639,11 @@ def playlevel():
 while game_on:
 					\end{lstlisting}
 				\subsubsection{Handling completing the level}
-					The following code executes when all coins are eaten. It switches the game to next level and prevents next loop execution by setting the game\_on flag to False. This fulfills Requirement \ref{req-level-up}
+					The following code executes when all coins are eaten. It switches the game to next level and prevents next loop execution by setting the game\_on flag to False. This fulfills Requirement \ref{req-level-up}\\
+					\begin{img}
+						\includegraphics[width=150pt]{images/level_progress_flowchart.png}\\
+						\caption{Flowchart depicting level completion checking.}
+					\end{img}
 					\begin{lstlisting} [language = Python]
 # ----- Level - winning handling -----
 if coins_eaten == coins_total:
@@ -2046,14 +2086,13 @@ if box != resources.constants.leveldef["wall"]\
 		Things I would have done differently:
 			\begin{itemize}
 				\item
-				I have said that \LaTeX was a good choice over for example Microsoft Word. Which still doesn't make it the perfect choice for documenting a Python project. There is a module for that (like for almost everything else). Jupyter Notebook would be my choice for writing this document if I were to do it again.
+				I have said that \LaTeX was a good choice over for example Microsoft Word. Which still does not make it the perfect choice for documenting a Python project. There is a module for that (like for almost everything else). Jupyter Notebook would be my choice for writing this document if I were to do it again.
 				\item
 				Spending more time to figure out how to save time. I have spent definitely too much time on writing this documentation and I probably should have planned it better.
 				\item
 				Realizing that giving up on a feature is more painful than implementing it. Hearts were to vanish but then the cleanness of my OOP code made them appear in just a few lines.  
 			\end{itemize}
 	\chapter{Code appendix}
-	TODO: update these files before final submission
 		\section{main.py}
 			\begin{lstlisting} [language = Python]
 from classes import *
@@ -2064,7 +2103,7 @@ player = None
 coins_total = 0
 coins_eaten = 0
 level = None
-levelno = 0
+levelno = 1
 lives = 30
 pygame.init()
 myfont = pygame.font.SysFont("monospace", resources.constants.fontsize)
@@ -2076,134 +2115,139 @@ thegraph = [[[] for i in range(resources.constants.gamesize)] for j in range(res
 
 
 def walltypecheck(location):
-	r = t = l = b = 0
-	if location[0] != 0:
-		if level[location[0]-1][location[1]] == resources.constants.leveldef["wall"]:
-			l = 1
-	if location[0] != resources.constants.gamesize-1:
-		if level[location[0]+1][location[1]] == resources.constants.leveldef["wall"]:
-			r = 1
-	if location[1] != 0:
-		if level[location[0]][location[1]-1] == resources.constants.leveldef["wall"]:
-			t = 1
-	if location[1] != resources.constants.gamesize-1:
-		if level[location[0]][location[1]+1] == resources.constants.leveldef["wall"]:
-			b = 1
-	return str(r) + str(t) + str(l) + str(b)
+    r = t = l = b = 0
+    if location[0] != 0:
+        if level[location[0]-1][location[1]] == resources.constants.leveldef["wall"]:
+            l = 1
+    if location[0] != resources.constants.gamesize-1:
+        if level[location[0]+1][location[1]] == resources.constants.leveldef["wall"]:
+            r = 1
+    if location[1] != 0:
+        if level[location[0]][location[1]-1] == resources.constants.leveldef["wall"]:
+            t = 1
+    if location[1] != resources.constants.gamesize-1:
+        if level[location[0]][location[1]+1] == resources.constants.leveldef["wall"]:
+            b = 1
+    return str(r) + str(t) + str(l) + str(b)
 
 
 # ----- Graphing stuff (for pathfinding) -----
 
 
 def graphbuilder():
-	global level, thegraph
-	thegraph = [[[] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
-	for i in range(resources.constants.gamesize):
-		for j in range(resources.constants.gamesize):
-			# iterating through all tiles in the grid
-			if level[i][j] != resources.constants.leveldef["wall"]:
-				# taking advantage of the fact that Movables can move on all tiles that are not initially marked as walls
-				location = [i, j]
-				# and now, iterating through all possible neighbours of the processed tile (with checking if it isn't by any chance a border tile)
-				if location[0] != 0:
-					if level[location[0] - 1][location[1]] != resources.constants.leveldef["wall"]:
-						thegraph[location[0]][location[1]] += [[location[0] - 1, location[1]]]
-				if location[0] != resources.constants.gamesize-1:
-					if level[location[0] + 1][location[1]] != resources.constants.leveldef["wall"]:
-						thegraph[location[0]][location[1]] += [[location[0] + 1, location[1]]]
-				if location[1] != 0:
-					if level[location[0]][location[1] - 1] != resources.constants.leveldef["wall"]:
-						thegraph[location[0]][location[1]] += [[location[0], location[1] - 1]]
-				if location[1] != resources.constants.gamesize-1:
-					if level[location[0]][location[1] + 1] != resources.constants.leveldef["wall"]:
-						thegraph[location[0]][location[1]] += [[location[0], location[1] + 1]]
+    global level, thegraph
+    thegraph = [[[] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
+    for i in range(resources.constants.gamesize):
+        for j in range(resources.constants.gamesize):
+            # iterating through all tiles in the grid
+            if level[i][j] != resources.constants.leveldef["wall"]:
+                # taking advantage of the fact that Movables can move on all tiles that are not initially marked as walls
+                location = [i, j]
+                # and now, iterating through all possible neighbours of the processed tile (with checking if it isn't by any chance a border tile)
+                if location[0] != 0:
+                    if level[location[0] - 1][location[1]] != resources.constants.leveldef["wall"]:
+                        thegraph[location[0]][location[1]] += [[location[0] - 1, location[1]]]
+                if location[0] != resources.constants.gamesize-1:
+                    if level[location[0] + 1][location[1]] != resources.constants.leveldef["wall"]:
+                        thegraph[location[0]][location[1]] += [[location[0] + 1, location[1]]]
+                if location[1] != 0:
+                    if level[location[0]][location[1] - 1] != resources.constants.leveldef["wall"]:
+                        thegraph[location[0]][location[1]] += [[location[0], location[1] - 1]]
+                if location[1] != resources.constants.gamesize-1:
+                    if level[location[0]][location[1] + 1] != resources.constants.leveldef["wall"]:
+                        thegraph[location[0]][location[1]] += [[location[0], location[1] + 1]]
 
 
 def find_nearest_not_wall(point):
-	if point[0] > resources.constants.gamesize-1:
-		point[0] = resources.constants.gamesize-1
-	if point[0] < 0:
-		point[0] = 0
-	if point[1] > resources.constants.gamesize-1:
-		point[1] = resources.constants.gamesize-1
-	if point[1] < 0:
-		point[1] = 0
-	radius = 1
-	if level[point[0]][point[1]] != resources.constants.leveldef['wall']:
-		return point
-	while True:
-		for i in range(point[0]-radius, point[0]+radius):
-			for j in range(point[1]-radius, point[1]+radius):
-				try:
-					if level[i][j] != resources.constants.leveldef['wall']:
-						return [i, j]
-				except IndexError:
-					pass
-		radius += 1
+    if point[0] > resources.constants.gamesize-1:
+        point[0] = resources.constants.gamesize-1
+    if point[0] < 0:
+        point[0] = 0
+    if point[1] > resources.constants.gamesize-1:
+        point[1] = resources.constants.gamesize-1
+    if point[1] < 0:
+        point[1] = 0
+    radius = 1
+    if level[point[0]][point[1]] != resources.constants.leveldef['wall']:
+        return point
+    while True:
+        for i in range(point[0]-radius, point[0]+radius):
+            for j in range(point[1]-radius, point[1]+radius):
+                try:
+                    if level[i][j] != resources.constants.leveldef['wall']:
+                        return [i, j]
+                except IndexError:
+                    pass
+        radius += 1
 
 
 def find_next_move(start, end, forbidden):
-	visited = []
-	# storing visited nodes
-	queue = []
-	# storing nodes to visit
-	end = find_nearest_not_wall(end)
-	# as start is guaranteed not to be wall, both ends are now places a Movable may move to
-	neighbours = thegraph[start[0]][start[1]].copy()
-	# preventing corrupting thegraph when excluding forbidden tile
-	try:
-		# try as forbidden tile may be any tile after reset
-		# particularly it may not be in neighbors
-		neighbours.remove([forbidden[0], forbidden[1]])
-		# removing forbidden tile from neighbors
-	except Exception:
-		pass
-	queue.append([end[0], end[1]])
-	# start search from the end (target tile)
-	visited.append(end)
-	# mark end as a visited node
-	for point in queue:
-		if point not in visited:
-			visited.append(point)
-			# mark current point as visited
-		if point in neighbours:
-			return point
-			# if solution is find return next tile for the ghost
-		for node in thegraph[point[0]][point[1]]:
-			if node not in visited and node != [forbidden[0], forbidden[1]]:
-				queue.append(node)
-				# add all unvisited neighbors of current node to the queue
+    visited = []
+    # storing visited nodes
+    queue = []
+    # storing nodes to visit
+    end = find_nearest_not_wall(end)
+    # as start is guaranteed not to be wall, both ends are now places a Movable may move to
+    neighbours = thegraph[start[0]][start[1]].copy()
+    # preventing corrupting thegraph when excluding forbidden tile
+    try:
+        # try as forbidden tile may be any tile after reset
+        # particularly it may not be in neighbors
+        neighbours.remove([forbidden[0], forbidden[1]])
+        # removing forbidden tile from neighbors
+    except Exception:
+        pass
+    queue.append([end[0], end[1]])
+    # start search from the end (target tile)
+    visited.append(end)
+    # mark end as a visited node
+    for point in queue:
+        if point not in visited:
+            visited.append(point)
+            # mark current point as visited
+        if point in neighbours:
+            return point
+            # if solution is find return next tile for the ghost
+        for node in thegraph[point[0]][point[1]]:
+            if node not in visited and node != [forbidden[0], forbidden[1]]:
+                queue.append(node)
+                # add all unvisited neighbors of current node to the queue
 
 
 # ----- ----- -----
 
 
 def loadlevel(file):
-	global level, coins_total, player
-	# level-loading procedure with input of standard 32x32 bitmap level file
-	level = readlevel(file)
-	for col in range(0, resources.constants.gamesize):
-		for row in range(0, resources.constants.gamesize):
-			box = level[col][row]
-			if box != resources.constants.leveldef["wall"] and box != resources.constants.leveldef['nothing']:
-				eatable = Eatable('coin', (col, row))
-				eatables_list.add(eatable)
-				coins_total += 1
-			if box == resources.constants.leveldef["wall"]:
-				wall = Wall((col, row), walltypecheck((col, row)))
-				walls_list.add(wall)
-			elif box == resources.constants.leveldef["player"]:
-				player = Player((col, row))
-				players_list.add(player)
-			elif box == resources.constants.leveldef["red_ghost"]:
-				redghost = Ghost((col, row), 'red')
-				ghosts_list.add(redghost)
-			elif box == resources.constants.leveldef["blue_ghost"]:
-				redghost = Ghost((col, row), 'blue')
-				ghosts_list.add(redghost)
-			elif box == resources.constants.leveldef["green_ghost"]:
-				redghost = Ghost((col, row), 'green')
-				ghosts_list.add(redghost)
+    global level, coins_total, player
+    # level-loading procedure with input of standard 32x32 bitmap level file
+    level = readlevel(file)
+    for col in range(0, resources.constants.gamesize):
+        for row in range(0, resources.constants.gamesize):
+            box = level[col][row]
+            if box != resources.constants.leveldef["wall"]\
+                    and box != resources.constants.leveldef['nothing']\
+                    and box != resources.constants.leveldef['heart']:
+                eatable = Eatable('coin', (col, row))
+                eatables_list.add(eatable)
+                coins_total += 1
+            if box == resources.constants.leveldef["wall"]:
+                wall = Wall((col, row), walltypecheck((col, row)))
+                walls_list.add(wall)
+            elif box == resources.constants.leveldef["heart"]:
+                heart = Eatable('heart', (col, row))
+                eatables_list.add(heart)
+            elif box == resources.constants.leveldef["player"]:
+                player = Player((col, row))
+                players_list.add(player)
+            elif box == resources.constants.leveldef["red_ghost"]:
+                redghost = Ghost((col, row), 'red')
+                ghosts_list.add(redghost)
+            elif box == resources.constants.leveldef["blue_ghost"]:
+                redghost = Ghost((col, row), 'blue')
+                ghosts_list.add(redghost)
+            elif box == resources.constants.leveldef["green_ghost"]:
+                redghost = Ghost((col, row), 'green')
+                ghosts_list.add(redghost)
 
 
 eatables_list = pygame.sprite.Group()
@@ -2213,199 +2257,213 @@ ghosts_list = pygame.sprite.Group()
 
 
 def prepare_level(levelfile):
-	global eatables_list, walls_list, players_list, ghosts_list, player
-	eatables_list = pygame.sprite.Group()
-	walls_list = pygame.sprite.Group()
-	players_list = pygame.sprite.Group()
-	ghosts_list = pygame.sprite.Group()
-	loadlevel(levelfile)
-	graphbuilder()
+    global eatables_list, walls_list, players_list, ghosts_list, player
+    eatables_list = pygame.sprite.Group()
+    walls_list = pygame.sprite.Group()
+    players_list = pygame.sprite.Group()
+    ghosts_list = pygame.sprite.Group()
+    loadlevel(levelfile)
+    graphbuilder()
 
 
 def show_message(messageboard):
-	screen.fill(resources.colors.background)
-	for i in range(len(messageboard)):
-		label = myfont.render(messageboard[i], 1, (255, 255, 0))
-		screen.blit(label, (0, resources.constants.fontsize * i))
-	pygame.display.flip()
-	sleep(5)
+    screen.fill(resources.colors.background)
+    for i in range(len(messageboard)):
+        label = myfont.render(messageboard[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize * i))
+    pygame.display.flip()
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == 32:
+                waiting = False
+        sleep(0.05)
 
 
 def show_tutorial():
-	show_message(resources.constants.tutorialStringList)
+    show_message(resources.constants.tutorialStringList)
 
 
 def show_congrats():
-	screen.fill(resources.colors.background)
-	for i in range(len(resources.constants.congratsStringList)):
-		label = myfont.render(resources.constants.congratsStringList[i], 1, (255, 255, 0))
-		screen.blit(label, (0, resources.constants.fontsize*i))
-	pygame.display.flip()
-	sleep(5)
+    screen.fill(resources.colors.background)
+    for i in range(len(resources.constants.congratsStringList)):
+        label = myfont.render(resources.constants.congratsStringList[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize*i))
+    pygame.display.flip()
+    sleep(5)
 
 
 def show_real_congrats():
-	screen.fill(resources.colors.background)
-	for i in range(len(resources.constants.realCongratsStringList)):
-		label = myfont.render(resources.constants.realCongratsStringList[i], 1, (255, 255, 0))
-		screen.blit(label, (0, resources.constants.fontsize*i))
-	pygame.display.flip()
-	sleep(5)
+    screen.fill(resources.colors.background)
+    for i in range(len(resources.constants.realCongratsStringList)):
+        label = myfont.render(resources.constants.realCongratsStringList[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize*i))
+    pygame.display.flip()
+    sleep(5)
+
 
 def show_permanent_death():
-	screen.fill(resources.colors.background)
-	for i in range(len(resources.constants.theEndStringList)):
-		label = myfont.render(resources.constants.theEndStringList[i], 1, (255, 255, 0))
-		screen.blit(label, (0, resources.constants.fontsize*i))
-	pygame.display.flip()
-	sleep(5)
+    screen.fill(resources.colors.background)
+    for i in range(len(resources.constants.theEndStringList)):
+        label = myfont.render(resources.constants.theEndStringList[i], 1, (255, 255, 0))
+        screen.blit(label, (0, resources.constants.fontsize*i))
+    pygame.display.flip()
+    sleep(5)
 
 
 def reset():
-	for ghost in ghosts_list.sprites():
-		ghost.reset()
-	player.reset()
+    for ghost in ghosts_list.sprites():
+        ghost.reset()
+    player.reset()
 
 
 def playlevel():
-	global coins_eaten, coins_total, lives, levelno, screen
-	# marking variables as global
-	coins_total = coins_eaten = 0
-	# resetting coin counters
-	prepare_level(resources.paths.levelorder[levelno])
-	# level loading
-	game_on = True
-	# game starter
-	clock = pygame.time.Clock()
-	# clock init
-	eatables_list.update()
-	walls_list.update()
-	players_list.update()
-	ghosts_list.update()
-	# updating Sprite Groups
-	player_time_segment = resources.constants.playerTimeSegmentSize
-	ghost_time_segment = resources.constants.ghostTimeSegmentSize
-	# forcing pathfinding to update
-	# ----- Main game loop -----
-	while game_on:
-		# ----- Level - winning handling -----
-		if coins_eaten == coins_total:
-			levelno += 1
-			game_on = False
-			# ----- stop the level if all coins are eaten -----
-		if player_time_segment == resources.constants.playerTimeSegmentSize:
-			# ----- Handling user input pt1 ------
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					game_on = False
-					exit(0)
-			# ----- checking pressed keys -----
-			keys = pygame.key.get_pressed()
-			# ----- wall collision check -----
-			surroundings = walltypecheck(player.location)
-		# ----- ghost movement handling pt 1 -----
-		if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
-			# if it's time to update paths update them
-			for ghost in ghosts_list.sprites():
-				if ghost.color == 'red':
-					ghost.nexttile = find_next_move(ghost.location, player.location, ghost.previouslocation)
-				elif ghost.color == 'blue':
-					ghost.nexttile = find_next_move(ghost.location,
-													[player.location[0] + resources.constants.scatterSize,
-													 player.location[1] + resources.constants.scatterSize],
-													ghost.previouslocation)
-				elif ghost.color == 'green':
-					ghost.nexttile = find_next_move(ghost.location,
-													[player.location[0] - resources.constants.scatterSize,
-													 player.location[1] - resources.constants.scatterSize],
-													ghost.previouslocation)
+    global coins_eaten, coins_total, lives, levelno, screen
+    # marking variables as global
+    coins_total = coins_eaten = 0
+    # resetting coin counters
+    prepare_level(resources.paths.levelorder[levelno])
+    # level loading
+    game_on = True
+    # game starter
+    clock = pygame.time.Clock()
+    # clock init
+    eatables_list.update()
+    walls_list.update()
+    players_list.update()
+    ghosts_list.update()
+    # updating Sprite Groups
+    player_time_segment = resources.constants.playerTimeSegmentSize
+    ghost_time_segment = resources.constants.ghostTimeSegmentSize
+    # forcing pathfinding to update
+    # ----- Main game loop -----
+    while game_on:
+        # ----- Level - winning handling -----
+        if coins_eaten == coins_total:
+            levelno += 1
+            game_on = False
+            # ----- stop the level if all coins are eaten -----
+        if player_time_segment == resources.constants.playerTimeSegmentSize:
+            # ----- Handling user input pt1 ------
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_on = False
+                    exit(0)
+            # ----- checking pressed keys -----
+            keys = pygame.key.get_pressed()
+            # ----- wall collision check -----
+            surroundings = walltypecheck(player.location)
 
-		# ----- handling some frames/move -----
-		player_part = resources.constants.playerTimeSegmentSize - player_time_segment
-		ghost_part = resources.constants.ghostTimeSegmentSize - ghost_time_segment
+        # ----- ghost movement handling pt 1 -----
+        if ghost_time_segment == resources.constants.ghostTimeSegmentSize:
+            # if it's time to update paths update them
+            for ghost in ghosts_list.sprites():
+                if ghost.color == 'red':
+                    ghost.nexttile = find_next_move(ghost.location, player.location, ghost.previouslocation)
+                elif ghost.color == 'blue':
+                    ghost.nexttile = find_next_move(ghost.location,
+                                                    [player.location[0] + resources.constants.scatterSize,
+                                                     player.location[1] + resources.constants.scatterSize],
+                                                    ghost.previouslocation)
+                elif ghost.color == 'green':
+                    ghost.nexttile = find_next_move(ghost.location,
+                                                    [player.location[0] - resources.constants.scatterSize,
+                                                     player.location[1] - resources.constants.scatterSize],
+                                                    ghost.previouslocation)
 
-		# ----- input handling pt 2 / player movement handling -----
-		if keys[pygame.K_LEFT] and surroundings[2] == '0':
-			player.move('left', player_part)
-		elif keys[pygame.K_RIGHT] and surroundings[0] == '0':
-			player.move('right', player_part)
-		elif keys[pygame.K_UP] and surroundings[1] == '0':
-			player.move('up', player_part)
-		elif keys[pygame.K_DOWN] and surroundings[3] == '0':
-			player.move('down', player_part)
+        # ----- handling some frames/move -----
+        player_part = resources.constants.playerTimeSegmentSize - player_time_segment
+        ghost_part = resources.constants.ghostTimeSegmentSize - ghost_time_segment
 
-		# ----- ghost movement handling pt 2 -----
-		for ghost in ghosts_list.sprites():
-			try:
-				ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
-			except Exception:
-				# if for some unforseen reason it's impossible to move the ghost just leave it there
-				pass
-		# ----- player dying handling -----
-		for ghost in ghosts_list.sprites():
-			if ghost.location == player.location:
-				# decrease lives counter
-				lives -= 1
-				reset()
-				# reset the board
-				player_time_segment = resources.constants.playerTimeSegmentSize+1
-				ghost_time_segment = resources.constants.ghostTimeSegmentSize+1
-				# force game to update ghost paths after respawning
-		if lives <= 0:
-			# if the player is dead for good
-			break
+        # ----- input handling pt 2 / player movement handling -----
+        if keys[pygame.K_LEFT] and surroundings[2] == '0':
+            player.move('left', player_part)
+        elif keys[pygame.K_RIGHT] and surroundings[0] == '0':
+            player.move('right', player_part)
+        elif keys[pygame.K_UP] and surroundings[1] == '0':
+            player.move('up', player_part)
+        elif keys[pygame.K_DOWN] and surroundings[3] == '0':
+            player.move('down', player_part)
 
-		# ----- Updating sprites position -----
-		eatables_list.update()
-		walls_list.update()
-		players_list.update()
-		ghosts_list.update()
-		# ----- Fill screen with background -----
-		screen.fill(resources.colors.background)
-		# ----- ...and sprites -----
-		eatables_list.draw(screen)
-		walls_list.draw(screen)
-		players_list.draw(screen)
-		ghosts_list.draw(screen)
+        # ----- player dying handling -----
+        for ghost in ghosts_list.sprites():
+            if ghost.location == player.location:
+                # decrease lives counter
+                lives -= 1
+                reset()
+                # reset the board
+                player_time_segment = resources.constants.playerTimeSegmentSize + 1
+                ghost_time_segment = resources.constants.ghostTimeSegmentSize + 1
+                # force game to update ghost paths after respawning
+                show_message(resources.constants.lossOfLifeStringList)
+        # ----- ghost movement handling pt 2 -----
+        for ghost in ghosts_list.sprites():
+            try:
+                ghost.move((ghost.nexttile[0] - ghost.location[0], -ghost.nexttile[1] + ghost.location[1]), ghost_part)
+            except Exception:
+                # if for some unforseen reason it's impossible to move the ghost just leave it there
+                pass
 
-		# ----- Counter info -----
-		label = myfont.render("Coins eaten " + str(coins_eaten) +" / " + str(coins_total) +
-							  "	 Lives remaining " + str(lives) +
-							  "	 Level " + str(levelno+1), 1, (255, 255, 0))
-		screen.blit(label, (resources.constants.tileWidth / 2, resources.constants.gamesize * resources.constants.tileWidth))
+        if lives <= 0:
+            # if the player is dead for good
+            break
 
-		# ----- Refresh Screen -----
-		pygame.display.flip()
+        # ----- Updating sprites position -----
+        eatables_list.update()
+        walls_list.update()
+        players_list.update()
+        ghosts_list.update()
+        # ----- Fill screen with background -----
+        screen.fill(resources.colors.background)
+        # ----- ...and sprites -----
+        eatables_list.draw(screen)
+        walls_list.draw(screen)
+        players_list.draw(screen)
+        ghosts_list.draw(screen)
 
-		# ----- FPS handling -----
-		player_time_segment -= 1
-		ghost_time_segment -= 1
-		clock.tick(resources.constants.fps)
+        # ----- Counter info -----
+        label = myfont.render("Coins eaten " + str(coins_eaten) + " / " + str(coins_total) +
+                              "     Lives remaining " + str(lives) +
+                              "     Level " + str(levelno), 1, (255, 255, 0))
+        screen.blit(label, (resources.constants.tileWidth / 2,
+                            resources.constants.gamesize * resources.constants.tileWidth))
 
-		# ----- eating handling -----
-		for eatable in eatables_list.sprites():
-			if eatable.location == player.location:
-				eatable.kill()
-				coins_eaten += 1
-				# increasing eaten points counter
+        # ----- Refresh Screen -----
+        pygame.display.flip()
 
-		# ----- initializing new time periods -----
-		if not player_time_segment:
-			player_time_segment = resources.constants.playerTimeSegmentSize
-		if not ghost_time_segment:
-			ghost_time_segment = resources.constants.ghostTimeSegmentSize
+        # ----- FPS handling -----
+        player_time_segment -= 1
+        ghost_time_segment -= 1
+        clock.tick(resources.constants.fps)
+
+        # ----- eating handling -----
+        for eatable in eatables_list.sprites():
+            if eatable.location == player.location:
+                eatable.kill()
+                if eatable.type == 'coin':
+                    coins_eaten += 1
+                    # increasing eaten points counter
+                elif eatable.type == 'heart':
+                    lives += 1
+                    # increasing number of lives
+
+        # ----- initializing new time periods -----
+        if not player_time_segment:
+            player_time_segment = resources.constants.playerTimeSegmentSize
+        if not ghost_time_segment:
+            ghost_time_segment = resources.constants.ghostTimeSegmentSize
 
 
 def main():
-	show_message(resources.constants.tutorialStringList)
-	while lives > 0 and levelno <= resources.constants.totallevels:
-		print(levelno)
-		playlevel()
-		show_message(resources.constants.congratsStringList)
-	if lives > 0:
-		show_message(resources.constants.realCongratsStringList)
-	else:
-		show_message(resources.constants.theEndStringList)
+    show_message(resources.constants.tutorialStringList)
+    while lives > 0 and levelno <= resources.constants.totallevels:
+        print(levelno)
+        playlevel()
+        show_message(resources.constants.congratsStringList)
+    if lives > 0:
+        show_message(resources.constants.realCongratsStringList)
+    else:
+        show_message(resources.constants.theEndStringList)
 
 main()
 			\end{lstlisting}
@@ -2416,99 +2474,99 @@ import resources
 
 
 class GameObject(pygame.sprite.Sprite):
-	def __init__(self, location):
-		super().__init__()
-		self.image = None
-		self.location = location
-		self.initiallocation = location
-		self.rect = None
+    def __init__(self, location):
+        super().__init__()
+        self.image = None
+        self.location = location
+        self.initiallocation = location
+        self.rect = None
 
-	def setimage(self, image, size=resources.constants.tileSize, rotation=0):
-		self.image = pygame.image.load(resources.paths.image[image])
-		self.image = pygame.transform.scale(self.image, size)
-		self.image = pygame.transform.rotate(self.image, rotation)
-		self.rect = self.image.get_rect()
-		self.rect.x, self.rect.y = self.location[0] * resources.constants.tileWidth, self.location[1] * resources.constants.tileWidth
+    def setimage(self, image, size=resources.constants.tileSize, rotation=0):
+        self.image = pygame.image.load(resources.paths.image[image])
+        self.image = pygame.transform.scale(self.image, size)
+        self.image = pygame.transform.rotate(self.image, rotation)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = self.location[0] * resources.constants.tileWidth, self.location[1] * resources.constants.tileWidth
 
 
 class Eatable(GameObject):
-	def __init__(self, type, location):
-		super().__init__(location)
-		self.type = type
-		if type == "coin":
-			self.setimage("coin", resources.constants.eatableSize)
-		elif type == "heart":
-			self.setimage("heart", resources.constants.eatableSize)
+    def __init__(self, type, location):
+        super().__init__(location)
+        self.type = type
+        if type == "coin":
+            self.setimage("coin", resources.constants.eatableSize)
+        elif type == "heart":
+            self.setimage("heart", resources.constants.eatableSize)
 
 
 class Wall(GameObject):
-	def __init__(self, location, type):
-		super().__init__(location)
-		self.setimage('w'+str(type))
+    def __init__(self, location, type):
+        super().__init__(location)
+        self.setimage('w'+str(type))
 
 
 class Movable(GameObject):
-	def __init__(self, location):
-		super().__init__(location)
-		self.image = None
-		self.speed = (0, 0)
+    def __init__(self, location):
+        super().__init__(location)
+        self.image = None
+        self.speed = (0, 0)
 
-	def setimage(self, image, size=resources.constants.movableSize, rotation=0):
-		super().setimage(image, size, rotation)
+    def setimage(self, image, size=resources.constants.movableSize, rotation=0):
+        super().setimage(image, size, rotation)
 
-	def move(self, direction, segmentsize, part=resources.constants.playerTimeSegmentSize - 1):
-		if direction == 'up' or direction == (0, 1):
-			self.speed = (0, -1)
-		elif direction == 'down'or direction == (0, -1):
-			self.speed = (0, 1)
-		elif direction == 'left' or direction == (-1, 0):
-			self.speed = (-1, 0)
-		elif direction == 'right' or direction == (1, 0):
-			self.speed = (1, 0)
-		part2 = (part+1) / segmentsize
-		self.rect.x, self.rect.y = (self.location[0] + self.speed[0] * resources.constants.speedFactor * part2) * resources.constants.tileWidth,\
-								   (self.location[1] + self.speed[1] * resources.constants.speedFactor * part2) * resources.constants.tileWidth
-		if part == segmentsize - 1:
-			self.location = self.location[0] + self.speed[0] * resources.constants.speedFactor,\
-							self.location[1] + self.speed[1] * resources.constants.speedFactor
+    def move(self, direction, segmentsize, part=resources.constants.playerTimeSegmentSize - 1):
+        if direction == 'up' or direction == (0, 1):
+            self.speed = (0, -1)
+        elif direction == 'down'or direction == (0, -1):
+            self.speed = (0, 1)
+        elif direction == 'left' or direction == (-1, 0):
+            self.speed = (-1, 0)
+        elif direction == 'right' or direction == (1, 0):
+            self.speed = (1, 0)
+        part2 = (part+1) / segmentsize
+        self.rect.x, self.rect.y = (self.location[0] + self.speed[0] * resources.constants.speedFactor * part2) * resources.constants.tileWidth,\
+                                   (self.location[1] + self.speed[1] * resources.constants.speedFactor * part2) * resources.constants.tileWidth
+        if part == segmentsize - 1:
+            self.location = self.location[0] + self.speed[0] * resources.constants.speedFactor,\
+                            self.location[1] + self.speed[1] * resources.constants.speedFactor
 
-	def reset(self):
-		self.__init__(self.initiallocation)
+    def reset(self):
+        self.__init__(self.initiallocation)
 
 
 class Player(Movable):
-	def __init__(self, location):
-		super().__init__(location)
-		self.setimage('player', resources.constants.playerSize)
+    def __init__(self, location):
+        super().__init__(location)
+        self.setimage('player', resources.constants.playerSize)
 
-	def move(self, direction, part=resources.constants.playerTimeSegmentSize - 1, partsize=resources.constants.ghostTimeSegmentSize):
-		rotation = 0
-		if self.speed == (1, 0):
-			rotation = 0
-		elif self.speed == (-1, 0):
-			rotation = 180
-		elif self.speed == (0, -1):
-			rotation = 90
-		elif self.speed == (0, 1):
-			rotation = 270
-		super().setimage('player', resources.constants.playerSize, rotation)
-		super().move(direction, segmentsize=resources.constants.playerTimeSegmentSize, part=part)
+    def move(self, direction, part=resources.constants.playerTimeSegmentSize - 1, partsize=resources.constants.ghostTimeSegmentSize):
+        rotation = 0
+        if self.speed == (1, 0):
+            rotation = 0
+        elif self.speed == (-1, 0):
+            rotation = 180
+        elif self.speed == (0, -1):
+            rotation = 90
+        elif self.speed == (0, 1):
+            rotation = 270
+        super().setimage('player', resources.constants.playerSize, rotation)
+        super().move(direction, segmentsize=resources.constants.playerTimeSegmentSize, part=part)
 
 
 class Ghost(Movable):
-	def __init__(self, location, color):
-		super().__init__(location)
-		self.color = color
-		self.nexttile = None
-		self.setimage(color+'_ghost')
-		self.previouslocation = self.location
+    def __init__(self, location, color):
+        super().__init__(location)
+        self.color = color
+        self.nexttile = None
+        self.setimage(color+'_ghost')
+        self.previouslocation = self.location
 
-	def move(self, direction, part=resources.constants.ghostTimeSegmentSize - 1, partsize=resources.constants.ghostTimeSegmentSize):
-		self.previouslocation = self.location
-		super().move(direction, partsize, part)
+    def move(self, direction, part=resources.constants.ghostTimeSegmentSize - 1, partsize=resources.constants.ghostTimeSegmentSize):
+        self.previouslocation = self.location
+        super().move(direction, partsize, part)
 
-	def reset(self):
-		self.__init__(self.initiallocation, self.color)
+    def reset(self):
+        self.__init__(self.initiallocation, self.color)
 			\end{lstlisting}
 		\section{levelprocessor.py}
 			\begin{lstlisting} [language = Python]
@@ -2517,26 +2575,28 @@ import resources
 
 
 def readlevel(file):
-	# level-loading procedure with input of gamesize^2 bitmap level file
-	level = [[resources.constants.leveldef['nothing'] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
-	im = Image.open(resources.paths.levels + file)
-	im.load()
-	for col in range(0, resources.constants.gamesize):
-		for row in range(0, resources.constants.gamesize):
-			pixel = im.getpixel((col, row))
-			if pixel == resources.constants.editordef["coin"]:
-				level[col][row] = resources.constants.leveldef['coin']
-			elif pixel == resources.constants.editordef["wall"]:
-				level[col][row] = resources.constants.leveldef['wall']
-			elif pixel == resources.constants.editordef["player"]:
-				level[col][row] = resources.constants.leveldef['player']
-			elif pixel == resources.constants.editordef["red_ghost"]:
-				level[col][row] = resources.constants.leveldef['red_ghost']
-			elif pixel == resources.constants.editordef["green_ghost"]:
-				level[col][row] = resources.constants.leveldef['green_ghost']
-			elif pixel == resources.constants.editordef["blue_ghost"]:
-				level[col][row] = resources.constants.leveldef['blue_ghost']
-	return level
+    # level-loading procedure with input of gamesize^2 bitmap level file
+    level = [[resources.constants.leveldef['nothing'] for i in range(resources.constants.gamesize)] for j in range(resources.constants.gamesize)]
+    im = Image.open(resources.paths.levels + file)
+    im.load()
+    for col in range(0, resources.constants.gamesize):
+        for row in range(0, resources.constants.gamesize):
+            pixel = im.getpixel((col, row))
+            if pixel == resources.constants.editordef["coin"]:
+                level[col][row] = resources.constants.leveldef['coin']
+            elif pixel == resources.constants.editordef["heart"]:
+                level[col][row] = resources.constants.leveldef['heart']
+            elif pixel == resources.constants.editordef["wall"]:
+                level[col][row] = resources.constants.leveldef['wall']
+            elif pixel == resources.constants.editordef["player"]:
+                level[col][row] = resources.constants.leveldef['player']
+            elif pixel == resources.constants.editordef["red_ghost"]:
+                level[col][row] = resources.constants.leveldef['red_ghost']
+            elif pixel == resources.constants.editordef["green_ghost"]:
+                level[col][row] = resources.constants.leveldef['green_ghost']
+            elif pixel == resources.constants.editordef["blue_ghost"]:
+                level[col][row] = resources.constants.leveldef['blue_ghost']
+    return level
 			\end{lstlisting}
 		\section{paths.py}
 			\begin{lstlisting}[language = Python]
@@ -2545,37 +2605,113 @@ graphics = resources + "graphics/"
 levels = resources + "levels/"
 
 image = {
-	"coin": graphics + "coin.png",
-	"w0001": graphics + "w0001.gif",
-	"w0010": graphics + "w0010.gif",
-	"w0011": graphics + "w0011.gif",
-	"w0100": graphics + "w0100.gif",
-	"w0101": graphics + "w0101.gif",
-	"w0110": graphics + "w0110.gif",
-	"w0111": graphics + "w0111.gif",
-	"w1000": graphics + "w1000.gif",
-	"w1001": graphics + "w1001.gif",
-	"w1010": graphics + "w1010.gif",
-	"w1011": graphics + "w1011.gif",
-	"w1100": graphics + "w1100.gif",
-	"w1101": graphics + "w1101.gif",
-	"w1110": graphics + "w1110.gif",
-	"w1111": graphics + "w1111.gif",
-	"player": graphics + "player.png",
-	"red_ghost": graphics + "redghost.png",
-	"blue_ghost": graphics + "blueghost.png",
-	"green_ghost": graphics + "greenghost.png"
+    "coin": graphics + "coin.png",
+    "w0001": graphics + "w0001.gif",
+    "w0010": graphics + "w0010.gif",
+    "w0011": graphics + "w0011.gif",
+    "w0100": graphics + "w0100.gif",
+    "w0101": graphics + "w0101.gif",
+    "w0110": graphics + "w0110.gif",
+    "w0111": graphics + "w0111.gif",
+    "w1000": graphics + "w1000.gif",
+    "w1001": graphics + "w1001.gif",
+    "w1010": graphics + "w1010.gif",
+    "w1011": graphics + "w1011.gif",
+    "w1100": graphics + "w1100.gif",
+    "w1101": graphics + "w1101.gif",
+    "w1110": graphics + "w1110.gif",
+    "w1111": graphics + "w1111.gif",
+    "player": graphics + "player.png",
+    "red_ghost": graphics + "redghost.png",
+    "blue_ghost": graphics + "blueghost.png",
+    "green_ghost": graphics + "greenghost.png",
+    "heart": graphics + "heart.png"
 }
 
 levelorder = [
-	"level0.bmp",
-	"level1.bmp",
-	"level2.bmp",
-	"level3.bmp",
-	"level4.bmp",
-	"level5.bmp",
-	"level6.bmp"
+    "level0.bmp",
+    "level1.bmp",
+    "level2.bmp",
+    "level3.bmp",
+    "level4.bmp",
+    "level5.bmp",
+    "level6.bmp"
 ]
+			\end{lstlisting}
+		\section{constants.py}
+			\begin{lstlisting}[language = Python]
+eatableSize = [20, 20]
+movableSize = [20, 20]
+playerSize = [20, 20]
+speedFactor = 1
+windowSize = [640, 660]
+playerTimeSegmentSize = 10
+ghostTimeSegmentSize = 12
+tileWidth = 20
+tileSize = [tileWidth, tileWidth]
+fps = 60
+fontsize = 15
+gamesize = 32
+scatterSize = 2
+totallevels = 6
+
+leveldef = {
+    'nothing': 0,
+    'wall': 1,
+    'coin': 2,
+    'player': 3,
+    'red_ghost': 4,
+    'green_ghost': 5,
+    'blue_ghost': 6,
+    'heart': 7
+}
+
+editordef = {
+    'nothing': (255, 255, 255),
+    'wall': (0, 0, 0),
+    'coin': (255, 255, 0),
+    'heart': (200, 200, 255),
+    'player': (255, 0, 0),
+    'red_ghost': (200, 100, 100),
+    'green_ghost': (0, 255, 0),
+    'blue_ghost': (0, 0, 255)
+}
+
+tutorialStringList = ["Welcome to PycMan Jan Dziedzic's CS project.",
+                      "If you remember PacMan, you pretty much know",
+                      "what to do. If not - try not to die, use arrow",
+                      "keys to move, eat coins and hearts to progress.",
+                      "Good luck.",
+                      "Press [space] to proceed."]
+
+
+congratsStringList = ["Wee, you completed another easy level.",
+                      "Feeling proud, don't be, please. There are more",
+                      "ahead. Actually it's only gonna get harder",
+                      "and harder, until you eventually fail",
+                      "Press [space] to proceed."]
+realCongratsStringList = ["Ok, that was unexpected, you actually managed",
+                          "to complete the game, write an email to:",
+                          "jandziedzic99@gmail.com and tell me that",
+                          "I can't even make a seriously hard game",
+                          "Press [space] to proceed."]
+
+theEndStringList = ["Oh, you run out of lives? What a shame",
+                    "Don't worry though - no one actually",
+                    "expected you to perform better.",
+                    "Try again or better not, it's a boring",
+                    "game. Either way... Cheers",
+                    "Jan",
+                    "Press [space] to proceed."]
+
+lossOfLifeStringList = ["Oh, you were hurt...",
+                        "Thinking of giving up?",
+                        "Maybe you should?",
+                        "Oh yes, you should.",
+                        "Either way you may try again.",
+                        "Like this was to change anything...",
+                        "Go ahead and press [space]",
+                        "to see how miserable you are."]
 			\end{lstlisting}
 	\chapter{Levels appendix}
 		\newpage
