@@ -1870,18 +1870,114 @@ def show_message(messageboard):
 					\hline
 					Requirement&Testing method&Result \\ \hline
 					\ref{req-orig-colors}&Game was visually assessed&The colors resemble these of original PacMan. \\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/ghosts-chasing0.png}\\
+					\caption{Colors resemble these of original PacMan. See Figure \ref{oryg_pacman} for comparison.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline
 					\ref{req-player-shape}&Player's graphic was visually assessed.&Matches the requirement. \\ \hline
-					\ref{req-player-rotation}&Game was played and player was moved&Player's sprite was rotated accordingly \\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=100pt]{images/player.png}\\
+					\caption{Figure matches original description. See Figure \ref{oryg_pacman} for comparison.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
+					\ref{req-player-rotation}&Game was played and player was moved.&Player's sprite was rotated accordingly.\\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/player_facing_left.png}\\
+					\caption{Player sprite facing left following reversing.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-walls-not-passable}&Player was intentionally, excessively moved in direction of the wall, ghost movement was observed.&Neither of the sprites managed to pass the wall nor appear on the wall tile. \\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/player-cant-go-thru-wall.png}\\
+					\caption{Player cannot go through the wall and will consequently be caught by a ghost.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-ghost-movement}&Ghost movement was observed.&Ghosts appear to chase the player.\\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/ghosts-chasing0.png}\\
+					\caption{Ghosts surrounding the player.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-life-loss}&Player was exposed to contact with the ghosts while stationary, moving away, sideways and towards the ghosts.&In a small number of cases the player was able to move 'through' the ghost when moving directly at it.\\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/player-moved-through-ghost.png}\\
+					\caption{As seen on the screenshot - player moved through a ghost.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-reset}&The game was played and lives were lost.&Each time the loss of a life made the board reset.\\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/board-reset-after-loss-of-life.png}\\
+					\caption{Board in the initial condition following loss of life..}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-ghost-differences}&The ghosts were observed when the game was played.&Though ghosts sometimes took the same path, most of the time they were using different paths to surround the player.\\ \hline
-					\ref{req-ghost-not-reversing}&The ghosts were observed when the game was played.&Ghosts didn't reverse. \\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/ghosts-chasing0.png}\\
+					\caption{Ghosts assuming different paths to chase the player.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
+					\ref{req-ghost-not-reversing}&The ghosts were observed when the game was played.&Ghosts did not reverse. \\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/player-moved-through-ghost.png}\\
+					\caption{Even when chosen route to the target tile is far longer than the shortest one, ghosts still don't reverse (they follow shortest path that assumes not-reversing.)}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-level-progress} \& \ref{req-coins-disappearing}&The game was played and the coins were exposed to the player.&Coins disappeared only upon contact and the appropriate counter increased. \\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/player_facing_left.png}\\
+					\caption{Some coins are not seen as they disappeared, coins counter assumes a value accordingly.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-hearts} \& \ref{req-lifes++}&The game was played and the hearts were exposed to the player.&Hearts disappeared only upon contact and the appropriate counter increased. \\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/hearts-working0.png}\\
+					\caption{State of game prior to heart eating.}
+				\end{img}
+				\begin{img}
+					\includegraphics[width=300pt]{images/hearts-working1.png}\\
+					\caption{State of game post heart eating. Note the state of "Lives remaining" counter and the "Coins eaten" counter. 'Coins under the hearts' bug can be seen.}
+					\label{coins-under-hearts}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-level-up} \& \ref{req-win} \& \ref{req-winnable}&The game was played to the end.&All levels were passable and upon game completion the appropriate message appeared.\\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/real_congrats_msg.png}\\
+					\caption{The message displayed after winning the game.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-game-over}&The game was played and the player lost.&The appropriate message appeared when the number of lives fell below 0.\\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/game_over_msg.png}\\
+					\caption{The 'Game Over' message.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-messages}&The game was played and all conditions to display all messages were met.&Each time the messages appeared appropriately.\\ \hline
 					\ref{req-smarter-ghosts}&The game was played. Assessors were also shown the original game.&Most of the testers named Pycman ghosts more intelligent\\ \hline
 					\ref{req-no-ghost-house} \& \ref{req-no-powerips}&The game was played.&No ghost house, nor power-ups were found.\\ \hline
@@ -1898,15 +1994,7 @@ def show_message(messageboard):
 				\includegraphics[width=300pt]{images/ghosts-chasing0.png}\\
 				\caption{Image of ghosts chasing the player. Absence of eaten coins can be seen.}
 			\end{img}
-			\begin{img}
-				\includegraphics[width=300pt]{images/hearts-working0.png}\\
-				\caption{State of game prior to heart eating.}
-			\end{img}
-			\begin{img}
-				\includegraphics[width=300pt]{images/hearts-working1.png}\\
-				\caption{State of game post heart eating. Note the state of "Lives remaining" counter and the "Coins eaten" counter. 'Coins under the hearts' bug can be visible.}
-				\label{coins-under-hearts}
-			\end{img}
+			
 			
 		\section{Changes}
 			\dsubsection{Fixing requirement 1f}
