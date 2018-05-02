@@ -979,31 +979,6 @@ for Movable in Movables:
 				\includegraphics[width=250pt]{images/message-example-joke}\\
 				\caption{Exemplar of the message screen appearing in a window rendered in Ubuntu Gnome graphical environment}
 			\end{img}
-			\dsubsection{Tutorial}
-				\begin{img}
-					\includegraphics[width=300pt]{images/tutorial.png}\\
-					\caption{Message displayed after starting the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
-				\end{img}
-			\dsubsection{Loss of life}
-				\begin{img}
-					\includegraphics[width=300pt]{images/loss_of_life_msg.png}\\
-					\caption{Message displayed after losing a life. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
-				\end{img}
-			\dsubsection{Completing a level}
-				\begin{img}
-						\includegraphics[width=300pt]{images/level-complete.png}\\
-						\caption{Message displayed after completing a level. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
-				\end{img}
-			\dsubsection{Loosing the game}
-				\begin{img}
-					\includegraphics[width=300pt]{images/game_over_msg.png}\\
-					\caption{Message displayed upon losing the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
-				\end{img}
-			\dsubsection{Completing the entire game}
-				\begin{img}
-					\includegraphics[width=300pt]{images/real_congrats_msg.png}\\
-					\caption{Message displayed after completing the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
-				\end{img}
 		\section{Testing}
 			I have decided to use three stages of testing, namely zero, alpha ($\alpha$) and beta ($\beta$).
 			\dsubsection{zero-testing}
@@ -1203,6 +1178,10 @@ class Movable(GameObject):
 	def reset(self):
 		self.__init__(self.initiallocation)
 				\end{lstlisting}
+				\begin{img}
+					\includegraphics[width = 350pt]{images/move-changes.png}\\
+					\caption{Changes made to the class. Note the introduction of 'segmentsize' in the function 'move'. This changed allowed the ghosts to move slower than the player.}
+				\end{img}
 			\dsubsection{Player}
 				Descriptively, Player class is the template for the Player's Sprite. I have created a separate class for object that by definition should only exist in one instance for simplicity. If all Movables are to be moved using same routines - so should be the player. It also matches my objective to learn how to program using the 'Object Oriented Programming' paradigm. 
 				Class constructor takes argument of location, as per standard Movable and sets Sprite's image as the yellow ball with 'mouth'.
@@ -1297,6 +1276,10 @@ editordef = {
 				It consists of numerical constants used throughout the game. This basically serves as settings - if I realize that player's Sprite appears to small to comfortably navigate it, I can change its size in a single place without worrying that somewhere in the code I left one value unchanged and, for example player will be able to move through walls. Names of these constants are very descriptive so that core code's readability doesn't suffer from using this method. I even think that it's more readable with constants used rather than hardcoded values.
 
 				To use constants within any part of the code following import statement must be used.
+				\begin{img}
+					\includegraphics[width = 350pt]{images/fine-tuning-blame.png}\\
+					\caption{Changes made to the file as to make the game more aesthetically pleasing together with introduction of the ghosts' segment size and the scatter - value defining radius by which some ghosts surround the player.}
+				\end{img}
 				\begin{lstlisting} [language = Python]
 import resources
 				\end{lstlisting}
@@ -1856,11 +1839,11 @@ def show_message(messageboard):
 				\begin{tabular}{ | p{4cm} | p{4cm} | p{3cm} |}
 					\hline
 					Input&Response&Comment \\ \hline
-					Performing mouse operations on the window&No response other than window closing when X button is clicked.&Expected response confirmed. \\ \hline
-					Pressing keys other than arrow keys during gameplay&No response related to these keys&As expected, no action \\ \hline
-					Pressing keys other than space bar when message is displayed&No response related to those keys&As expected, no action \\ \hline
+					Performing mouse operations on the window&No response other than window closing when X button is clicked.&Expected response confirmed.\\ \hline
+					Pressing keys other than arrow keys during gameplay&No response related to these keys&As expected, no action.\\ \hline
+					Pressing keys other than space bar when message is displayed&No response related to those keys&As expected, no action.\\ \hline
 					Pressing arrow keys repeatedly, very fast&Performance is not compromised, gameplay appears to be normal.&Acceptable response.\\ \hline
-					Abandoning the game when it is on&The ghosts kill the player repeatedly and eventually the game comes to an end with the proper message displayed.&As expected, provided spacebar is pressed every kill\\ \hline
+					Abandoning the game when it is on&The ghosts kill the player repeatedly and eventually the game comes to an end with the proper message displayed.&As expected, provided spacebar is pressed every kill.\\ \hline
 				\end{tabular}
 			\end{center}
 		\newpage
@@ -1979,22 +1962,50 @@ def show_message(messageboard):
 				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
 					\hline	
 					\ref{req-messages}&The game was played and all conditions to display all messages were met.&Each time the messages appeared appropriately.\\ \hline
+				\end{longtable}	
+				\begin{img}
+					\includegraphics[width=300pt]{images/tutorial.png}\\
+					\caption{Message displayed after starting the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
+				\begin{img}
+					\includegraphics[width=300pt]{images/loss_of_life_msg.png}\\
+					\caption{Message displayed after losing a life. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
+				\begin{img}
+					\includegraphics[width=300pt]{images/level-complete.png}\\
+					\caption{Message displayed after completing a level. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
+				\begin{img}
+					\includegraphics[width=300pt]{images/game_over_msg.png}\\
+					\caption{Message displayed upon losing the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
+				\begin{img}
+					\includegraphics[width=300pt]{images/real_congrats_msg.png}\\
+					\caption{Message displayed after completing the game. Shown in a game window rendered in the Ubuntu Gnome graphical environment.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline
 					\ref{req-smarter-ghosts}&The game was played. Assessors were also shown the original game.&Most of the testers named Pycman ghosts more intelligent\\ \hline
 					\ref{req-no-ghost-house} \& \ref{req-no-powerips}&The game was played.&No ghost house, nor power-ups were found.\\ \hline
 					\ref{req-not-dying}&The game was played.&No ghosts were harmed during testing.\\ \hline
+				\end{longtable}
+				\begin{img}
+					\includegraphics[width=300pt]{images/all-ghosts-fine.png}\\
+					\caption{All ghosts doing fine and sound without any Ghost House nor powerups.}
+				\end{img}
+				\begin{longtable}{ | p{2cm} | p{5cm} | p{4cm} |}
+					\hline	
 					\ref{req-no-ghost-modes}&The game was played.&No behavior indicating any ghost 'modes' were found.\\ \hline
 					\ref{req-player-faster}&The game was played. The speed of the sprites was observed.&Player was moving notably faster than the ghosts and was able to outrun them.\\ \hline
 					\ref{req-input}&The arrow Keys were tested during the game.&Game was responsive to various combinations of pressed arrows and the game responded accordingly with no anomalies.\\ \hline
 					\ref{req-spacebar}&The spacebar was used to dismiss the messages.&The messages disappeared accordingly.\\ \hline
 					\ref{req-player-only-input}&The player was observed when no input was provided.&Player stayed still.\\ \hline
 				\end{longtable}
-			\end{center}
-			Photos from testing as proof of features working:\\
-			\begin{img}
-				\includegraphics[width=300pt]{images/ghosts-chasing0.png}\\
-				\caption{Image of ghosts chasing the player. Absence of eaten coins can be seen.}
-			\end{img}
-			
+				\begin{img}
+					\includegraphics[width=300pt]{images/player-not-moving.png}\\
+					\caption{Player can stay in place just waiting to die.}
+				\end{img}
+			\end{center}			
 			
 		\section{Changes}
 			\dsubsection{Fixing requirement 1f}
@@ -2151,9 +2162,10 @@ if box != resources.constants.leveldef["wall"]\
 					\includegraphics[width=300pt]{images/hearts-working3.png}\\
 					\caption{State of game after heart eating. Note that the 'Coins eaten' counter was not increased, which is the expected behavior.}
 				\end{img}
-		\section{Room for future development}
+		\section{Maintenance}
 			The game was tested on a personal laptop with rather mediocre specifications. It performed very well, though when framerate was measured I have identified the performance bottleneck to be the pathfinding algorithm. I have figured that there are at lest two very related ways of fixing its performance. As player chooses the next tile every time Period, the next pathfinding computation can begin immediately following this decision in a separate thread. This leads to obvious improvement of running the game in the total number of four threads. One main thread for displaying the graphics and providing general gameplay as well as handling the input + total of three threads, one per ghost for pathfinding. This would allow to run the game on processors with less computing power but could possibly make the project require more primary memory.
 			
+		\section{Future development}
 			The general structure of the project and its cleanness allows for non-obvious user modifications, adding new ghosts, hunting in different regions would require mere extra 10 lines or even less. The possibilities are unlimited as it is an Open Source project. But for the easiest start - users may create their own levels as a form of customizing the game.
 			
 			This game may be referred to as 'skinnable' - users may change the graphics as they wish by a matter of a simple files substitution. For example, the player's image can be substituted with the user face and ghosts may be substituted with images of college tuition invoices. Possibilities are endless though limited to 16 million colors bitmaps of size 64x64. 
